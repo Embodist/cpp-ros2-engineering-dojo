@@ -7,25 +7,27 @@
 | 项 | 值 |
 | :--- | :--- |
 | 本地 tag | `cpp-ros2-dojo:jazzy` |
-| 本地 image id | `sha256:5547eb609e951ce82f1a6045bb7b202aabcad563b2edc7459974a7098fa92d27` |
-| 本地大小 | 6.11 GB（`docker images`，合并文件系统约 4.2 GB） |
+| 本地 image id | `sha256:2f3d9c6cc99ee72a53a2534d5d70c57a8710aa44dc6ebb2963f19799509d4ebb` |
+| 本地大小 | 6.7 GB（Mason 22 包，含 codelldb） |
 | 构建日期 | 2026-10-26 |
-| 冒烟测试 | `ALL CHECKS PASSED`（C++/ROS2/Neovim 82 插件/Mason/codelldb/CLI/Dojo/colcon/zsh/tmux） |
-| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest`（匿名 manifest 已可读） |
-| ACR digest | `sha256:5547eb609e951ce82f1a6045bb7b202aabcad563b2edc7459974a7098fa92d27` |
-| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest`（CI 构建） |
-| GHCR digest | 上一版 `sha256:d6b6060…`；本次含 zsh/tmux 的 CI 构建完成后更新 |
-| 内容 | 另含 oh-my-zsh + autosuggestions/syntax-highlighting、oh-my-tmux、TPM、tmux-resurrect/continuum、direnv/entr/strace/tig/asciinema 等 |
+| 冒烟测试 | `ALL CHECKS PASSED`（C++/ROS2/Neovim 82 插件/Mason 22 包/codelldb/CLI/Dojo/colcon/zsh/tmux） |
+| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest`（匿名 manifest 已验证） |
+| ACR digest | `sha256:2f3d9c6cc99ee72a53a2534d5d70c57a8710aa44dc6ebb2963f19799509d4ebb` |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` |
+| GHCR digest | `sha256:6a4f77e7a0bea5d569b9cccdaf64f0875630cbe8fe40c83599fb221cbd4dfe89`（commit `b2d169f`） |
+| 内容 | oh-my-zsh + autosuggestions/syntax-highlighting、oh-my-tmux、TPM、tmux-resurrect/continuum、direnv/entr/strace/tig/asciinema 等 |
 
 ## VS Code / code-server 变体
 
 | 项 | 值 |
 | :--- | :--- |
-| 本地 tag | `cpp-ros2-dojo:vscode` |
+| 本地 tag | `cpp-ros2-dojo:vscode`（当前 ACR 版 7.64 GB） |
 | 基础镜像 | `debian:13.4` |
-| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode`（构建后推送） |
-| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode`（CI 构建） |
-| 说明 | code-server + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
+| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode`（匿名 manifest 已验证） |
+| ACR digest | `sha256:3bfd1761b4871f33316d1a7c323ce18ec34ce444d3f0d0b7a07c771e102dfa4c`（不含 codelldb） |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode` |
+| GHCR digest | `sha256:33f583ce55c973d72a7bb2ba4321e956a10a641653b05c1d83630122d6003be9`（commit `b2d169f`，含 codelldb） |
+| 说明 | code-server 4.143.1 + 18 个扩展 + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
 
 ## 拉取
 
@@ -39,4 +41,5 @@ docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:la
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode
 ```
 
-> GHCR 的 package visibility 需要仓库管理员在 Package settings 里改为 Public（CI 的 GITHUB_TOKEN 没有改可见性的权限）。ACR rapid7 的 `latest` 已确认可以公开读取。
+> GHCR 的 package visibility 需要仓库管理员在 Package settings 里改为 Public（CI 的 GITHUB_TOKEN 没有改可见性的权限）。ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取。
+> ACR 的 `vscode` 当前是 7.64GB 的 pre-codelldb 版本；带 codelldb 的最终版本已由 CI 推到 GHCR（digest `33f583ce…`），本地拉取后会同步更新 ACR。
