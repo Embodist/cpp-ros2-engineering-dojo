@@ -395,6 +395,14 @@ RUN set -eux; \
     chown -h "${DEV_UID}:${DEV_GID}" /home/user/.tmux.conf; \
     rm -rf /home/user/.cache /home/user/.npm /tmp/*
 
+# ── Mason LSP/工具补装（独立层，避免重跑插件 clone）────────────────────────
+COPY mason-install.lua /opt/dojo/mason-install.lua
+RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
+      timeout 1200 runuser -u user -- env HOME=/home/user \
+        nvim --headless "+luafile /opt/dojo/mason-install.lua" || true; \
+      rm -rf /home/user/.cache /home/user/.local/state/nvim/log /tmp/*; \
+    fi
+
 # ── 运行时 ──────────────────────────────────────────────────────────────────
 ENV LANG=zh_CN.UTF-8 \
     LANGUAGE=zh_CN:zh \
