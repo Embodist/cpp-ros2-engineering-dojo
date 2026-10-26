@@ -57,7 +57,7 @@ docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vs
 > GHCR package 已设为 **Public**。验证结果：匿名 `docker manifest inspect` 对 `latest` / `vscode` / `plus` 均成功，外部无需登录。
 >
 > 设置入口（已完成，供以后参考）：
-> <https://github.com/orgs/music-research-content/packages/container/package/cpp-ros2-engineering-dojo/settings>
+> <https://github.com/orgs/music-research-content/packages/container/cpp-ros2-engineering-dojo/settings>
 > → Danger Zone → Change visibility → Public；如果 Public 被锁，先在 org settings → Code, planning, and automation → Packages 启用 Public package creation。
 >
 > ACR rapid7 的 `latest` 与 `vscode` 也匿名可读，但它们是较早构建（不含本轮 tmux 鼠标/200k 历史，也不含 uv）；plus 按约定只在 GHCR。最新 tmux/uv 版本请用 GHCR。
