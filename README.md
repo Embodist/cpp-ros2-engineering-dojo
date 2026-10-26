@@ -28,6 +28,35 @@ ctest --test-dir build -R '^dojo_01_' --output-on-failure
 
 `ctest` 全量最初会失败，这是**预期**；只有 `dojo_smoke` 应在初始状态通过。不要把空骨架视为完成或误以为仓库损坏。
 
+## 统一开发容器（推荐）
+
+仓库自带 Docker 环境：**C++20 + ROS 2 Jazzy + Neovim(LazyVim) + Pi/Claude Code/MCP/SearXNG**，以及 `rg`/`fd`/`bat`/`eza`/`jq`/`jnv`/`jless`/`json-tui`/`yazi`/`btop` 等现代 CLI/TUI。
+
+前提：Docker 23+。仓库已 vendored nvim/Pi 配置快照，无需本机 dotfiles；公开镜像：
+
+```bash
+docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
+```
+
+```bash
+./docker/dev.sh                          # 进入容器（首次自动构建）
+./docker/dev.sh python3 tools/train.py list
+./docker/dev.sh nvim .
+./docker/dev.sh bash -lc 'cd stage2/ros2_ws && colcon build --symlink-install'
+```
+
+VS Code / code-server 变体（Debian 13.4，不含 ROS 2）：
+
+```bash
+docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode
+docker compose -f docker/compose.yaml --profile vscode up -d vscode
+# http://localhost:8080，默认密码 user
+```
+
+阿里云 ACR rapid7 空间也有同名镜像：`registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` / `:vscode`。
+
+密钥、ROS 2、X11、SearXNG 与故障排查见 [docker/README.md](docker/README.md)，最新镜像记录见 [docker/IMAGE.md](docker/IMAGE.md)。容器只固化配置，不固化密钥。
+
 ## 两阶段结构
 
 - **Stage 1（训练题）**：`stage1/cards/` 共有 **60 个独立任务卡**，按语言基础 / 所有权 / STL / 接口 / 并发 / 工程排障六大类组织。其中 **12 道核心题有 C++20 代码骨架和本地可执行测试**，其余是要求自己新建文件、做实验、写解释与性能报告的任务。
@@ -55,6 +84,6 @@ ctest --test-dir build -R '^dojo_01_' --output-on-failure
 
 - 不依赖 GoogleTest、Catch2、第三方库联网下载；附自制轻量测试运行器，**不主张用它替代生产级测试框架**。
 - 本仓库不附成熟项目源码，不代表官方 Core Guidelines 内容，也不保证覆盖特定企业面试题库。
-- ROS2 可选骨架要求你自行在安装了 ROS2 的机器编译；这里未假装验证过 ROS2 环境。
+- ROS2 可选骨架要求你自行在安装了 ROS2 的机器编译（或使用 [docker/](docker/) 中的 Jazzy 容器）；这里未假装验证过 ROS2 环境。
 
 从 [START_HERE.md](START_HERE.md) 开始。许可证见 [LICENSE](LICENSE)。

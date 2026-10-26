@@ -1,0 +1,11 @@
+use_default_settings: true
+
+server:
+  # 仅本机开发用；对外暴露时务必替换
+  secret_key: "dojo-local-searxng-change-me"
+  limiter: false
+
+search:
+  formats:
+    - html
+    - json

@@ -4,6 +4,13 @@
 - 推荐 Ubuntu 24.04 / WSL2 Ubuntu / 原生 Linux。Windows 可通过 WSL2 使用。
 - CMake >= 3.20、GCC >= 11 / Clang >= 14、Python3。使用 C++20；ROS2 版本以所安装发行版实际支持为准。
 - `g++ --version && cmake --version && python3 --version`
+- 不想手动配环境：用仓库自带容器（C++20 + ROS 2 Jazzy + Neovim + AI）：
+
+  ```bash
+  ./docker/dev.sh
+  ```
+
+  详见 [docker/README.md](docker/README.md)。
 
 ## 1. 今天执行 01
 ```bash

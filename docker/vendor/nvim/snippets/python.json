@@ -1,0 +1,105 @@
+{
+  "ROS2 Node (rclpy)": {
+    "prefix": "!rclpy_node",
+    "description": "rclpy 节点类 + main",
+    "body": [
+      "import rclpy",
+      "from rclpy.node import Node",
+      "",
+      "",
+      "class ${1:MyNode}(Node):",
+      "    def __init__(self) -> None:",
+      "        super().__init__(\"${2:my_node}\")",
+      "        $0",
+      "",
+      "",
+      "def main(args=None) -> None:",
+      "    rclpy.init(args=args)",
+      "    node = ${1:MyNode}()",
+      "    try:",
+      "        rclpy.spin(node)",
+      "    finally:",
+      "        node.destroy_node()",
+      "        rclpy.shutdown()",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "    main()"
+    ]
+  },
+
+  "ROS2 Publisher (rclpy)": {
+    "prefix": "!rclpy_pub",
+    "description": "rclpy publisher",
+    "body": [
+      "self.${1:pub} = self.create_publisher(${2:String}, \"${3:topic}\", 10)",
+      "$0"
+    ]
+  },
+
+  "ROS2 Subscription (rclpy)": {
+    "prefix": "!rclpy_sub",
+    "description": "rclpy subscription",
+    "body": [
+      "self.${1:sub} = self.create_subscription(${2:String}, \"${3:topic}\", self.${4:callback}, 10)",
+      "$0"
+    ]
+  },
+
+  "ROS2 Timer (rclpy)": {
+    "prefix": "!rclpy_timer",
+    "description": "rclpy wall timer",
+    "body": [
+      "self.${1:timer} = self.create_timer(${2:0.1}, self.${3:callback})",
+      "$0"
+    ]
+  },
+
+  "ROS2 Launch File": {
+    "prefix": "!launch",
+    "description": "launch.py 启动文件",
+    "body": [
+      "from launch import LaunchDescription",
+      "from launch_ros.actions import Node",
+      "",
+      "",
+      "def generate_launch_description() -> LaunchDescription:",
+      "    return LaunchDescription([",
+      "        Node(",
+      "            package=\"${1:pkg}\",",
+      "            executable=\"${2:exe}\",",
+      "            name=\"${3:name}\",",
+      "            output=\"screen\",",
+      "            parameters=[],",
+      "        ),",
+      "        $0",
+      "    ])"
+    ]
+  },
+
+  "ROS2 Launch Include": {
+    "prefix": "!launch_include",
+    "description": "在 launch 中包含另一个 launch",
+    "body": [
+      "IncludeLaunchDescription(",
+      "    PythonLaunchDescriptionSource(",
+      "        os.path.join(get_package_share_directory(\"${1:pkg}\"), \"launch\", \"${2:file}.launch.py\")",
+      "    ),",
+      "    launch_arguments={\"${3:key}\": \"${4:value}\"}.items(),",
+      "),",
+      "$0"
+    ]
+  },
+
+  "ROS2 Launch Argument": {
+    "prefix": "!launch_arg",
+    "description": "声明 launch 参数",
+    "body": [
+      "declare_${1:use_sim_time}_arg = DeclareLaunchArgument(",
+      "    \"${1:use_sim_time}\", default_value=\"${2:false}\"",
+      "),",
+      "declare_${1:use_sim_time} = LaunchConfiguration(\"${1:use_sim_time}\"),",
+      "$0"
+    ]
+  }
+}

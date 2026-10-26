@@ -2,11 +2,67 @@
   "version": 3,
   "cmakeMinimumRequired": {"major": 3, "minor": 20, "patch": 0},
   "configurePresets": [
-    {"name":"debug","displayName":"Debug","generator":"Unix Makefiles","binaryDir":"${sourceDir}/build","cacheVariables":{"CMAKE_BUILD_TYPE":"Debug"}},
-    {"name":"asan","generator":"Unix Makefiles","binaryDir":"${sourceDir}/build-asan","cacheVariables":{"CMAKE_BUILD_TYPE":"Debug","DOJO_SANITIZE_ADDRESS":"ON"}},
-    {"name":"tsan","generator":"Unix Makefiles","binaryDir":"${sourceDir}/build-tsan","cacheVariables":{"CMAKE_BUILD_TYPE":"Debug","DOJO_SANITIZE_THREAD":"ON"}},
-    {"name":"release","generator":"Unix Makefiles","binaryDir":"${sourceDir}/build-release","cacheVariables":{"CMAKE_BUILD_TYPE":"Release"}}
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "asan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-asan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_SANITIZE_ADDRESS": "ON"
+      }
+    },
+    {
+      "name": "tsan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-tsan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_SANITIZE_THREAD": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
   ],
-  "buildPresets": [{"name":"debug","configurePreset":"debug"},{"name":"asan","configurePreset":"asan"},{"name":"tsan","configurePreset":"tsan"},{"name":"release","configurePreset":"release"}],
-  "testPresets": [{"name":"debug","configurePreset":"debug","output":{"outputOnFailure":true}}]
+  "buildPresets": [
+    {"name": "debug", "configurePreset": "debug"},
+    {"name": "asan", "configurePreset": "asan"},
+    {"name": "tsan", "configurePreset": "tsan"},
+    {"name": "release", "configurePreset": "release"}
+  ],
+  "testPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "asan",
+      "configurePreset": "asan",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "tsan",
+      "configurePreset": "tsan",
+      "output": {"outputOnFailure": true}
+    }
+  ]
 }

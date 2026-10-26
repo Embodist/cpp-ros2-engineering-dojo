@@ -1,0 +1,414 @@
+{
+  "Competitive Programming Template": {
+    "prefix": "!cp",
+    "description": "竞赛单文件模板（fast IO + solve）",
+    "body": [
+      "#include <bits/stdc++.h>",
+      "using namespace std;",
+      "",
+      "using ll = long long;",
+      "using pii = pair<int, int>;",
+      "",
+      "#define all(x) (x).begin(), (x).end()",
+      "",
+      "void solve() {",
+      "\t$0",
+      "}",
+      "",
+      "int main() {",
+      "\tios::sync_with_stdio(false);",
+      "\tcin.tie(nullptr);",
+      "",
+      "\tint t = 1;",
+      "\t// cin >> t;",
+      "\twhile (t--) solve();",
+      "\treturn 0;",
+      "}"
+    ]
+  },
+
+  "Main Function": {
+    "prefix": "!main",
+    "description": "标准 main 函数（含 fast IO）",
+    "body": [
+      "int main() {",
+      "\tios::sync_with_stdio(false);",
+      "\tcin.tie(nullptr);",
+      "",
+      "\t$0",
+      "\treturn 0;",
+      "}"
+    ]
+  },
+
+  "Includes": {
+    "prefix": "!inc",
+    "description": "竞赛常用头文件",
+    "body": [
+      "#include <bits/stdc++.h>",
+      "using namespace std;",
+      "$0"
+    ]
+  },
+
+  "Debug Macros": {
+    "prefix": "!dbg",
+    "description": "LOCAL 调试宏（编译加 -DLOCAL 才生效）",
+    "body": [
+      "#ifdef LOCAL",
+      "#define dbg(x) cerr << #x << \" = \" << (x) << \"\\n\"",
+      "#define dbgv(v) do { cerr << #v << \" = [\"; for (auto&& _e : (v)) cerr << _e << \", \"; cerr << \"]\\n\"; } while (0)",
+      "#else",
+      "#define dbg(x) ((void)0)",
+      "#define dbgv(v) ((void)0)",
+      "#endif",
+      "$0"
+    ]
+  },
+
+  "Header Guard": {
+    "prefix": "!once",
+    "description": "#pragma once 头文件",
+    "body": [
+      "#pragma once",
+      "",
+      "$0"
+    ]
+  },
+
+  "For Loop": {
+    "prefix": "!for",
+    "description": "for 循环",
+    "body": [
+      "for (int ${1:i} = 0; ${1:i} < ${2:n}; ++${1:i}) {",
+      "\t$0",
+      "}"
+    ]
+  },
+
+  "Range For": {
+    "prefix": "!forr",
+    "description": "范围 for 循环（auto&& 避免拷贝）",
+    "body": [
+      "for (auto&& ${1:x} : ${2:container}) {",
+      "\t$0",
+      "}"
+    ]
+  },
+
+  "Template Function": {
+    "prefix": "!tmpl",
+    "description": "模板函数（含 requires 约束占位）",
+    "body": [
+      "template <typename ${1:T}>",
+      "${2:auto} ${3:func}(${4:T value}) {",
+      "\t$0",
+      "}"
+    ]
+  },
+
+  "Class Skeleton": {
+    "prefix": "!class",
+    "description": "类骨架（Rule of Zero / 显式删除拷贝）",
+    "body": [
+      "class ${1:ClassName} {",
+      "public:",
+      "\t${1:ClassName}() = default;",
+      "\t~${1:ClassName}() = default;",
+      "",
+      "\t${1:ClassName}(const ${1:ClassName}&) = delete;",
+      "\t${1:ClassName}& operator=(const ${1:ClassName}&) = delete;",
+      "",
+      "\t${1:ClassName}(${1:ClassName}&&) noexcept = default;",
+      "\t${1:ClassName}& operator=(${1:ClassName}&&) noexcept = default;",
+      "",
+      "private:",
+      "\t$0",
+      "};"
+    ]
+  },
+
+  "Function": {
+    "prefix": "!func",
+    "description": "函数定义",
+    "body": [
+      "${1:void} ${2:name}(${3}) {",
+      "\t$0",
+      "}"
+    ]
+  },
+
+  "Vector": {
+    "prefix": "!vec",
+    "description": "vector 声明",
+    "body": [
+      "vector<${1:int}> ${2:v}(${3:n}${4:, 0});",
+      "$0"
+    ]
+  },
+
+  "Unordered Map": {
+    "prefix": "!umap",
+    "description": "unordered_map 声明",
+    "body": [
+      "unordered_map<${1:int}, ${2:int}> ${3:mp};",
+      "$0"
+    ]
+  },
+
+  "Binary Search": {
+    "prefix": "!bs",
+    "description": "手写二分：在 [lo, hi] 中找第一个满足条件的位置",
+    "body": [
+      "// [ref] 二分：找第一个满足 ok(mid) 的位置；注意 lo + (hi - lo) / 2 防溢出",
+      "long long lo = ${1:0}, hi = ${2:n - 1}, ans = -1;",
+      "while (lo <= hi) {",
+      "\tlong long mid = lo + (hi - lo) / 2;",
+      "\tif (${3:ok(mid)}) {",
+      "\t\tans = mid;",
+      "\t\thi = mid - 1;",
+      "\t} else {",
+      "\t\tlo = mid + 1;",
+      "\t}",
+      "}",
+      "$0"
+    ]
+  },
+
+  "GCD / LCM": {
+    "prefix": "!gcd",
+    "description": "gcd / lcm（C++17 std::gcd 已内置，此处为参考实现）",
+    "body": [
+      "// [ref] C++17 起可直接用 std::gcd / std::lcm",
+      "long long gcd(long long a, long long b) { return b == 0 ? a : gcd(b, a % b); }",
+      "long long lcm(long long a, long long b) { return a / gcd(a, b) * b; }",
+      "$0"
+    ]
+  },
+
+  "Disjoint Set Union": {
+    "prefix": "!dsu",
+    "description": "[ref] 并查集（路径压缩 + 按大小合并）",
+    "body": [
+      "// [ref] 并查集 — 请自己推导：为什么路径压缩后接近 O(alpha(n))",
+      "struct DSU {",
+      "\tvector<int> p, sz;",
+      "\texplicit DSU(int n) : p(n), sz(n, 1) { iota(p.begin(), p.end(), 0); }",
+      "\tint find(int x) { return p[x] == x ? x : p[x] = find(p[x]); }",
+      "\tbool unite(int a, int b) {",
+      "\t\ta = find(a); b = find(b);",
+      "\t\tif (a == b) return false;",
+      "\t\tif (sz[a] < sz[b]) swap(a, b);",
+      "\t\tp[b] = a; sz[a] += sz[b];",
+      "\t\treturn true;",
+      "\t}",
+      "};",
+      "$0"
+    ]
+  },
+
+  "Fenwick Tree": {
+    "prefix": "!bit",
+    "description": "[ref] 树状数组（单点加 / 前缀和）",
+    "body": [
+      "// [ref] 树状数组 — 请自己推导 i & -i 的含义",
+      "struct BIT {",
+      "\tint n;",
+      "\tvector<long long> t;",
+      "\texplicit BIT(int n) : n(n), t(n + 1, 0) {}",
+      "\tvoid add(int i, long long v) { for (; i <= n; i += i & -i) t[i] += v; }",
+      "\tlong long sum(int i) const { long long s = 0; for (; i > 0; i -= i & -i) s += t[i]; return s; }",
+      "\tlong long range(int l, int r) const { return sum(r) - sum(l - 1); }",
+      "};",
+      "$0"
+    ]
+  },
+
+  "Segment Tree": {
+    "prefix": "!segtree",
+    "description": "[ref] 线段树（区间和，点更新，迭代写法）",
+    "body": [
+      "// [ref] 线段树 — 先自己写递归版理解 pushup/pushdown，再用迭代版提速",
+      "struct SegTree {",
+      "\tint n;",
+      "\tvector<long long> t;",
+      "\texplicit SegTree(int n) : n(n), t(2 * n, 0) {}",
+      "\tvoid set(int i, long long v) {",
+      "\t\tfor (t[i += n] = v; i > 1; i >>= 1) t[i >> 1] = t[i] + t[i ^ 1];",
+      "\t}",
+      "\tlong long query(int l, int r) const {",
+      "\t\tlong long s = 0;",
+      "\t\tfor (l += n, r += n; l < r; l >>= 1, r >>= 1) {",
+      "\t\t\tif (l & 1) s += t[l++];",
+      "\t\t\tif (r & 1) s += t[--r];",
+      "\t\t}",
+      "\t\treturn s;",
+      "\t}",
+      "};",
+      "$0"
+    ]
+  },
+
+  "Dijkstra": {
+    "prefix": "!dijkstra",
+    "description": "[ref] Dijkstra 最短路（邻接表 + 优先队列）",
+    "body": [
+      "// [ref] Dijkstra — 思考：为什么不能处理负权边？",
+      "vector<long long> dijkstra(int s, const vector<vector<pair<int, int>>>& g) {",
+      "\tconst long long INF = LLONG_MAX / 4;",
+      "\tvector<long long> d(g.size(), INF);",
+      "\tpriority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;",
+      "\td[s] = 0;",
+      "\tpq.emplace(0, s);",
+      "\twhile (!pq.empty()) {",
+      "\t\tauto [du, u] = pq.top(); pq.pop();",
+      "\t\tif (du != d[u]) continue;",
+      "\t\tfor (auto [v, w] : g[u]) {",
+      "\t\t\tif (du + w < d[v]) {",
+      "\t\t\t\td[v] = du + w;",
+      "\t\t\t\tpq.emplace(d[v], v);",
+      "\t\t\t}",
+      "\t\t}",
+      "\t}",
+      "\treturn d;",
+      "}",
+      "$0"
+    ]
+  },
+
+  "GoogleTest Case": {
+    "prefix": "!gtest",
+    "description": "GoogleTest 测试用例（Arrange-Act-Assert）",
+    "body": [
+      "TEST(${1:SuiteName}, ${2:TestName}) {",
+      "\t// Arrange",
+      "\t$3",
+      "",
+      "\t// Act",
+      "\tauto actual = ${4:call_under_test()};",
+      "",
+      "\t// Assert",
+      "\tEXPECT_EQ(actual, ${5:expected});",
+      "}",
+      "$0"
+    ]
+  },
+
+  "Catch2 Test Case": {
+    "prefix": "!catch",
+    "description": "Catch2 测试用例",
+    "body": [
+      "TEST_CASE(\"${1:description}\", \"[${2:tag}]\") {",
+      "\tSECTION(\"${3:scenario}\") {",
+      "\t\tREQUIRE(${4:expr} == ${5:expected});",
+      "\t}",
+      "\t$0",
+      "}"
+    ]
+  },
+
+  "Cerr Pair": {
+    "prefix": "!pii",
+    "description": "pair 类型别名",
+    "body": [
+      "using pii = pair<int, int>;",
+      "$0"
+    ]
+  },
+
+  "ROS2 Node (rclcpp)": {
+    "prefix": "!rclcpp_node",
+    "description": "rclcpp 节点类 + main（ROS 2）",
+    "body": [
+      "#include <memory>",
+      "#include <rclcpp/rclcpp.hpp>",
+      "",
+      "class ${1:MyNode} : public rclcpp::Node {",
+      "public:",
+      "\t${1:MyNode}() : Node(\"${2:my_node}\") {",
+      "\t\t$0",
+      "\t}",
+      "",
+      "private:",
+      "};\n",
+      "int main(int argc, char** argv) {",
+      "\trclcpp::init(argc, argv);",
+      "\trclcpp::spin(std::make_shared<${1:MyNode}>());",
+      "\trclcpp::shutdown();",
+      "\treturn 0;",
+      "}"
+    ]
+  },
+
+  "ROS2 Publisher": {
+    "prefix": "!rclcpp_pub",
+    "description": "创建 publisher（成员声明 + 初始化）",
+    "body": [
+      "rclcpp::Publisher<${1:std_msgs::msg::String}>::SharedPtr ${2:pub_} = create_publisher<${1:std_msgs::msg::String}>(\"${3:topic}\", 10);",
+      "$0"
+    ]
+  },
+
+  "ROS2 Subscription": {
+    "prefix": "!rclcpp_sub",
+    "description": "创建 subscription（含回调 lambda）",
+    "body": [
+      "rclcpp::Subscription<${1:std_msgs::msg::String}>::SharedPtr ${2:sub_} =",
+      "\tcreate_subscription<${1:std_msgs::msg::String}>(\"${3:topic}\", 10,",
+      "\t\t[this](const ${1:std_msgs::msg::String}::SharedPtr msg) { $0 });"
+    ]
+  },
+
+  "ROS2 Wall Timer": {
+    "prefix": "!rclcpp_timer",
+    "description": "创建 wall timer",
+    "body": [
+      "rclcpp::TimerBase::SharedPtr ${1:timer_} =",
+      "\tcreate_wall_timer(std::chrono::milliseconds(${2:100}), [this]() { $0 });"
+    ]
+  },
+
+  "ROS2 Parameter": {
+    "prefix": "!rclcpp_param",
+    "description": "声明并读取参数",
+    "body": [
+      "declare_parameter<${1:double}>(\"${2:param_name}\", ${3:0.0});",
+      "auto ${2:param_name} = get_parameter(\"${2:param_name}\").get<${1:double}>();",
+      "$0"
+    ]
+  },
+
+  "Eigen Matrix": {
+    "prefix": "!eigen",
+    "description": "Eigen 矩阵/向量",
+    "body": [
+      "#include <Eigen/Dense>",
+      "",
+      "Eigen::Matrix<double, ${1:3}, ${2:3}> ${3:m} = Eigen::Matrix<double, ${1:3}, ${2:3}>::Zero();",
+      "$0"
+    ]
+  },
+
+  "Eigen Isometry": {
+    "prefix": "!eigen_iso",
+    "description": "Eigen 齐次变换 Isometry3d",
+    "body": [
+      "#include <Eigen/Geometry>",
+      "",
+      "Eigen::Isometry3d ${1:T} = Eigen::Isometry3d::Identity();",
+      "${1:T}.translation() = Eigen::Vector3d(${2:0}, ${3:0}, ${4:0});",
+      "$0"
+    ]
+  },
+
+  "Sophus SE3": {
+    "prefix": "!sophus",
+    "description": "Sophus SE3（李群）— 需自行安装 Sophus",
+    "body": [
+      "#include <sophus/se3.hpp>",
+      "",
+      "Sophus::SE3d ${1:T} = Sophus::SE3d::exp(${2:xi});",
+      "$0"
+    ]
+  }
+}

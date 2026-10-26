@@ -1,0 +1,153 @@
+# ============================================================================
+#  cpp-ros2-dojo · 开发容器
+#
+#  推荐用 ./docker/dev.sh 启动（会自动填路径）。手动使用：
+#    DOJO_DIR=$PWD \
+#    NVIM_CONFIG_DIR=$HOME/neovim.dotfiles/nvim \
+#    PI_CONFIG_DIR=$HOME/dotfiles.pi \
+#    docker compose -f docker/compose.yaml run --rm dev
+#
+#  ROS 2 DDS 需要 host 网络；同时让容器内路径与宿主机一致，
+#  clangd 才能正确解析 compile_commands.json。
+# ============================================================================
+name: cpp-ros2-dojo
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      additional_contexts:
+        nvim-config: ${NVIM_CONFIG_DIR:-./vendor/nvim}
+        pi-config: ${PI_CONFIG_DIR:-./vendor/pi}
+      args:
+        BASE_IMAGE: ${BASE_IMAGE:-ros:jazzy-ros-base}
+        APT_MIRROR: ${APT_MIRROR:-mirrors.tuna.tsinghua.edu.cn}
+        DEV_UID: ${DEV_UID:-1000}
+        DEV_GID: ${DEV_GID:-1000}
+        INSTALL_PLUGINS: ${INSTALL_PLUGINS:-1}
+        INSTALL_MASON: ${INSTALL_MASON:-1}
+        INSTALL_ROBOTICS_LIBS: ${INSTALL_ROBOTICS_LIBS:-0}
+        INSTALL_PREVIEW_DEPS: ${INSTALL_PREVIEW_DEPS:-1}
+        NODE_VERSION: ${NODE_VERSION:-22.22.2}
+        NVIM_VERSION: ${NVIM_VERSION:-v0.12.5}
+        PI_VERSION: ${PI_VERSION:-0.85.1}
+        CLAUDE_CODE_VERSION: ${CLAUDE_CODE_VERSION:-2.1.153}
+    image: ${DOJO_IMAGE:-cpp-ros2-dojo:jazzy}
+    working_dir: ${DOJO_DIR:?请设置 DOJO_DIR 为训练营仓库的绝对路径}
+    volumes:
+      # 同路径挂载：宿主机 compile_commands.json 里的绝对路径在容器内依然有效
+      - ${DOJO_DIR}:${DOJO_DIR}
+      # 固定路径，供 MCP filesystem server 使用
+      - ${DOJO_DIR}:/work
+      # 插件/Mason/历史等持久化；镜像内已预装的内容会在首次挂载时复制进来
+      - nvim-data:/home/dev/.local/share/nvim
+      - nvim-state:/home/dev/.local/state/nvim
+      - pi-sessions:/home/dev/.pi/agent/sessions
+      - claude-config:/home/dev/.claude
+      # 想直接复用宿主机的 nvim/pi 配置时，取消注释：
+      # - ${NVIM_CONFIG_DIR}:/home/dev/.config/nvim:ro
+      # - ${PI_CONFIG_DIR}/config:/home/dev/.pi/agent:ro
+      # rviz2 / Gazebo（仅 desktop 基础镜像需要）
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # - ${HOME}/.Xauthority:/home/dev/.Xauthority:ro
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      # nvim 内的 CodeCompanion/Copilot/sidekick 默认关闭
+      - NVIM_ENABLE_AI=${NVIM_ENABLE_AI:-0}
+      - NVIM_NO_COPILOT=${NVIM_NO_COPILOT:-0}
+      - SEARXNG_URL=${SEARXNG_URL:-http://127.0.0.1:11199}
+      # Pi（models.json 里使用 $MERAAI_API_KEY）
+      - MERAAI_API_KEY=${MERAAI_API_KEY:-}
+      # Claude Code / sidekick
+      - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-https://api.meraai.cn}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_SONNET_MODEL=${ANTHROPIC_DEFAULT_SONNET_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_OPUS_MODEL=${ANTHROPIC_DEFAULT_OPUS_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_HAIKU_MODEL=${ANTHROPIC_DEFAULT_HAIKU_MODEL:-deepseek-v4-flash}
+      - CLAUDE_CODE_SUBAGENT_MODEL=${CLAUDE_CODE_SUBAGENT_MODEL:-deepseek-v4-flash}
+      # nvim CodeCompanion
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      # rviz2 / Gazebo（仅 desktop 基础镜像需要）
+      - DISPLAY=${DISPLAY:-}
+    # ROS 2 DDS 发现、共享内存
+    network_mode: host
+    ipc: host
+    stdin_open: true
+    tty: true
+    init: true
+
+  # code-server / VS Code 变体
+  #   docker compose -f docker/compose.yaml --profile vscode up -d vscode
+  #   浏览器打开 http://localhost:8080，默认密码 user（用 VSCODE_PASSWORD 覆盖）
+  vscode:
+    profiles: ["vscode"]
+    build:
+      context: .
+      dockerfile: Dockerfile.vscode
+      additional_contexts:
+        nvim-config: ${NVIM_CONFIG_DIR:-./vendor/nvim}
+        pi-config: ${PI_CONFIG_DIR:-./vendor/pi}
+      args:
+        BASE_IMAGE: ${VSCODE_BASE_IMAGE:-debian:13.4}
+        APT_MIRROR: ${APT_MIRROR:-mirrors.tuna.tsinghua.edu.cn}
+        DEV_UID: ${DEV_UID:-1000}
+        DEV_GID: ${DEV_GID:-1000}
+        INSTALL_PLUGINS: ${INSTALL_PLUGINS:-1}
+        INSTALL_MASON: ${INSTALL_MASON:-1}
+        INSTALL_PREVIEW_DEPS: ${INSTALL_PREVIEW_DEPS:-1}
+        CODE_SERVER_VERSION: ${CODE_SERVER_VERSION:-4.143.1}
+    image: ${VSCODE_IMAGE:-cpp-ros2-dojo:vscode}
+    working_dir: /workspace
+    ports:
+      - "${VSCODE_PORT:-8080}:8080"
+    volumes:
+      - ${DOJO_DIR:?请设置 DOJO_DIR 为训练营仓库的绝对路径}:/workspace
+      - vscode-data:/home/user/.local/share/code-server
+      - vscode-config:/home/user/.config/code-server
+      - vscode-nvim-data:/home/user/.local/share/nvim
+      - vscode-nvim-state:/home/user/.local/state/nvim
+      - vscode-pi-sessions:/home/user/.pi/agent/sessions
+    environment:
+      - PASSWORD=${VSCODE_PASSWORD:-user}
+      - SEARXNG_URL=${SEARXNG_URL:-http://host.docker.internal:11199}
+      - MERAAI_API_KEY=${MERAAI_API_KEY:-}
+      - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-https://api.meraai.cn}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_SONNET_MODEL=${ANTHROPIC_DEFAULT_SONNET_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_OPUS_MODEL=${ANTHROPIC_DEFAULT_OPUS_MODEL:-deepseek-v4-flash}
+      - ANTHROPIC_DEFAULT_HAIKU_MODEL=${ANTHROPIC_DEFAULT_HAIKU_MODEL:-deepseek-v4-flash}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    init: true
+
+  # 可选：本地 SearXNG，给 Pi 的 searxng MCP server 用
+  #   docker compose -f docker/compose.yaml --profile search up -d searxng
+  searxng:
+    profiles: ["search"]
+    image: searxng/searxng:latest
+    container_name: dojo-searxng
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${SEARXNG_PORT:-11199}:8080"
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    environment:
+      - SEARXNG_BASE_URL=http://127.0.0.1:${SEARXNG_PORT:-11199}/
+
+volumes:
+  nvim-data:
+  nvim-state:
+  pi-sessions:
+  claude-config:
+  vscode-data:
+  vscode-config:
+  vscode-nvim-data:
+  vscode-nvim-state:
+  vscode-pi-sessions:

@@ -1,0 +1,99 @@
+{
+  "URDF Link": {
+    "prefix": "!urdf_link",
+    "description": "URDF link（visual + collision + inertial）",
+    "body": [
+      "<link name=\"${1:base_link}\">",
+      "  <visual>",
+      "    <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>",
+      "    <geometry>",
+      "      <box size=\"${2:0.1 0.1 0.1}\"/>",
+      "    </geometry>",
+      "  </visual>",
+      "  <collision>",
+      "    <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>",
+      "    <geometry>",
+      "      <box size=\"${2:0.1 0.1 0.1}\"/>",
+      "    </geometry>",
+      "  </collision>",
+      "  <inertial>",
+      "    <origin xyz=\"0 0 0\" rpy=\"0 0 0\"/>",
+      "    <mass value=\"${3:1.0}\"/>",
+      "    <inertia ixx=\"${4:0.001}\" ixy=\"0\" ixz=\"0\" iyy=\"${4:0.001}\" iyz=\"0\" izz=\"${4:0.001}\"/>",
+      "  </inertial>",
+      "</link>",
+      "$0"
+    ]
+  },
+
+  "URDF Joint": {
+    "prefix": "!urdf_joint",
+    "description": "URDF joint",
+    "body": [
+      "<joint name=\"${1:joint_name}\" type=\"${2:revolute}\">",
+      "  <parent link=\"${3:parent_link}\"/>",
+      "  <child link=\"${4:child_link}\"/>",
+      "  <origin xyz=\"${5:0 0 0}\" rpy=\"${6:0 0 0}\"/>",
+      "  <axis xyz=\"${7:0 0 1}\"/>",
+      "  <limit lower=\"${8:-1.57}\" upper=\"${9:1.57}\" effort=\"${10:10}\" velocity=\"${11:1.0}\"/>",
+      "</joint>",
+      "$0"
+    ]
+  },
+
+  "xacro Macro": {
+    "prefix": "!xacro_macro",
+    "description": "xacro 宏定义",
+    "body": [
+      "<xacro:macro name=\"${1:name}\" params=\"${2:param}\">",
+      "  $0",
+      "</xacro:macro>"
+    ]
+  },
+
+  "xacro Property": {
+    "prefix": "!xacro_prop",
+    "description": "xacro 属性",
+    "body": [
+      "<xacro:property name=\"${1:name}\" value=\"${2:value}\"/>",
+      "$0"
+    ]
+  },
+
+  "ROS2 package.xml": {
+    "prefix": "!package_xml",
+    "description": "ament_cmake 包的 package.xml",
+    "body": [
+      "<?xml version=\"1.0\"?>",
+      "<package format=\"3\">",
+      "  <name>${1:my_package}</name>",
+      "  <version>0.0.0</version>",
+      "  <description>${2:TODO: package description}</description>",
+      "  <maintainer email=\"${3:you@example.com}\">${4:Your Name}</maintainer>",
+      "  <license>${5:Apache-2.0}</license>",
+      "",
+      "  <buildtool_depend>ament_cmake</buildtool_depend>",
+      "  <depend>rclcpp</depend>",
+      "  $0",
+      "",
+      "  <test_depend>ament_lint_auto</test_depend>",
+      "  <test_depend>ament_lint_common</test_depend>",
+      "",
+      "  <export>",
+      "    <build_type>ament_cmake</build_type>",
+      "  </export>",
+      "</package>"
+    ]
+  },
+
+  "URDF Robot Wrapper": {
+    "prefix": "!urdf_robot",
+    "description": "URDF 根节点",
+    "body": [
+      "<?xml version=\"1.0\"?>",
+      "<robot name=\"${1:robot}\" xmlns:xacro=\"http://www.ros.org/wiki/xacro\">",
+      "  $0",
+      "</robot>"
+    ]
+  }
+}

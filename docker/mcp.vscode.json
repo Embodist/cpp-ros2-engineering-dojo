@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "mcp-server-filesystem",
+      "args": ["/workspace"]
+    },
+    "mini": {
+      "command": "node",
+      "args": ["/opt/dotfiles.pi/mcp-servers/mini-server.js"]
+    },
+    "searxng": {
+      "command": "node",
+      "args": ["/opt/dotfiles.pi/mcp-servers/searxng-server.js"],
+      "directTools": true
+    }
+  }
+}

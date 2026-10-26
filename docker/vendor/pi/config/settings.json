@@ -1,0 +1,19 @@
+{
+  "lastChangelogVersion": "0.84.3",
+  "theme": "dark",
+  "enableSkillCommands": true,
+  "defaultProjectTrust": "always",
+  "defaultProvider": "meraai",
+  "defaultModel": "deepseek-v4-flash",
+  "defaultThinkingLevel": "high",
+  "thinkingBudgets": {
+    "high": 32768
+  },
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 200000
+  },
+  "packages": [
+    "npm:@cansiny0320/pi-mcp-adapter"
+  ]
+}

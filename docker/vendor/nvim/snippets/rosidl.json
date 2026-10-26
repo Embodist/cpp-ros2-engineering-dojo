@@ -1,0 +1,44 @@
+{
+  "ROS2 msg": {
+    "prefix": "!msg",
+    "description": ".msg 定义（常量 + 字段）",
+    "body": [
+      "# 常量",
+      "${1:uint8} ${2:CONST_NAME}=${3:0}",
+      "",
+      "# 字段",
+      "${4:float64} ${5:field}",
+      "$0"
+    ]
+  },
+
+  "ROS2 srv": {
+    "prefix": "!srv",
+    "description": ".srv 定义（请求 --- 响应）",
+    "body": [
+      "# 请求",
+      "${1:float64} ${2:a}",
+      "${1:float64} ${3:b}",
+      "---",
+      "# 响应",
+      "${1:float64} ${4:sum}",
+      "$0"
+    ]
+  },
+
+  "ROS2 action": {
+    "prefix": "!action",
+    "description": ".action 定义（Goal --- Result --- Feedback）",
+    "body": [
+      "# Goal",
+      "${1:float64} ${2:target}",
+      "---",
+      "# Result",
+      "${1:float64} ${3:final}",
+      "---",
+      "# Feedback",
+      "${1:float64} ${4:current}",
+      "$0"
+    ]
+  }
+}

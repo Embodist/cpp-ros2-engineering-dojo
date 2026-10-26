@@ -1,4 +1,4 @@
-# 12 scaffolded core tasks. Missing definitions intentionally trigger link errors until implemented.
+# 12 scaffolded core tasks. The inline stubs compile; their tests fail until implemented.
 find_package(Threads REQUIRED)
 add_executable(dojo_smoke support/smoke.cpp)
 target_include_directories(dojo_smoke PRIVATE support)

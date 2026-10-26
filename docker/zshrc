@@ -1,0 +1,42 @@
+# ~/.zshrc — dojo 容器内的最小可用 zsh 配置
+export LANG=C.UTF-8
+export EDITOR=nvim
+export VISUAL=nvim
+export PATH="$HOME/.local/bin:$PATH"
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+export FZF_DEFAULT_OPTS='--height 60% --layout=reverse --border --info=inline'
+
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=100000
+export SAVEHIST=100000
+setopt HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS SHARE_HISTORY
+
+autoload -Uz compinit && compinit -i
+bindkey -e
+
+if [ -f "/opt/ros/${ROS_DISTRO:-jazzy}/setup.bash" ]; then
+  source "/opt/ros/${ROS_DISTRO:-jazzy}/setup.bash"
+fi
+
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --icons=auto --group-directories-first'
+  alias ll='eza -alF --icons=auto --group-directories-first --git'
+  alias la='eza -a --icons=auto --group-directories-first'
+  alias tree='eza --tree --icons=auto --group-directories-first'
+fi
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --style=plain --paging=never'
+  export MANPAGER='bat --style=plain --paging=never -l man'
+fi
+command -v yazi >/dev/null 2>&1 && alias y='yazi'
+
+alias gs='git status'
+alias dojo='python3 tools/train.py'
+
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+
+if [ -d /work ]; then
+  cd /work 2>/dev/null || true
+fi

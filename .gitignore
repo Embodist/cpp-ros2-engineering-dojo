@@ -9,4 +9,14 @@ __pycache__/
 .vscode/
 .idea/
 notes/*.log
-.claude 
+
+# compile database / colcon artifacts
+compile_commands.json
+install/
+log/
+
+# container secrets
+docker/.env
+
+# Claude Code local settings (may contain real API tokens)
+.claude/

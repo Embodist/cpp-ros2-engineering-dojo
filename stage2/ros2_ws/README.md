@@ -1,6 +1,6 @@
-# ROS2 workspace skeleton（需独立安装 ROS2）
+# ROS2 workspace skeleton（需 ROS2 Jazzy 环境）
 
-在 Linux + 已安装的 ROS2 环境：
+在 Linux + 已安装的 ROS2 环境（或使用仓库自带容器：仓库根目录执行 `./docker/dev.sh`，容器内已加载 Jazzy）：
 ```bash
 # 将 <distro> 换成你安装且官方支持的发行版名，不要照抄尖括号
 source /opt/ros/<distro>/setup.bash
