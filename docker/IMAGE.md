@@ -29,6 +29,17 @@
 | GHCR digest | `sha256:33f583ce55c973d72a7bb2ba4321e956a10a641653b05c1d83630122d6003be9`（commit `b2d169f`，含 codelldb） |
 | 说明 | code-server 4.143.1 + 18 个扩展 + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
 
+## Plus 版本（CI-only，依赖 base）
+
+| 项 | 值 |
+| :--- | :--- |
+| 构建方式 | 仅 GitHub Actions `build-plus` job；**不在本地构建** |
+| 依赖 | `FROM ghcr.io/...:sha-<commit>`（同一 commit 的 base） |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus`（digest 由 CI 构建后更新） |
+| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:plus`（设置 `ACR_ENABLED` 后 CI 同步） |
+| 内容 | base + lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、iwyu/rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/rga/tailspin/bandwhich/csvlens/dasel/gron/bloaty/mcfly/stern |
+| 说明 | 工具安装 best-effort；缺失项在 CI 日志中打印 `WARN`，不阻塞镜像 |
+
 ## 拉取
 
 ```bash
@@ -39,6 +50,9 @@ docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode
 # 阿里云 ACR rapid7（已验证匿名 manifest 可读）
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode
+
+# plus 仅 CI 构建；GHCR 为最终来源，ACR 需开启 ACR_ENABLED 或手动同步
+docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 ```
 
 > GHCR 的 package visibility 需要仓库管理员在 Package settings 里改为 Public（CI 的 GITHUB_TOKEN 没有改可见性的权限）。ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取。

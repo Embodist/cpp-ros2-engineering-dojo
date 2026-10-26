@@ -1,7 +1,8 @@
 # Terminal 日常工具清单（C++ / ROS 2 开发向）
 
 > 目标：少而精、启动快、可组合。分为**已内置**、**建议下一批**、**容器内慎用**三档。
-> 对应镜像：`cpp-ros2-dojo:jazzy`（base，带 ROS 2）与 `cpp-ros2-dojo:vscode`（code-server）。
+> 对应镜像：`cpp-ros2-dojo:jazzy`（base，带 ROS 2）、`cpp-ros2-dojo:vscode`（code-server）、`ghcr.io/...:plus`（CI-only 扩容版）。
+> plus 版本已内置下文 P1/P2 的大部分工具；plus 的安装清单见 [docker/README.md](../docker/README.md)。
 
 ## 1. 已内置
 

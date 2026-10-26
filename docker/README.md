@@ -73,14 +73,15 @@ docker compose -f docker/compose.yaml run --rm dev
 
 ### 公开镜像 / CI
 
-| Registry | 主镜像 | VS Code 变体 |
-| :--- | :--- | :--- |
-| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` | `...:vscode` |
-| 阿里云 ACR rapid7 | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` | `...:vscode` |
+| Registry | base | VS Code 变体 | plus（CI-only） |
+| :--- | :--- | :--- | :--- |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` | `...:vscode` | `...:plus` |
+| 阿里云 ACR rapid7 | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` | `...:vscode` | `...:plus`（需开启 ACR 自动推送或手动同步） |
 
 ```bash
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode
+docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 ```
 
 - CI：`.github/workflows/docker-image.yml`，`docker/**`（Dockerfile、vendor 配置、构建脚本）变更时触发；PR 只构建不推送，`main`/`master` 推送 GHCR（主镜像 `latest`，VS Code 变体 `vscode`）。
@@ -101,6 +102,29 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 - 包含 code-server、C++ 工具链、Neovim（默认预装插件/Mason）、Pi/Claude Code、现代 CLI/TUI、zsh/oh-my-zsh/tmux/helix。
 - code-server 扩展走 Open VSX；示例里的 Microsoft 专属扩展可能安装失败，构建会继续并打印 `WARN extension ...`。
 - 想更快/更小：`INSTALL_PLUGINS=0 ./docker/build-vscode.sh`（不预装 Neovim 插件）。
+
+### Plus 版本（CI-only，依赖 base）
+
+**plus 不在本地构建**，只由 GitHub Actions 构建；它直接 `FROM` 同一 commit 的 base 镜像，只追加工具，不重复安装 base 组件。
+
+- 触发：`docker/**` 变更或 `workflow_dispatch`；CI 先构建 base/vscode，再运行 `build-plus` job。
+- 依赖：`ghcr.io/...:sha-<commit>`（CI 自动传入 `BASE_IMAGE`；默认 `:latest`）。
+- 标签：`:plus`、`:plus-sha-<commit>`。
+- ACR：设置 `ACR_ENABLED=true` + `ACR_USERNAME`/`ACR_PASSWORD` 后，CI 会把 `:plus` 同步到 rapid7。
+
+包含（尽量 best-effort，缺失会打印 `WARN`）：
+
+- 系统/网络/日志/数据：`lnav`、`iftop`、`nethogs`、`socat`、`netcat`、`tcpdump`、`rclone`、`aria2`、`mosh`、`sshfs`、`glances`、`visidata`、`pandoc`
+- C++/调试：`include-what-you-use`、`rr`、`pahole`、`gdb-dashboard`
+- 质量/安全：`pre-commit`、`semgrep`、`gitleaks`
+- eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`ripgrep-all`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`bloaty`、`mcfly`、`stern`
+
+注意：
+
+- `tcpdump` / `iftop` / `nethogs` / `bandwhich` 需要 `NET_ADMIN` 或 host 网络。
+- `dive` / `lazydocker` 需要挂载 `/var/run/docker.sock`；`k9s` 需要 kubeconfig。
+- `rr` / `perf` 等需要额外内核权限。
+- eget 工具和 pip 工具是 best-effort；某次 GitHub 网络失败只会在构建日志里出现 `WARN`，不会阻塞镜像。
 
 ---
 
@@ -280,7 +304,9 @@ node /opt/dotfiles.pi/tools/claude-autorun.mjs "任务描述" 5 --out run.log
 | `docker/smoke.sh` | 容器内 C++/ROS2/Neovim/AI/CLI 自检脚本 |
 | `docker/sync-vendor.sh` | 从本机 dotfiles 刷新 `vendor/` 快照 |
 | `docker/vendor/` | CI/公开构建使用的非敏感配置快照 |
-| `.github/workflows/docker-image.yml` | Dockerfile/vendor 变更时构建并推送 GHCR |
+| `docker/Dockerfile.plus` | CI-only plus 镜像，`FROM` base 追加工具 |
+| `docker/plus-install.sh` | plus 的 apt/pip/eget 工具安装脚本 |
+| `.github/workflows/docker-image.yml` | base/vscode/plus 在线构建与推送 |
 | `docker/entrypoint.sh` | 加载 ROS 环境、修正 git 安全目录 |
 | `docker/claude.json` | Claude Code 首次启动的最小配置（无密钥） |
 | `docker/mcp.json` | Pi 全局 MCP 配置（容器内路径） |

@@ -1,0 +1,20 @@
+# ============================================================================
+#  cpp-ros2-dojo · plus 版本（仅 CI 在线构建）
+#
+#  这个镜像不重新安装 base 的任何组件，只 FROM 已有 base 镜像并追加工具。
+#  本地不要 build；由 .github/workflows/docker-image.yml 的 build-plus job
+#  在 base 镜像推送后构建。
+#
+#  默认依赖：
+#    ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
+#  CI 会覆盖为同一 commit 的 base：
+#    ghcr.io/music-research-content/cpp-ros2-engineering-dojo:sha-<commit>
+# ============================================================================
+
+ARG BASE_IMAGE=ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
+FROM ${BASE_IMAGE}
+
+USER root
+COPY plus-install.sh /tmp/plus-install.sh
+RUN HOME=/root bash /tmp/plus-install.sh && rm -f /tmp/plus-install.sh
+USER dev
