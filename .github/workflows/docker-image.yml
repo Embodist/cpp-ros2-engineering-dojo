@@ -5,10 +5,18 @@ on:
     branches: [main, master]
     paths:
       - "docker/**"
+      - "!docker/README.md"
+      - "!docker/IMAGE.md"
+      - "!docker/.env.example"
+      - "!docker/vendor/README.md"
       - ".github/workflows/docker-image.yml"
   pull_request:
     paths:
       - "docker/**"
+      - "!docker/README.md"
+      - "!docker/IMAGE.md"
+      - "!docker/.env.example"
+      - "!docker/vendor/README.md"
       - ".github/workflows/docker-image.yml"
   workflow_dispatch:
 

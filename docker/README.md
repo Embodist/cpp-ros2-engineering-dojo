@@ -197,6 +197,20 @@ tldr tar
 - 容器内自检：`./docker/dev.sh bash docker/smoke.sh`。
 - `jless` / `json-tui` 只有 amd64 预编译；arm64 用 `jnv`。
 - `starship` 需要终端支持 Nerd Font；没有字体时不影响功能，只是图标可能显示为方块。
+- 更完整的“已内置 / 建议下一批 / 容器内慎用”分析见 [docs/TERMINAL_TOOLS.md](../docs/TERMINAL_TOOLS.md)。
+
+### Shell / tmux
+
+- **zsh + oh-my-zsh**：`zsh-autosuggestions`、`zsh-syntax-highlighting`
+- **oh-my-tmux（gpakosz/.tmux）** + **TPM**
+- tmux 插件：`tmux-resurrect`（保存/恢复 session/window/pane）、`tmux-continuum`（每 15 分钟自动保存、启动时恢复）、`tmux-sensible`、`tmux-fzf`
+- `t` = `tmux new -A -s main`（有则 attach，无则创建）
+- session 状态持久化到 `~/.tmux/resurrect`，compose 已挂 named volume，重建容器不丢
+- `direnv` 已接入 zsh，进入带 `.envrc` 的目录自动加载环境
+
+### 新增的日常终端工具
+
+`direnv`、`entr`（文件变化自动重跑）、`strace`、`tig`、`asciinema`、`rsync`、`pv`、`mtr`、`lsof`、`net-tools`、`bind9-dnsutils`、`nload`、`xxd`、`git-lfs`。完整建议见 [docs/TERMINAL_TOOLS.md](../docs/TERMINAL_TOOLS.md)。
 
 ### AI
 

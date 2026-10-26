@@ -368,6 +368,81 @@ RUN set -eu; \
            /root/.claude* /root/.pi /root/.npm /root/.cache \
            /root/.ros /root/.colcon /tmp/*
 
+# ── oh-my-zsh / oh-my-tmux / TPM + 日常终端工具 ───────────────────────────
+RUN set -eux; \
+    APT_OPTS="-o Acquire::ForceIPv4=true -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::Retries=3 -o Acquire::http::Pipeline-Depth=0"; \
+    apt-get update $APT_OPTS; \
+    apt-get install -y --no-install-recommends $APT_OPTS \
+      direnv entr strace tig asciinema rsync pv mtr-tiny \
+      lsof net-tools bind9-dnsutils nload xxd git-lfs; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*; \
+    clone3() { i=1; while [ "$i" -le 3 ]; do \
+        runuser -u dev -- env HOME=/home/dev GIT_TERMINAL_PROMPT=0 git -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=60 \
+          clone --depth=1 "$1" "$2" && return 0; \
+        i=$((i+1)); sleep 2; \
+      done; return 1; }; \
+    [ -d /home/dev/.oh-my-zsh ] || clone3 https://github.com/ohmyzsh/ohmyzsh.git /home/dev/.oh-my-zsh || true; \
+    mkdir -p /home/dev/.oh-my-zsh/custom/plugins; \
+    [ -d /home/dev/.oh-my-zsh/custom/plugins/zsh-autosuggestions ] || \
+      clone3 https://github.com/zsh-users/zsh-autosuggestions /home/dev/.oh-my-zsh/custom/plugins/zsh-autosuggestions || true; \
+    [ -d /home/dev/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ] || \
+      clone3 https://github.com/zsh-users/zsh-syntax-highlighting /home/dev/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting || true; \
+    if ! grep -q 'oh-my-zsh.sh' /home/dev/.zshrc; then \
+      { printf '%s\n' \
+          'export ZSH="$HOME/.oh-my-zsh"' \
+          'ZSH_THEME="robbyrussell"' \
+          'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' \
+          '[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"'; \
+        cat /home/dev/.zshrc; } > /home/dev/.zshrc.tmp; \
+      mv /home/dev/.zshrc.tmp /home/dev/.zshrc; \
+    fi; \
+    grep -q 'direnv hook' /home/dev/.zshrc || \
+      echo 'command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"' >> /home/dev/.zshrc; \
+    grep -q 'alias t=' /home/dev/.zshrc || \
+      echo "alias t='tmux new -A -s main'" >> /home/dev/.zshrc; \
+    if [ ! -d /home/dev/.tmux/.git ]; then \
+      rm -rf /home/dev/.tmux; \
+      clone3 https://github.com/gpakosz/.tmux.git /home/dev/.tmux || true; \
+    fi; \
+    if [ -f /home/dev/.tmux/.tmux.conf ]; then \
+      ln -sfn /home/dev/.tmux/.tmux.conf /home/dev/.tmux.conf; \
+      cp /home/dev/.tmux/.tmux.conf.local /home/dev/.tmux.conf.local; \
+    else \
+      [ -f /home/dev/.tmux.conf ] || : > /home/dev/.tmux.conf; \
+      grep -q 'source-file ~/.tmux.conf.local' /home/dev/.tmux.conf || \
+        echo 'source-file ~/.tmux.conf.local' >> /home/dev/.tmux.conf; \
+      touch /home/dev/.tmux.conf.local; \
+    fi; \
+    chown -R "${DEV_UID}:${DEV_GID}" /home/dev/.tmux 2>/dev/null || true; \
+    runuser -u dev -- mkdir -p /home/dev/.tmux/plugins; \
+    for spec in \
+      "tpm tmux-plugins/tpm" \
+      "tmux-resurrect tmux-plugins/tmux-resurrect" \
+      "tmux-continuum tmux-plugins/tmux-continuum" \
+      "tmux-sensible tmux-plugins/tmux-sensible" \
+      "tmux-fzf sainnhe/tmux-fzf"; do \
+      set -- $spec; pname="$1"; prepo="$2"; \
+      [ -d "/home/dev/.tmux/plugins/$pname" ] || \
+        clone3 "https://github.com/$prepo" "/home/dev/.tmux/plugins/$pname" || true; \
+    done; \
+    if ! grep -q "^set -g @plugin 'tmux-plugins/tpm'" /home/dev/.tmux.conf.local 2>/dev/null; then \
+      printf '%s\n' \
+        "set -g @plugin 'tmux-plugins/tpm'" \
+        "set -g @plugin 'tmux-plugins/tmux-sensible'" \
+        "set -g @plugin 'tmux-plugins/tmux-resurrect'" \
+        "set -g @plugin 'tmux-plugins/tmux-continuum'" \
+        "set -g @plugin 'sainnhe/tmux-fzf'" \
+        "set -g @continuum-restore 'on'" \
+        "set -g @continuum-save-interval '15'" \
+        "set -g @resurrect-capture-pane-contents 'on'" \
+        "run '~/.tmux/plugins/tpm/tpm'" \
+        >> /home/dev/.tmux.conf.local; \
+    fi; \
+    chown -R "${DEV_UID}:${DEV_GID}" /home/dev/.oh-my-zsh /home/dev/.tmux /home/dev/.tmux.conf.local /home/dev/.zshrc; \
+    chown -h "${DEV_UID}:${DEV_GID}" /home/dev/.tmux.conf; \
+    rm -rf /home/dev/.cache /home/dev/.npm /tmp/*
+
 # ── 运行时 ──────────────────────────────────────────────────────────────────
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \

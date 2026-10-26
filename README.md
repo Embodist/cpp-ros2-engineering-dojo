@@ -55,7 +55,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 
 阿里云 ACR rapid7 空间也有同名镜像：`registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` / `:vscode`。
 
-密钥、ROS 2、X11、SearXNG 与故障排查见 [docker/README.md](docker/README.md)，最新镜像记录见 [docker/IMAGE.md](docker/IMAGE.md)。容器只固化配置，不固化密钥。
+密钥、ROS 2、X11、SearXNG 与故障排查见 [docker/README.md](docker/README.md)，最新镜像记录见 [docker/IMAGE.md](docker/IMAGE.md)，终端工具清单见 [docs/TERMINAL_TOOLS.md](docs/TERMINAL_TOOLS.md)。容器只固化配置，不固化密钥。
 
 ## 两阶段结构
 

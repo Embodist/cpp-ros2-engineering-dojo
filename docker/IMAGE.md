@@ -7,13 +7,15 @@
 | 项 | 值 |
 | :--- | :--- |
 | 本地 tag | `cpp-ros2-dojo:jazzy` |
-| 本地 image id | `sha256:73434ad51dfb2885143d34a5dc5ba252dadfc82984ee0ba4c9e988df7f65e557` |
-| 本地大小 | 6.04 GB（`docker images`，合并文件系统约 4.2 GB） |
+| 本地 image id | `sha256:5547eb609e951ce82f1a6045bb7b202aabcad563b2edc7459974a7098fa92d27` |
+| 本地大小 | 6.11 GB（`docker images`，合并文件系统约 4.2 GB） |
 | 构建日期 | 2026-10-26 |
-| 冒烟测试 | `ALL CHECKS PASSED`（C++/ROS2/Neovim 82 插件/Mason/codelldb/CLI/Dojo/colcon） |
-| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` |
-| ACR digest | `sha256:73434ad51dfb2885143d34a5dc5ba252dadfc82984ee0ba4c9e988df7f65e557` |
+| 冒烟测试 | `ALL CHECKS PASSED`（C++/ROS2/Neovim 82 插件/Mason/codelldb/CLI/Dojo/colcon/zsh/tmux） |
+| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest`（匿名 manifest 已可读） |
+| ACR digest | `sha256:5547eb609e951ce82f1a6045bb7b202aabcad563b2edc7459974a7098fa92d27` |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest`（CI 构建） |
+| GHCR digest | 上一版 `sha256:d6b6060…`；本次含 zsh/tmux 的 CI 构建完成后更新 |
+| 内容 | 另含 oh-my-zsh + autosuggestions/syntax-highlighting、oh-my-tmux、TPM、tmux-resurrect/continuum、direnv/entr/strace/tig/asciinema 等 |
 
 ## VS Code / code-server 变体
 
@@ -28,11 +30,13 @@
 ## 拉取
 
 ```bash
-# GHCR（公开）
+# GHCR（当前 package 默认 private；在 GitHub Package settings 改为 Public 后可匿名拉取）
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode
 
-# 阿里云 ACR（如仓库为私有时先登录）
+# 阿里云 ACR rapid7（已验证匿名 manifest 可读）
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode
 ```
+
+> GHCR 的 package visibility 需要仓库管理员在 Package settings 里改为 Public（CI 的 GITHUB_TOKEN 没有改可见性的权限）。ACR rapid7 的 `latest` 已确认可以公开读取。

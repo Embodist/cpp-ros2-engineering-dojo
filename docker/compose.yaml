@@ -45,6 +45,7 @@ services:
       - nvim-state:/home/dev/.local/state/nvim
       - pi-sessions:/home/dev/.pi/agent/sessions
       - claude-config:/home/dev/.claude
+      - tmux-resurrect:/home/dev/.tmux/resurrect
       # 想直接复用宿主机的 nvim/pi 配置时，取消注释：
       # - ${NVIM_CONFIG_DIR}:/home/dev/.config/nvim:ro
       # - ${PI_CONFIG_DIR}/config:/home/dev/.pi/agent:ro
@@ -110,6 +111,7 @@ services:
       - vscode-nvim-data:/home/user/.local/share/nvim
       - vscode-nvim-state:/home/user/.local/state/nvim
       - vscode-pi-sessions:/home/user/.pi/agent/sessions
+      - vscode-tmux-resurrect:/home/user/.tmux/resurrect
     environment:
       - PASSWORD=${VSCODE_PASSWORD:-user}
       - SEARXNG_URL=${SEARXNG_URL:-http://host.docker.internal:11199}
@@ -151,3 +153,5 @@ volumes:
   vscode-nvim-data:
   vscode-nvim-state:
   vscode-pi-sessions:
+  tmux-resurrect:
+  vscode-tmux-resurrect:
