@@ -37,6 +37,14 @@ else
   echo "WARN pip pre-commit/semgrep"
 fi
 
+# ── uv / uvx（Astral 官方安装脚本，安装到 /usr/local/bin）────────────────────
+if curl $CURL_OPTS -LsSf https://astral.sh/uv/install.sh \
+    | env UV_INSTALL_DIR=/usr/local/bin sh; then
+  echo "OK uv"
+else
+  echo "WARN uv"
+fi
+
 # ── eget：从 GitHub release 安装预编译 CLI ─────────────────────────────────
 if curl $CURL_OPTS -fsSL https://zyedidia.github.io/eget.sh -o /tmp/eget.sh \
   && (cd /tmp && sh eget.sh) \
@@ -116,7 +124,7 @@ fi
 
 # ── 结果提示（缺失不阻塞镜像）──────────────────────────────────────────────
 echo "plus tool check:"
-for c in atuin mise difft broot ouch hexyl zellij dive lazydocker k9s act \
+for c in uv uvx atuin mise difft broot ouch hexyl zellij dive lazydocker k9s act \
          gitleaks rga tspin bandwhich csvlens dasel gron mcfly \
          pre-commit semgrep lnav iftop nethogs socat nc tcpdump rclone aria2c \
          mosh sshfs glances vd rr pahole eget; do

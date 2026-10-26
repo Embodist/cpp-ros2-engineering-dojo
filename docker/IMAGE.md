@@ -38,7 +38,7 @@
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus` |
 | GHCR digest | `sha256:db2d49047bcd196d481951253eb41f4bda4edbb5a788a997f45d1123466992d9`（commit `f086c07`） |
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:plus`（设置 `ACR_ENABLED` 后 CI 同步；当前未推送） |
-| 内容 | base + lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/tailspin/bandwhich/csvlens/dasel/gron/mcfly/stern |
+| 内容 | base + uv/uvx、lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/tailspin/bandwhich/csvlens/dasel/gron/mcfly/stern |
 | 说明 | 工具安装 best-effort；`rga`（资产匹配失败）、`iwyu`（Ubuntu 源没有）、`bloaty`（上游无预编译）当前缺失，其余已装 |
 
 ## 拉取

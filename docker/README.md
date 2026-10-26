@@ -116,6 +116,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 
 - 系统/网络/日志/数据：`lnav`、`iftop`、`nethogs`、`socat`、`netcat`、`tcpdump`、`rclone`、`aria2`、`mosh`、`sshfs`、`glances`、`visidata`、`pandoc`
 - C++/调试：`include-what-you-use`、`rr`、`pahole`、`gdb-dashboard`
+- Python：`uv`、`uvx`
 - 质量/安全：`pre-commit`、`semgrep`、`gitleaks`
 - eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`mcfly`、`stern`
 - 当前例外：`rga` 资产匹配失败、`iwyu` Ubuntu 源没有、`bloaty` 上游无预编译；其余工具已装。
