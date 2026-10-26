@@ -40,9 +40,6 @@ jobs:
             dockerfile: Dockerfile.vscode
             tag: vscode
             sha_tag: vscode-sha
-    concurrency:
-      group: docker-image-${{ github.ref }}-${{ matrix.name }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
 
