@@ -1,0 +1,602 @@
+[
+  {
+    "id": "01",
+    "slug": "01-scope-exit",
+    "title": "ScopeExit 与异常安全 RAII",
+    "skills": "RAII, noexcept, 移动语义, 异常展开",
+    "rules": "R.1, C.30, C.31, C.66",
+    "kind": "scaffold",
+    "path": "stage1/cards/01-scope-exit.md",
+    "target": "dojo_test_01_scope_exit"
+  },
+  {
+    "id": "02",
+    "slug": "02-unique-handle",
+    "title": "UniqueHandle：句柄 RAII",
+    "skills": "Rule of Five, 移动, 所有权, reset/release",
+    "rules": "R.1, R.5, C.21, C.66",
+    "kind": "scaffold",
+    "path": "stage1/cards/02-unique-handle.md",
+    "target": "dojo_test_02_unique_handle"
+  },
+  {
+    "id": "03",
+    "slug": "03-mini-vector",
+    "title": "MiniVector<T> 内存与异常安全",
+    "skills": "allocator, placement construction, lifetime, strong guarantee, copy/move",
+    "rules": "R.1, R.10, C.20, C.21, C.66",
+    "kind": "scaffold",
+    "path": "stage1/cards/03-mini-vector.md",
+    "target": "dojo_test_03_mini_vector"
+  },
+  {
+    "id": "04",
+    "slug": "04-move-buffer",
+    "title": "MoveOnlyBuffer：零拷贝所有权",
+    "skills": "unique_ptr, span, bounds, move, byte buffer",
+    "rules": "R.3, R.11, F.24, C.66",
+    "kind": "scaffold",
+    "path": "stage1/cards/04-move-buffer.md",
+    "target": "dojo_test_04_move_buffer"
+  },
+  {
+    "id": "05",
+    "slug": "05-polymorphic-pipeline",
+    "title": "Stage 接口与策略组合",
+    "skills": "virtual destructor, polymorphism, unique_ptr, span",
+    "rules": "C.35, I.11, R.34",
+    "kind": "scaffold",
+    "path": "stage1/cards/05-polymorphic-pipeline.md",
+    "target": "dojo_test_05_polymorphic_pipeline"
+  },
+  {
+    "id": "06",
+    "slug": "06-binary-packet",
+    "title": "二进制帧安全编解码",
+    "skills": "span, fixed-width integer, endianness, input validation",
+    "rules": "I.1, ES.47, F.24",
+    "kind": "scaffold",
+    "path": "stage1/cards/06-binary-packet.md",
+    "target": "dojo_test_06_binary_packet"
+  },
+  {
+    "id": "07",
+    "slug": "07-parse-result",
+    "title": "结构化错误与无异常解析",
+    "skills": "variant, from_chars, error enum, strict parser",
+    "rules": "E.2, E.6, I.12",
+    "kind": "scaffold",
+    "path": "stage1/cards/07-parse-result.md",
+    "target": "dojo_test_07_parse_result"
+  },
+  {
+    "id": "08",
+    "slug": "08-bounded-queue",
+    "title": "可关闭的有界阻塞队列",
+    "skills": "mutex, condition_variable, spurious wakeup, close",
+    "rules": "CP.20, CP.22, CP.42, CP.43",
+    "kind": "scaffold",
+    "path": "stage1/cards/08-bounded-queue.md",
+    "target": "dojo_test_08_bounded_queue"
+  },
+  {
+    "id": "09",
+    "slug": "09-thread-pool",
+    "title": "ThreadPool：任务执行与关停",
+    "skills": "thread, future, packaged_task, exception propagation",
+    "rules": "CP.22, CP.25, CP.26, CP.43",
+    "kind": "scaffold",
+    "path": "stage1/cards/09-thread-pool.md",
+    "target": "dojo_test_09_thread_pool"
+  },
+  {
+    "id": "10",
+    "slug": "10-ring-buffer",
+    "title": "固定容量环形缓冲区",
+    "skills": "array, indices, invariants, overwrite policy",
+    "rules": "R.11, Per.1, C.20",
+    "kind": "scaffold",
+    "path": "stage1/cards/10-ring-buffer.md",
+    "target": "dojo_test_10_ring_buffer"
+  },
+  {
+    "id": "11",
+    "slug": "11-moving-average",
+    "title": "滑动均值：数值稳定与输入约束",
+    "skills": "deque, data invariant, floating point, precision",
+    "rules": "P.9, F.4, E.6",
+    "kind": "scaffold",
+    "path": "stage1/cards/11-moving-average.md",
+    "target": "dojo_test_11_moving_average"
+  },
+  {
+    "id": "12",
+    "slug": "12-callback-registry",
+    "title": "CallbackRegistry：重入与生命周期",
+    "skills": "functional, mutex, callback safety, reentrancy",
+    "rules": "CP.22, I.11, R.34",
+    "kind": "scaffold",
+    "path": "stage1/cards/12-callback-registry.md",
+    "target": "dojo_test_12_callback_registry"
+  },
+  {
+    "id": "13",
+    "slug": "13-practice",
+    "title": "const 与值类别",
+    "skills": "Language, Types, Values",
+    "rules": "F.16, Con.2",
+    "kind": "open",
+    "path": "stage1/cards/13-practice.md",
+    "target": null
+  },
+  {
+    "id": "14",
+    "slug": "14-practice",
+    "title": "初始化与窄化",
+    "skills": "Language, Types, Values",
+    "rules": "ES.23",
+    "kind": "open",
+    "path": "stage1/cards/14-practice.md",
+    "target": null
+  },
+  {
+    "id": "15",
+    "slug": "15-practice",
+    "title": "string_view 生命周期",
+    "skills": "Language, Types, Values",
+    "rules": "F.24, R.3",
+    "kind": "open",
+    "path": "stage1/cards/15-practice.md",
+    "target": null
+  },
+  {
+    "id": "16",
+    "slug": "16-practice",
+    "title": "span 与数组边界",
+    "skills": "Language, Types, Values",
+    "rules": "F.24, I.1",
+    "kind": "open",
+    "path": "stage1/cards/16-practice.md",
+    "target": null
+  },
+  {
+    "id": "17",
+    "slug": "17-practice",
+    "title": "Lambda 捕获与所有权",
+    "skills": "Language, Types, Values",
+    "rules": "F.53, CP.31",
+    "kind": "open",
+    "path": "stage1/cards/17-practice.md",
+    "target": null
+  },
+  {
+    "id": "18",
+    "slug": "18-practice",
+    "title": "enum class 与状态机",
+    "skills": "Language, Types, Values",
+    "rules": "Enum.3, I.12",
+    "kind": "open",
+    "path": "stage1/cards/18-practice.md",
+    "target": null
+  },
+  {
+    "id": "19",
+    "slug": "19-practice",
+    "title": "constexpr 与编译时约束",
+    "skills": "Language, Types, Values",
+    "rules": "P.9",
+    "kind": "open",
+    "path": "stage1/cards/19-practice.md",
+    "target": null
+  },
+  {
+    "id": "20",
+    "slug": "20-practice",
+    "title": "结构化绑定与所有权",
+    "skills": "Language, Types, Values",
+    "rules": "Per.1",
+    "kind": "open",
+    "path": "stage1/cards/20-practice.md",
+    "target": null
+  },
+  {
+    "id": "21",
+    "slug": "21-practice",
+    "title": "Rule of Zero 对照实验",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "C.20, C.21",
+    "kind": "open",
+    "path": "stage1/cards/21-practice.md",
+    "target": null
+  },
+  {
+    "id": "22",
+    "slug": "22-practice",
+    "title": "异常安全分级",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "E.12, R.1",
+    "kind": "open",
+    "path": "stage1/cards/22-practice.md",
+    "target": null
+  },
+  {
+    "id": "23",
+    "slug": "23-practice",
+    "title": "引用计数循环",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "R.24",
+    "kind": "open",
+    "path": "stage1/cards/23-practice.md",
+    "target": null
+  },
+  {
+    "id": "24",
+    "slug": "24-practice",
+    "title": "工厂返回资源",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "R.11, R.12",
+    "kind": "open",
+    "path": "stage1/cards/24-practice.md",
+    "target": null
+  },
+  {
+    "id": "25",
+    "slug": "25-practice",
+    "title": "继承析构陷阱",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "C.35",
+    "kind": "open",
+    "path": "stage1/cards/25-practice.md",
+    "target": null
+  },
+  {
+    "id": "26",
+    "slug": "26-practice",
+    "title": "std::move 并非移动",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "C.66",
+    "kind": "open",
+    "path": "stage1/cards/26-practice.md",
+    "target": null
+  },
+  {
+    "id": "27",
+    "slug": "27-practice",
+    "title": "临时对象引用悬挂",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "F.43",
+    "kind": "open",
+    "path": "stage1/cards/27-practice.md",
+    "target": null
+  },
+  {
+    "id": "28",
+    "slug": "28-practice",
+    "title": "pImpl 与 ABI 边界",
+    "skills": "Ownership, Objects, Lifetime",
+    "rules": "I.27",
+    "kind": "open",
+    "path": "stage1/cards/28-practice.md",
+    "target": null
+  },
+  {
+    "id": "29",
+    "slug": "29-practice",
+    "title": "unordered_map 的失效规则",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "SL.con.1",
+    "kind": "open",
+    "path": "stage1/cards/29-practice.md",
+    "target": null
+  },
+  {
+    "id": "30",
+    "slug": "30-practice",
+    "title": "排序与严格弱序",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "P.4",
+    "kind": "open",
+    "path": "stage1/cards/30-practice.md",
+    "target": null
+  },
+  {
+    "id": "31",
+    "slug": "31-practice",
+    "title": "deque vs vector 数据通路",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "Per.1",
+    "kind": "open",
+    "path": "stage1/cards/31-practice.md",
+    "target": null
+  },
+  {
+    "id": "32",
+    "slug": "32-practice",
+    "title": "哈希碰撞实验",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "Per.1",
+    "kind": "open",
+    "path": "stage1/cards/32-practice.md",
+    "target": null
+  },
+  {
+    "id": "33",
+    "slug": "33-practice",
+    "title": "迭代器失效实战",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "SL.con.1",
+    "kind": "open",
+    "path": "stage1/cards/33-practice.md",
+    "target": null
+  },
+  {
+    "id": "34",
+    "slug": "34-practice",
+    "title": "optional vs magic number",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "I.12",
+    "kind": "open",
+    "path": "stage1/cards/34-practice.md",
+    "target": null
+  },
+  {
+    "id": "35",
+    "slug": "35-practice",
+    "title": "投影与 ranges",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "SL.con.1",
+    "kind": "open",
+    "path": "stage1/cards/35-practice.md",
+    "target": null
+  },
+  {
+    "id": "36",
+    "slug": "36-practice",
+    "title": "二分搜索边界",
+    "skills": "STL, Data Structures, Algorithms",
+    "rules": "P.9",
+    "kind": "open",
+    "path": "stage1/cards/36-practice.md",
+    "target": null
+  },
+  {
+    "id": "37",
+    "slug": "37-practice",
+    "title": "类型擦除回调",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "T.1, F.16",
+    "kind": "open",
+    "path": "stage1/cards/37-practice.md",
+    "target": null
+  },
+  {
+    "id": "38",
+    "slug": "38-practice",
+    "title": "模板错误可读性",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "T.10",
+    "kind": "open",
+    "path": "stage1/cards/38-practice.md",
+    "target": null
+  },
+  {
+    "id": "39",
+    "slug": "39-practice",
+    "title": "const 接口与线程安全",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "CP.2",
+    "kind": "open",
+    "path": "stage1/cards/39-practice.md",
+    "target": null
+  },
+  {
+    "id": "40",
+    "slug": "40-practice",
+    "title": "依赖注入与模拟对象",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "I.2",
+    "kind": "open",
+    "path": "stage1/cards/40-practice.md",
+    "target": null
+  },
+  {
+    "id": "41",
+    "slug": "41-practice",
+    "title": "配置读取边界",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "I.23, E.2",
+    "kind": "open",
+    "path": "stage1/cards/41-practice.md",
+    "target": null
+  },
+  {
+    "id": "42",
+    "slug": "42-practice",
+    "title": "错误通道契约",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "E.2, E.6",
+    "kind": "open",
+    "path": "stage1/cards/42-practice.md",
+    "target": null
+  },
+  {
+    "id": "43",
+    "slug": "43-practice",
+    "title": "多态组合与可测试性",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "I.2, C.120",
+    "kind": "open",
+    "path": "stage1/cards/43-practice.md",
+    "target": null
+  },
+  {
+    "id": "44",
+    "slug": "44-practice",
+    "title": "消息版本兼容",
+    "skills": "Interfaces, Templates, API Design",
+    "rules": "I.1",
+    "kind": "open",
+    "path": "stage1/cards/44-practice.md",
+    "target": null
+  },
+  {
+    "id": "45",
+    "slug": "45-practice",
+    "title": "jthread 与 stop_token",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.25, CP.26",
+    "kind": "open",
+    "path": "stage1/cards/45-practice.md",
+    "target": null
+  },
+  {
+    "id": "46",
+    "slug": "46-practice",
+    "title": "双锁转账死锁",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.20, CP.21",
+    "kind": "open",
+    "path": "stage1/cards/46-practice.md",
+    "target": null
+  },
+  {
+    "id": "47",
+    "slug": "47-practice",
+    "title": "condition_variable 谓词",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.42",
+    "kind": "open",
+    "path": "stage1/cards/47-practice.md",
+    "target": null
+  },
+  {
+    "id": "48",
+    "slug": "48-practice",
+    "title": "原子状态机",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.1",
+    "kind": "open",
+    "path": "stage1/cards/48-practice.md",
+    "target": null
+  },
+  {
+    "id": "49",
+    "slug": "49-practice",
+    "title": "False Sharing 性能测试",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "Per.1",
+    "kind": "open",
+    "path": "stage1/cards/49-practice.md",
+    "target": null
+  },
+  {
+    "id": "50",
+    "slug": "50-practice",
+    "title": "有界队列背压策略",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.1",
+    "kind": "open",
+    "path": "stage1/cards/50-practice.md",
+    "target": null
+  },
+  {
+    "id": "51",
+    "slug": "51-practice",
+    "title": "Future 超时与取消",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.4",
+    "kind": "open",
+    "path": "stage1/cards/51-practice.md",
+    "target": null
+  },
+  {
+    "id": "52",
+    "slug": "52-practice",
+    "title": "回调重入陷阱",
+    "skills": "Concurrency, Scheduling, Async",
+    "rules": "CP.22",
+    "kind": "open",
+    "path": "stage1/cards/52-practice.md",
+    "target": null
+  },
+  {
+    "id": "53",
+    "slug": "53-practice",
+    "title": "CMake 多库分层",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "SF.2",
+    "kind": "open",
+    "path": "stage1/cards/53-practice.md",
+    "target": null
+  },
+  {
+    "id": "54",
+    "slug": "54-practice",
+    "title": "动态库与符号可见性",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "I.27",
+    "kind": "open",
+    "path": "stage1/cards/54-practice.md",
+    "target": null
+  },
+  {
+    "id": "55",
+    "slug": "55-practice",
+    "title": "GDB 复现崩溃",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "P.9",
+    "kind": "open",
+    "path": "stage1/cards/55-practice.md",
+    "target": null
+  },
+  {
+    "id": "56",
+    "slug": "56-practice",
+    "title": "Perf 热点与误优化",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "Per.1",
+    "kind": "open",
+    "path": "stage1/cards/56-practice.md",
+    "target": null
+  },
+  {
+    "id": "57",
+    "slug": "57-practice",
+    "title": "时间戳乱序处理",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "I.1",
+    "kind": "open",
+    "path": "stage1/cards/57-practice.md",
+    "target": null
+  },
+  {
+    "id": "58",
+    "slug": "58-practice",
+    "title": "QoS 概念映射",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "CP.1",
+    "kind": "open",
+    "path": "stage1/cards/58-practice.md",
+    "target": null
+  },
+  {
+    "id": "59",
+    "slug": "59-practice",
+    "title": "Executor 回调组实验",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "CP.22",
+    "kind": "open",
+    "path": "stage1/cards/59-practice.md",
+    "target": null
+  },
+  {
+    "id": "60",
+    "slug": "60-practice",
+    "title": "CLI 日志与指标",
+    "skills": "Engineering, Diagnostics, Robotics",
+    "rules": "I.2, Per.1",
+    "kind": "open",
+    "path": "stage1/cards/60-practice.md",
+    "target": null
+  }
+]

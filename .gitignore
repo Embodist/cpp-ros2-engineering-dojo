@@ -1,0 +1,12 @@
+build/
+build-*/
+.dojo_progress.json
+__pycache__/
+*.pyc
+*.o
+*.so
+*.a
+.vscode/
+.idea/
+notes/*.log
+.claude 
