@@ -85,7 +85,7 @@ docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 ```
 
 - CI：`.github/workflows/docker-image.yml`，`docker/**`（Dockerfile、vendor 配置、构建脚本）变更时触发；PR 只构建不推送，`main`/`master` 推送 GHCR（主镜像 `latest`，VS Code 变体 `vscode`）。
-- GHCR 新包默认 private；首次推送后把 Package visibility 改为 Public。工作流会尝试自动改，失败时按提示手动设置。
+- GHCR package 已设为 **Public**，匿名 `docker manifest inspect` 已对 `latest` / `vscode` / `plus` 验证通过；外部无需 `docker login`。
 - CI 可选推 ACR：在仓库 Variables 设置 `ACR_ENABLED=true`，Secrets 设置 `ACR_USERNAME` / `ACR_PASSWORD`，即把同一 tag 同步到 `rapid7` 空间。
 - 最新构建记录见 [IMAGE.md](IMAGE.md)。
 

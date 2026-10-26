@@ -44,22 +44,20 @@
 ## 拉取
 
 ```bash
-# GHCR（当前 package 默认 private；在 GitHub Package settings 改为 Public 后可匿名拉取）
+# GHCR（public，已确认匿名可拉，无需 docker login）
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode
+docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 
-# 阿里云 ACR rapid7（已验证匿名 manifest 可读）
+# 阿里云 ACR rapid7（已验证匿名 manifest 可读；较旧构建）
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest
 docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode
-
-# plus 仅 CI 构建；GHCR 为最终来源，ACR 需开启 ACR_ENABLED 或手动同步
-docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 ```
 
-> GHCR 的 package 当前是 **private**。一次性改成 Public 的地址：
-> <https://github.com/orgs/music-research-content/packages/container/cpp-ros2-engineering-dojo/settings>
-> → Danger Zone → Change visibility → Public。改成 Public 后 `latest` / `vscode` / `plus` 三个 tag 都会匿名可拉。
+> GHCR package 已设为 **Public**。验证结果：匿名 `docker manifest inspect` 对 `latest` / `vscode` / `plus` 均成功，外部无需登录。
 >
-> 当前 `Embodist` token 只能读取 package 详情，PATCH visibility 返回 404；CI 的 `GITHUB_TOKEN` 也没有改可见性的权限。需要 org owner 账号在 UI 操作，或提供一个带 `write:packages` 的 PAT。
+> 设置入口（已完成，供以后参考）：
+> <https://github.com/orgs/music-research-content/packages/container/package/cpp-ros2-engineering-dojo/settings>
+> → Danger Zone → Change visibility → Public；如果 Public 被锁，先在 org settings → Code, planning, and automation → Packages 启用 Public package creation。
 >
-> ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取，但它们是较早构建（不含本轮 tmux 鼠标/200k 历史，也不含 uv）；plus 按约定只在 GHCR。最新 tmux/uv 版本在 GHCR，需把上面对应的 package 改为 Public 才能匿名拉取。
+> ACR rapid7 的 `latest` 与 `vscode` 也匿名可读，但它们是较早构建（不含本轮 tmux 鼠标/200k 历史，也不含 uv）；plus 按约定只在 GHCR。最新 tmux/uv 版本请用 GHCR。
