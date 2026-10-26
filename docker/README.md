@@ -117,7 +117,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 - 系统/网络/日志/数据：`lnav`、`iftop`、`nethogs`、`socat`、`netcat`、`tcpdump`、`rclone`、`aria2`、`mosh`、`sshfs`、`glances`、`visidata`、`pandoc`
 - C++/调试：`include-what-you-use`、`rr`、`pahole`、`gdb-dashboard`
 - 质量/安全：`pre-commit`、`semgrep`、`gitleaks`
-- eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`ripgrep-all`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`bloaty`、`mcfly`、`stern`
+- eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`ripgrep-all`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`mcfly`、`stern`（`bloaty` 上游无预编译产物，未内置）
 
 注意：
 

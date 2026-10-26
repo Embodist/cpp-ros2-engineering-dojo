@@ -37,7 +37,7 @@
 | 依赖 | `FROM ghcr.io/...:sha-<commit>`（同一 commit 的 base） |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus`（digest 由 CI 构建后更新） |
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:plus`（设置 `ACR_ENABLED` 后 CI 同步） |
-| 内容 | base + lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、iwyu/rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/rga/tailspin/bandwhich/csvlens/dasel/gron/bloaty/mcfly/stern |
+| 内容 | base + lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、iwyu/rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/rga/tailspin/bandwhich/csvlens/dasel/gron/mcfly/stern |
 | 说明 | 工具安装 best-effort；缺失项在 CI 日志中打印 `WARN`，不阻塞镜像 |
 
 ## 拉取
