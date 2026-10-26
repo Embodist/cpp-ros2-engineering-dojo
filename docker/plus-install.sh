@@ -70,24 +70,27 @@ if command -v eget >/dev/null 2>&1; then
     cantino/mcfly
     stern/stern
   )
+  # eget --asset 是子串过滤，可多次；^ 前缀表示反选。
   declare -A eget_assets=(
-    [atuinsh/atuin]='^atuin-x86_64-unknown-linux-gnu\.tar\.gz$'
-    [jdx/mise]='^mise-.*-linux-x64\.tar\.gz$'
-    [Wilfred/difftastic]='^difft-.*-x86_64-unknown-linux-gnu\.tar\.gz$'
-    [ouch-org/ouch]='^ouch-x86_64-unknown-linux-musl\.tar\.gz$'
-    [sharkdp/hexyl]='^hexyl-v.*-x86_64-unknown-linux-gnu\.tar\.gz$'
-    [zellij-org/zellij]='^zellij-x86_64-unknown-linux-musl\.tar\.gz$'
-    [wagoodman/dive]='^dive_.*_linux_amd64\.tar\.gz$'
-    [derailed/k9s]='^k9s_Linux_amd64\.tar\.gz$'
-    [phiresky/ripgrep-all]='^ripgrep_all-.*-x86_64-unknown-linux-musl\.tar\.gz$'
-    [imsnif/bandwhich]='^bandwhich-.*-x86_64-unknown-linux-gnu\.tar\.gz$'
-    [YS-L/csvlens]='^csvlens-x86_64-unknown-linux-gnu\.tar\.xz$'
-    [TomWright/dasel]='^dasel_linux_amd64$'
+    [atuinsh/atuin]='atuin-x86_64-unknown-linux-gnu.tar.gz'
+    [jdx/mise]='linux-x64.tar.gz'
+    [Wilfred/difftastic]='x86_64-unknown-linux-gnu.tar.gz'
+    [ouch-org/ouch]='ouch-x86_64-unknown-linux-musl.tar.gz ^sigstore'
+    [sharkdp/hexyl]='x86_64-unknown-linux-gnu.tar.gz'
+    [zellij-org/zellij]='zellij-x86_64-unknown-linux-musl.tar.gz'
+    [wagoodman/dive]='_linux_amd64.tar.gz'
+    [derailed/k9s]='k9s_Linux_amd64.tar.gz'
+    [phiresky/ripgrep-all]='x86_64-unknown-linux-musl.tar.gz'
+    [imsnif/bandwhich]='x86_64-unknown-linux-gnu.tar.gz'
+    [YS-L/csvlens]='csvlens-x86_64-unknown-linux-gnu.tar.xz ^sha256'
+    [TomWright/dasel]='dasel_linux_amd64 ^gz'
   )
   for repo in "${github_tools[@]}"; do
-    pat="${eget_assets[$repo]:-}"
+    filters="${eget_assets[$repo]:-}"
     eget_args=(--to /usr/local/bin)
-    [ -n "$pat" ] && eget_args+=(--asset "$pat")
+    for f in $filters; do
+      eget_args+=(--asset "$f")
+    done
     eget_args+=("$repo")
     if eget "${eget_args[@]}" >/dev/null 2>&1; then
       echo "OK eget $repo"
