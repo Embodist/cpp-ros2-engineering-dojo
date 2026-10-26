@@ -14,7 +14,7 @@
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest`（匿名 manifest 已验证） |
 | ACR digest | `sha256:2f3d9c6cc99ee72a53a2534d5d70c57a8710aa44dc6ebb2963f19799509d4ebb` |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` |
-| GHCR digest | `sha256:4164541bbbeba111c323b17dd60c039812a9c1d025c12e464013102d6d954a4d`（commit `f086c07`） |
+| GHCR digest | `sha256:d29dae1b7ab4de30ae43e773610b4de62f29f5437a2982ce7eba5e71bfd294bf`（commit `5be8430`，含 tmux 鼠标/200k 历史） |
 | 内容 | oh-my-zsh + autosuggestions/syntax-highlighting、oh-my-tmux、TPM、tmux-resurrect/continuum、direnv/entr/strace/tig/asciinema 等 |
 
 ## VS Code / code-server 变体
@@ -26,7 +26,7 @@
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode`（匿名 manifest 已验证） |
 | ACR digest | `sha256:3bfd1761b4871f33316d1a7c323ce18ec34ce444d3f0d0b7a07c771e102dfa4c`（不含 codelldb） |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode` |
-| GHCR digest | `sha256:f1d046377abfcc2fbb1436533a530dfcb08603cb7a483344c5b828b84af18cbd`（commit `f086c07`，含 codelldb） |
+| GHCR digest | `sha256:ff7de98691cecc5102795d554184366bf7ce4ebc395fdc771bcce58ba0dc0824`（commit `5be8430`，含 codelldb + tmux 鼠标/历史） |
 | 说明 | code-server 4.143.1 + 18 个扩展 + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
 
 ## Plus 版本（CI-only，依赖 base）
@@ -36,7 +36,7 @@
 | 构建方式 | 仅 GitHub Actions `build-plus` job；**不在本地构建** |
 | 依赖 | `FROM ghcr.io/...:sha-<commit>`（同一 commit 的 base） |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus` |
-| GHCR digest | `sha256:db2d49047bcd196d481951253eb41f4bda4edbb5a788a997f45d1123466992d9`（commit `f086c07`） |
+| GHCR digest | `sha256:a44fd522ea8ad51212f35d5ac70b8d6515b81073993dba00bcc951a7d959c5a6`（commit `5be8430`，含 uv/uvx + tmux 鼠标/历史） |
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:plus`（设置 `ACR_ENABLED` 后 CI 同步；当前未推送） |
 | 内容 | base + uv/uvx、lnav/iftop/nethogs/tcpdump/rclone/aria2/mosh/sshfs/glances/visidata、rr/pahole/gdb-dashboard、pre-commit/semgrep/gitleaks，以及 eget 安装的 atuin/mise/difftastic/broot/ouch/hexyl/zellij/dive/lazydocker/k9s/act/tailspin/bandwhich/csvlens/dasel/gron/mcfly/stern |
 | 说明 | 工具安装 best-effort；`rga`（资产匹配失败）、`iwyu`（Ubuntu 源没有）、`bloaty`（上游无预编译）当前缺失，其余已装 |
@@ -62,4 +62,4 @@ docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 >
 > 当前 `Embodist` token 只能读取 package 详情，PATCH visibility 返回 404；CI 的 `GITHUB_TOKEN` 也没有改可见性的权限。需要 org owner 账号在 UI 操作，或提供一个带 `write:packages` 的 PAT。
 >
-> ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取；plus 按约定只在 GHCR。
+> ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取，但它们是较早构建（不含本轮 tmux 鼠标/200k 历史，也不含 uv）；plus 按约定只在 GHCR。最新 tmux/uv 版本在 GHCR，需把上面对应的 package 改为 Public 才能匿名拉取。
