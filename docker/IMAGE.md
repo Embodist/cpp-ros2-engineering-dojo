@@ -56,5 +56,10 @@ docker pull registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vs
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus
 ```
 
-> GHCR 的 package visibility 需要仓库管理员在 Package settings 里改为 Public（CI 的 GITHUB_TOKEN 没有改可见性的权限）。ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取。
-> ACR 的 `vscode` 当前是 7.64GB 的 pre-codelldb 版本；带 codelldb 的最终版本已由 CI 推到 GHCR（digest `33f583ce…`），本地拉取后会同步更新 ACR。
+> GHCR 的 package 当前是 **private**。一次性改成 Public 的地址：
+> <https://github.com/orgs/music-research-content/packages/container/cpp-ros2-engineering-dojo/settings>
+> → Danger Zone → Change visibility → Public。改成 Public 后 `latest` / `vscode` / `plus` 三个 tag 都会匿名可拉。
+>
+> 当前 `Embodist` token 只能读取 package 详情，PATCH visibility 返回 404；CI 的 `GITHUB_TOKEN` 也没有改可见性的权限。需要 org owner 账号在 UI 操作，或提供一个带 `write:packages` 的 PAT。
+>
+> ACR rapid7 的 `latest` 与 `vscode` 均已确认可以匿名读取；plus 按约定只在 GHCR。
