@@ -117,7 +117,8 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 - 系统/网络/日志/数据：`lnav`、`iftop`、`nethogs`、`socat`、`netcat`、`tcpdump`、`rclone`、`aria2`、`mosh`、`sshfs`、`glances`、`visidata`、`pandoc`
 - C++/调试：`include-what-you-use`、`rr`、`pahole`、`gdb-dashboard`
 - 质量/安全：`pre-commit`、`semgrep`、`gitleaks`
-- eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`ripgrep-all`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`mcfly`、`stern`（`bloaty` 上游无预编译产物，未内置）
+- eget 预编译 CLI：`atuin`、`mise`、`difftastic`、`broot`、`ouch`、`hexyl`、`zellij`、`dive`、`lazydocker`、`k9s`、`act`、`tailspin`、`bandwhich`、`csvlens`、`dasel`、`gron`、`mcfly`、`stern`
+- 当前例外：`rga` 资产匹配失败、`iwyu` Ubuntu 源没有、`bloaty` 上游无预编译；其余工具已装。
 
 注意：
 
@@ -125,6 +126,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 - `dive` / `lazydocker` 需要挂载 `/var/run/docker.sock`；`k9s` 需要 kubeconfig。
 - `rr` / `perf` 等需要额外内核权限。
 - eget 工具和 pip 工具是 best-effort；某次 GitHub 网络失败只会在构建日志里出现 `WARN`，不会阻塞镜像。
+- plus 只在 CI 构建；当前 GHCR digest `sha256:db2d4904…`（commit `f086c07`）。ACR `:plus` 需要开启 `ACR_ENABLED` 或手动同步。
 
 ---
 
