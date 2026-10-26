@@ -12,7 +12,8 @@
 | 构建日期 | 2026-10-26 |
 | 冒烟测试 | `ALL CHECKS PASSED`（C++/ROS2/Neovim 82 插件/Mason/codelldb/CLI/Dojo/colcon） |
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:latest` |
-| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` |
+| ACR digest | `sha256:73434ad51dfb2885143d34a5dc5ba252dadfc82984ee0ba4c9e988df7f65e557` |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest`（CI 构建） |
 
 ## VS Code / code-server 变体
 
@@ -20,8 +21,8 @@
 | :--- | :--- |
 | 本地 tag | `cpp-ros2-dojo:vscode` |
 | 基础镜像 | `debian:13.4` |
-| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode` |
-| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode` |
+| ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode`（构建后推送） |
+| GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode`（CI 构建） |
 | 说明 | code-server + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
 
 ## 拉取
