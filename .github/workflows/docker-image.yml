@@ -134,9 +134,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    concurrency:
-      group: docker-image-plus-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
 
