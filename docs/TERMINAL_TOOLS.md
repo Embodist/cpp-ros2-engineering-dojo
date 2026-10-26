@@ -73,6 +73,7 @@
   - `tmux-continuum` 每 15 分钟自动保存，tmux 启动时恢复
   - 持久化目录：`~/.tmux/resurrect`（compose 已挂 named volume）
 - 快捷命令：`t` = `tmux new -A -s main`（有则 attach，无则创建）
+- tmux 默认鼠标滚动、`history-limit 200000`、`history-file` 持久化，`allow-passthrough` 支持图片预览
 
 ### C++ / ROS 2
 - 工具链：`gcc`/`clang`/`clangd`/`clang-tidy`/`clang-format`/`cmake`/`ninja`/`ccache`

@@ -232,6 +232,7 @@ tldr tar
 - **oh-my-tmux（gpakosz/.tmux）** + **TPM**
 - tmux 插件：`tmux-resurrect`（保存/恢复 session/window/pane）、`tmux-continuum`（每 15 分钟自动保存、启动时恢复）、`tmux-sensible`、`tmux-fzf`
 - `t` = `tmux new -A -s main`（有则 attach，无则创建）
+- **鼠标默认开启**：滚轮直接进入 copy-mode 滚动；`history-limit 200000`，`history-file ~/.tmux_history` 让历史跨重启保留；`allow-passthrough` 支持 yazi 图片预览
 - session 状态持久化到 `~/.tmux/resurrect`，compose 已挂 named volume，重建容器不丢
 - `direnv` 已接入 zsh，进入带 `.envrc` 的目录自动加载环境
 

@@ -437,6 +437,19 @@ RUN set -eux; \
         "set -g @continuum-save-interval '15'" \
         "set -g @resurrect-capture-pane-contents 'on'" \
         "run '~/.tmux/plugins/tpm/tpm'" \
+        "set -g default-terminal 'tmux-256color'" \
+        "set -as terminal-features ',xterm*:RGB'" \
+        "set -g mouse on" \
+        "set -g history-limit 200000" \
+        "set -g history-file ~/.tmux_history" \
+        "set -g allow-passthrough on" \
+        "set -g set-clipboard on" \
+        "set -g focus-events on" \
+        "set -g escape-time 0" \
+        "set -g base-index 1" \
+        "setw -g pane-base-index 1" \
+        "set -g renumber-windows on" \
+        "setw -g mode-keys vi" \
         >> /home/dev/.tmux.conf.local; \
     fi; \
     chown -R "${DEV_UID}:${DEV_GID}" /home/dev/.oh-my-zsh /home/dev/.tmux /home/dev/.tmux.conf.local /home/dev/.zshrc; \
