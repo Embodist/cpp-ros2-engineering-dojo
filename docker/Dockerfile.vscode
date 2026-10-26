@@ -403,6 +403,14 @@ RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
       rm -rf /home/user/.cache /home/user/.local/state/nvim/log /tmp/*; \
     fi
 
+# codelldb 单独补装（大包，给更长等待时间）
+COPY mason-codelldb.lua /opt/dojo/mason-codelldb.lua
+RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
+      timeout 2400 runuser -u user -- env HOME=/home/user \
+        nvim --headless -u NONE "+luafile /opt/dojo/mason-codelldb.lua" || true; \
+      rm -rf /home/user/.cache /home/user/.local/state/nvim/log /tmp/*; \
+    fi
+
 # ── 运行时 ──────────────────────────────────────────────────────────────────
 ENV LANG=zh_CN.UTF-8 \
     LANGUAGE=zh_CN:zh \
