@@ -64,6 +64,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 - **Stage 1（训练题）**：`stage1/cards/` 共有 **60 个独立任务卡**，按语言基础 / 所有权 / STL / 接口 / 并发 / 工程排障六大类组织。其中 **12 道核心题有 C++20 代码骨架和本地可执行测试**，其余是要求自己新建文件、做实验、写解释与性能报告的任务。
 - **Stage 2（组件实战）**：`stage2/components/` 共有 **10 份需求规格**，提供接口边界、验收用例、故障注入、设计评审问题和交付物，不提供答案。`stage2/ros2_ws/` 附最小 ROS2 C++ 包骨架；本机无 ROS2 时不影响 Stage 1 构建。
 - **源码精读**：`source_reading/` 给出 LevelDB / STL / ROS2 `rclcpp` 阅读路径与实验证据要求；读源码不等于读完文件，必须落到可验证的调用链和不变量。
+- **文档阅读与进阶**：`docs/READING_AND_PROGRESSION.md` 给出权威文档分层、cppreference 阅读 SOP、分阶段材料清单与练习路径。
 - **规范/评估/训练法**：`docs/` 有团队风格规范、Core Guidelines 对照、8 周安排、评分标准、AI 陪练词、调试操作手册。
 
 快速查找全部题目：[60 题导航](stage1/TASK_INDEX.md)；第二阶段：[组件导航](stage2/README.md)。
