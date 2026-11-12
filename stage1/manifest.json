@@ -598,5 +598,55 @@
     "kind": "open",
     "path": "stage1/cards/60-practice.md",
     "target": null
+  },
+  {
+    "id": "E01",
+    "slug": "E01-templates-concepts",
+    "title": "变参模板、SFINAE 与 concepts",
+    "skills": "Templates, Concepts, API Design",
+    "rules": "T/Con（编号以官方页面为准）",
+    "kind": "open",
+    "path": "stage1/extensions/E01-templates-concepts.md",
+    "target": null
+  },
+  {
+    "id": "E02",
+    "slug": "E02-stl-internals",
+    "title": "STL 深水区：list、rb_tree、traits 与 EBO",
+    "skills": "STL, Data Structures, Source Reading",
+    "rules": "SL/T（编号以官方页面为准）",
+    "kind": "open",
+    "path": "stage1/extensions/E02-stl-internals.md",
+    "target": null
+  },
+  {
+    "id": "E03",
+    "slug": "E03-ranges-expected",
+    "title": "C++20 ranges 与 expected：传感器流水线",
+    "skills": "C++20, STL, Error Handling",
+    "rules": "SL/ES/E（编号以官方页面为准）",
+    "kind": "open",
+    "path": "stage1/extensions/E03-ranges-expected.md",
+    "target": null
+  },
+  {
+    "id": "E04",
+    "slug": "E04-memory-model",
+    "title": "并发内存模型：happens-before 与 memory_order",
+    "skills": "Concurrency, Memory Model",
+    "rules": "CP（编号以官方页面为准）",
+    "kind": "open",
+    "path": "stage1/extensions/E04-memory-model.md",
+    "target": null
+  },
+  {
+    "id": "E05",
+    "slug": "E05-testing-ci",
+    "title": "测试、CI 与包管理",
+    "skills": "Engineering, Testing, Build",
+    "rules": "SF/T（编号以官方页面为准）",
+    "kind": "open",
+    "path": "stage1/extensions/E05-testing-ci.md",
+    "target": null
   }
 ]

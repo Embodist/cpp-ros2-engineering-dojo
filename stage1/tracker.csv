@@ -59,3 +59,8 @@ ID,题目,类别,状态(TODO/WIP/PASS),个人得分/20,完成日期,笔记
 58,QoS 概念映射,open,TODO,,,
 59,Executor 回调组实验,open,TODO,,,
 60,CLI 日志与指标,open,TODO,,,
+E01,变参模板、SFINAE 与 concepts,open,TODO,,,
+E02,STL 深水区：list、rb_tree、traits 与 EBO,open,TODO,,,
+E03,C++20 ranges 与 expected：传感器流水线,open,TODO,,,
+E04,并发内存模型：happens-before 与 memory_order,open,TODO,,,
+E05,测试、CI 与包管理,open,TODO,,,

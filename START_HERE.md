@@ -1,5 +1,7 @@
 # 开始训练：先跑一题，不要先看教程 3 小时
 
+> 更完整的上手手册（3 天快速上手 + 8 周路线 + 工具链 + 故障排查）见 [docs/ONBOARDING.md](docs/ONBOARDING.md)。
+
 ## 0. 环境
 - 推荐 Ubuntu 24.04 / WSL2 Ubuntu / 原生 Linux。Windows 可通过 WSL2 使用。
 - CMake >= 3.20、GCC >= 11 / Clang >= 14、Python3。使用 C++20；ROS2 版本以所安装发行版实际支持为准。
@@ -48,6 +50,22 @@ python3 tools/train.py test 03
 python3 tools/train.py test 03 --sanitize asan
 python3 tools/train.py test 08 --sanitize tsan
 python3 tools/train.py report
+python3 tools/train.py show E01
+python3 tools/train.py lab E01
 ```
 
 详情：`python3 tools/train.py --help`。TSan 在部分虚拟化/容器环境可能无法启动；失败要分清工具环境和代码问题。
+
+## 6. 可选扩展（E01–E05）
+
+核心 60 题之外，按覆盖缺口选修；不改变主线：
+
+| ID | 主题 | 前置 |
+|---|---|---|
+| E01 | 变参模板、SFINAE 与 concepts | 03、38 |
+| E02 | STL 深水区：list、rb_tree、traits、EBO | 03、29–36 |
+| E03 | C++20 ranges 与 expected | 03、07、35 |
+| E04 | 并发内存模型 | 08–12、45–52 |
+| E05 | 测试、CI 与包管理 | 03 或 08 |
+
+扩展说明和验收方式见 [stage1/extensions/README.md](stage1/extensions/README.md)，覆盖强度见 [docs/CORE_GUIDELINES_MAP.md](docs/CORE_GUIDELINES_MAP.md)。

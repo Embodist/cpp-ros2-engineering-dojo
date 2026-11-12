@@ -1,6 +1,6 @@
-# 60 题导航 / Task Navigator
+# 60 题核心导航 + 5 扩展 / Task Navigator
 
-**01–12** 有头文件 TODO + 本地自动测试；**13–60** 是实验题，要自建实现和证据。
+**01–12** 有头文件 TODO + 本地自动测试；**13–60** 是实验题，要自建实现和证据。**E01–E05** 是可选扩展，用于补核心题未系统覆盖的缺口。
 
 | ID | 类别 | 题目 | 规范映射 |
 |---|---|---|---|
@@ -64,3 +64,15 @@
 | 58 | 开放实验 | [QoS 概念映射](cards/58-practice.md) | CP.1 |
 | 59 | 开放实验 | [Executor 回调组实验](cards/59-practice.md) | CP.22 |
 | 60 | 开放实验 | [CLI 日志与指标](cards/60-practice.md) | I.2, Per.1 |
+
+## 扩展任务（可选，不计入 60 题核心）
+
+| ID | 类别 | 题目 | 规范映射 |
+|---|---|---|---|
+| E01 | 扩展实验 | [变参模板、SFINAE 与 concepts](extensions/E01-templates-concepts.md) | T/Con（编号以官方页面为准） |
+| E02 | 扩展实验 | [STL 深水区：list、rb_tree、traits 与 EBO](extensions/E02-stl-internals.md) | SL/T（编号以官方页面为准） |
+| E03 | 扩展实验 | [C++20 ranges 与 expected：传感器流水线](extensions/E03-ranges-expected.md) | SL/ES/E（编号以官方页面为准） |
+| E04 | 扩展实验 | [并发内存模型：happens-before 与 memory_order](extensions/E04-memory-model.md) | CP（编号以官方页面为准） |
+| E05 | 扩展实验 | [测试、CI 与包管理](extensions/E05-testing-ci.md) | SF/T（编号以官方页面为准） |
+
+扩展任务与开放题一样，需要 `stage1/labs/<ID>/README.md` 和 `evidence.md`；用 `python3 tools/train.py show E01`、`lab E01`、`done E01 --manual`。扩展说明见 [extensions/README.md](extensions/README.md)，覆盖强度见 [Core Guidelines 覆盖矩阵](../docs/CORE_GUIDELINES_MAP.md)。

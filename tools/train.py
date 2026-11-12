@@ -26,7 +26,8 @@ def save_state(data):
     STATE.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 
 def get(item):
-    key=item.strip().split('-')[0].zfill(2)
+    key=item.strip().split('-')[0]
+    key=key.upper() if key[:1].lower()=='e' else key.zfill(2)
     if key not in INDEX: raise SystemExit(f"未知题目 ID: {item}；执行 python3 tools/train.py list")
     return INDEX[key]
 
@@ -76,7 +77,7 @@ def create_lab(item):
 def main():
     parser=argparse.ArgumentParser(description='C++ -> ROS2 executable practice and progress tracker')
     sub=parser.add_subparsers(dest='command',required=True)
-    sub.add_parser('list',help='list 60 exercises')
+    sub.add_parser('list',help='list exercises')
     sub.add_parser('status',help='local progress')
     sub.add_parser('report',help='Markdown progress report')
     p=sub.add_parser('show',help='print task card');p.add_argument('id')
@@ -114,13 +115,19 @@ def main():
         return 0
     completed=sum(1 for s in state.values() if s.get('status')=='PASS')
     if args.command=='status':
-        print(f'已完成 {completed}/60（12 个自动测试题 + 48 个手动证据题）')
+        total=len(MANIFEST)
+        core=sum(1 for i in MANIFEST if i['id'].isdigit())
+        ext=total-core
+        scaffold=sum(1 for i in MANIFEST if i['kind']=='scaffold')
+        open_tasks=sum(1 for i in MANIFEST if i['kind']=='open')
+        print(f'已完成 {completed}/{total}（核心 {core} + 扩展 {ext}；{scaffold} 个自动测试题 + {open_tasks} 个手动证据题）')
         for i in MANIFEST:
             v=state.get(i['id'],{}).get('status','TODO')
             print(f"{i['id']} {v:<4} {i['title']}")
         return 0
     if args.command=='report':
-        lines=['# C++ Dojo 本地学习报告','','已通过：'+str(completed)+'/60','','|ID|状态|题目|','|---|---|---|']
+        total=len(MANIFEST)
+        lines=['# C++ Dojo 本地学习报告','','已通过：'+str(completed)+'/'+str(total),'','|ID|状态|题目|','|---|---|---|']
         for i in MANIFEST:lines.append('|'+i['id']+'|'+state.get(i['id'],{}).get('status','TODO')+'|'+i['title']+'|')
         (ROOT/'training_report.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
         print('Created training_report.md')

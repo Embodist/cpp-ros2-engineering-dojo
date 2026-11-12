@@ -1,9 +1,9 @@
 # 文档阅读与进阶：权威资料、阅读 SOP、练习路径
 
 > 目标：把“查文档”变成可重复的工程动作，把“进阶”变成可验收的练习。
-> 配套文档：[外部参考](REFERENCES.md)、[8 周路线](ROADMAP_8_WEEKS.md)、[调试工作流](DEBUGGING.md)、[Core Guidelines 对照](CORE_GUIDELINES_MAP.md)、[源码精读](../source_reading/README.md)。
+> 配套文档：[上手手册](ONBOARDING.md)、[外部参考](REFERENCES.md)、[8 周路线](ROADMAP_8_WEEKS.md)、[调试工作流](DEBUGGING.md)、[Core Guidelines 覆盖矩阵](CORE_GUIDELINES_MAP.md)、[源码精读](../source_reading/README.md)。
 
-**最短路径**：先读第 2 节的五问卡，立刻拿一道题用一遍；卡住时按第 4 节找材料；做完按第 5 节判断是否升级。
+**最短路径**：第一次使用先看 [上手手册](ONBOARDING.md) 的 3 天快速上手；然后读第 2 节的五问卡，立刻拿一道题用一遍；卡住时按第 4 节找材料；做完按第 5 节判断是否升级。
 
 ## 1. 权威文档分层：先选对资料，再开始读
 
@@ -133,7 +133,17 @@ cppreference 是检索型手册，不是教程。固定按下面步骤读：
 - [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html)、[UndefinedBehaviorSanitizer](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html)、[ThreadSanitizer](https://clang.llvm.org/docs/ThreadSanitizer.html)
 - [clang-tidy](https://clang.llvm.org/extra/clang-tidy/)
 
-训练题索引：[60 题导航](../stage1/TASK_INDEX.md)；组件需求：[Stage 2](../stage2/README.md)。
+**可选扩展（按缺口选修）**：
+
+| ID | 主题 | 补强 | 前置 |
+|---|---|---|---|
+| E01 | 变参模板、SFINAE 与 concepts | T / Con | 03、38 |
+| E02 | STL 深水区：list、rb_tree、traits、EBO | SL / T | 03、29–36 |
+| E03 | C++20 ranges 与 expected | SL / ES / E | 03、07、35 |
+| E04 | 并发内存模型：happens-before 与 memory_order | CP | 08–12、45–52 |
+| E05 | 测试、CI 与包管理 | SF / T | 03 或 08 |
+
+训练题索引：[60 题核心 + 5 扩展](../stage1/TASK_INDEX.md)；扩展说明：[extensions/README](../stage1/extensions/README.md)；组件需求：[Stage 2](../stage2/README.md)。
 
 ## 5. 进阶阶梯：每级都有退出门槛
 
@@ -154,19 +164,19 @@ cppreference 是检索型手册，不是教程。固定按下面步骤读：
 ### Level 2：STL、接口与泛型（第 2–3 周）
 
 - **阅读**：容器、迭代器、算法、模板、concepts；手写 MiniVector 后对照 STL（03）。
-- **练习**：29–44 中选 4 道；记录失效规则和异常保证。
+- **练习**：29–44 中选 4 道；记录失效规则和异常保证。可选：E01（模板/concepts）、E02（STL 深水区）。
 - **退出门槛**：能预测修改容器操作对迭代器/引用的影响。
 
 ### Level 3：并发与性能（第 3–4 周）
 
 - **阅读**：线程、锁、条件变量、原子、内存序；TSan 与基准方法。
-- **练习**：08–12 + 45–52 中选 4 道；ThreadPool 对照 ROS 2 Executor。
+- **练习**：08–12 + 45–52 中选 4 道；ThreadPool 对照 ROS 2 Executor。可选：E04（内存模型）、E03（ranges/expected）。
 - **退出门槛**：能解释 close/shutdown 的所有竞争，给出可重复的性能数据。
 
 ### Level 4：工程与源码（第 4 周起）
 
 - **阅读**：多 target CMake、clang-tidy、LevelDB 一条调用链、相关设计提案。
-- **练习**：11 + 53–60 中选 4 道（58–59 可并入 L5）；完成一次失败注入。
+- **练习**：11 + 53–60 中选 4 道（58–59 可并入 L5）；完成一次失败注入。可选：E05（测试/CI/包管理）。
 - **退出门槛**：能从源码定位行为、预测修改影响、用测试证明。
 
 ### Level 5：ROS 2 工程（第 5–8 周）

@@ -28,6 +28,8 @@ ctest --test-dir build -R '^dojo_01_' --output-on-failure
 
 `ctest` 全量最初会失败，这是**预期**；只有 `dojo_smoke` 应在初始状态通过。不要把空骨架视为完成或误以为仓库损坏。
 
+第一次使用建议按 [docs/ONBOARDING.md](docs/ONBOARDING.md) 的 3 天快速上手执行；完整阅读方法见 [docs/READING_AND_PROGRESSION.md](docs/READING_AND_PROGRESSION.md)。
+
 ## 统一开发容器（推荐）
 
 仓库自带 Docker 环境：**C++20 + ROS 2 Jazzy + Neovim(LazyVim) + Pi/Claude Code/MCP/SearXNG**，以及 `rg`/`fd`/`bat`/`eza`/`jq`/`jnv`/`jless`/`json-tui`/`yazi`/`btop` 等现代 CLI/TUI。
@@ -61,13 +63,15 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 
 ## 两阶段结构
 
-- **Stage 1（训练题）**：`stage1/cards/` 共有 **60 个独立任务卡**，按语言基础 / 所有权 / STL / 接口 / 并发 / 工程排障六大类组织。其中 **12 道核心题有 C++20 代码骨架和本地可执行测试**，其余是要求自己新建文件、做实验、写解释与性能报告的任务。
+- **Stage 1（训练题）**：`stage1/cards/` 共有 **60 个核心任务卡**，按语言基础 / 所有权 / STL / 接口 / 并发 / 工程排障六大类组织；另有 `stage1/extensions/` 的 **5 个可选扩展任务**（模板/concepts、STL 深水区、C++20、内存模型、测试/CI）。其中 **12 道核心题有 C++20 代码骨架和本地可执行测试**，其余是要求自己新建文件、做实验、写解释与性能报告的任务。
 - **Stage 2（组件实战）**：`stage2/components/` 共有 **10 份需求规格**，提供接口边界、验收用例、故障注入、设计评审问题和交付物，不提供答案。`stage2/ros2_ws/` 附最小 ROS2 C++ 包骨架；本机无 ROS2 时不影响 Stage 1 构建。
 - **源码精读**：`source_reading/` 给出 LevelDB / STL / ROS2 `rclcpp` 阅读路径与实验证据要求；读源码不等于读完文件，必须落到可验证的调用链和不变量。
+- **上手手册**：`docs/ONBOARDING.md` 给出 3 天快速上手、8 周路线、每题工作流、工具链速查和故障排查。
 - **文档阅读与进阶**：`docs/READING_AND_PROGRESSION.md` 给出权威文档分层、cppreference 阅读 SOP、分阶段材料清单与练习路径。
-- **规范/评估/训练法**：`docs/` 有团队风格规范、Core Guidelines 对照、8 周安排、评分标准、AI 陪练词、调试操作手册。
+- **覆盖矩阵**：`docs/CORE_GUIDELINES_MAP.md` 按强/中/弱/未覆盖列出 Core Guidelines 分区，并标出 5 个扩展任务的补强位置。
+- **规范/评估/训练法**：`docs/` 有团队风格规范、8 周安排、评分标准、AI 陪练词、调试操作手册。
 
-快速查找全部题目：[60 题导航](stage1/TASK_INDEX.md)；第二阶段：[组件导航](stage2/README.md)。
+快速查找全部题目：[60 题核心 + 5 扩展](stage1/TASK_INDEX.md)；扩展说明：[stage1/extensions/README.md](stage1/extensions/README.md)；第二阶段：[组件导航](stage2/README.md)。
 
 ## 推荐完成顺序
 
@@ -75,6 +79,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 2. **并发与工程**：08、09、10、11、12；用 ASan/UBSan/TSan 检查（TSan 另行构建，不能与 ASan 混用）。
 3. **源码对照**：手写 MiniVector 后对照库实现；写并发队列后追 ROS2 Executor；LevelDB 选一条 Put/Get 路径。
 4. **组件实战**：先 Stage 2 的 C01～C04，再 ROS2 C06、C07、C08。对 ROS2 更重要的路径优先。
+5. **按缺口补强**：从 [E01–E05](stage1/extensions/README.md) 选 1–2 个扩展，优先补模板/concepts、STL 深水区、C++20 ranges/expected、内存模型或测试/CI。
 
 ## 验收门槛
 

@@ -1,6 +1,6 @@
 # 8 周训练路径（不是速成保证）
 
-你已经有 Linux/Python/C++ 经验，C++ 一段时间不用后恢复手感：不建议把第一阶段拖到几个月。每阶段的文档阅读材料、五问卡和练习步骤见 [READING_AND_PROGRESSION.md](READING_AND_PROGRESSION.md)。
+你已经有 Linux/Python/C++ 经验，C++ 一段时间不用后恢复手感：不建议把第一阶段拖到几个月。每阶段的文档阅读材料、五问卡和练习步骤见 [READING_AND_PROGRESSION.md](READING_AND_PROGRESSION.md)；3 天快速上手和工具链见 [ONBOARDING.md](ONBOARDING.md)。
 
 | 周 | 重点 | 核心可执行训练 | 实战/源码 | 退出门槛 |
 |---|---|---|---|---|
@@ -12,6 +12,18 @@
 | 6 | ROS2 基础 | C06 | publisher/subscriber/参数/Launch | ROS2 环境中 3 节点流水线跑通 |
 | 7 | ROS2 并发与诊断 | C07、C08 | Executor + QoS/时间戳/TF2 | 给出可重复实验数据，不只背 API |
 | 8 | 融合项目与作品集 | C09（可选 C10 LevelDB） | GitHub README、架构图、性能日志 | 无 AI 从空骨架完成一个小功能 |
+
+### 可选扩展（不占主线，按缺口选修）
+
+| 扩展 | 补强 | 建议插入 |
+|---|---|---|
+| E01 变参模板、SFINAE 与 concepts | T / Con | 第 2 周，完成 38 后 |
+| E02 STL 深水区：list、rb_tree、traits、EBO | SL / T / 源码 | 第 2–4 周，完成 03、29–36 后 |
+| E03 C++20 ranges 与 expected | SL / ES / E | 第 3–4 周，完成 35 后 |
+| E04 并发内存模型 | CP | 第 3–4 周，完成 08–12、45–52 后 |
+| E05 测试、CI 与包管理 | SF / 工程 | 第 4–5 周，完成 03 或 08 后 |
+
+扩展说明见 [stage1/extensions/README.md](../stage1/extensions/README.md)，覆盖矩阵见 [CORE_GUIDELINES_MAP.md](CORE_GUIDELINES_MAP.md)。
 
 ### 时间安排（每天 4～6 小时）
 - 核心实现 90 分钟；测试+调试 60～90 分钟；源码阅读 45～60 分钟；工程整合 60～120 分钟。

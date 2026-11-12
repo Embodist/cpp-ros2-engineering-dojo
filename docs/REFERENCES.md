@@ -14,5 +14,9 @@
 10. [Compiler Explorer](https://godbolt.org/) — 对比 GCC/Clang 的实现差异、代码生成和标准特性支持。
 11. [WG21 提案](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/) — 特性设计动机；进阶阅读材料，不作为第一遍学习入口。
 12. [ROS 2 REPs](https://ros.org/reps/rep-0000.html) — ROS 2 设计约定和接口规范。
+13. [GoogleTest](https://google.github.io/googletest/) — E05 可选的生产级测试框架。
+14. [Catch2](https://github.com/catchorg/Catch2) — E05 可选的轻量测试框架。
+15. [Conan](https://docs.conan.io/) / [vcpkg](https://vcpkg.io/) — E05 可选依赖管理；也可用 FetchContent 固定 tag/commit。
+16. [GitHub Actions](https://docs.github.com/en/actions) — E05 可选 CI；ROS2 包还需结合 colcon/ament_cmake。
 
-**注意**：cppreference 是社区维护的事实参考，不是规范原文；语言争议以 ISO C++ 草案和正式标准为准。这些外部网站/源码版本随时间变化，不保证文件路径永久不变。LevelDB 跟踪具体 `Put/Get` 链路时应记录自己检出的 commit SHA；ROS 2 文档应记录发行版。
+**注意**：cppreference 是社区维护的事实参考，不是规范原文；语言争议以 ISO C++ 草案和正式标准为准。这些外部网站/源码版本随时间变化，不保证文件路径永久不变。LevelDB 跟踪具体 `Put/Get` 链路时应记录自己检出的 commit SHA；ROS 2 文档应记录发行版。E05 引入的第三方测试/依赖工具默认不影响核心 60 题的离线构建。
