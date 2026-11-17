@@ -40,13 +40,92 @@
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
+    },
+    {
+      "name": "gtest",
+      "displayName": "GoogleTest Debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-gtest",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON"
+      }
+    },
+    {
+      "name": "gtest-asan",
+      "displayName": "GoogleTest ASan/UBSan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-gtest-asan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON",
+        "DOJO_SANITIZE_ADDRESS": "ON"
+      }
+    },
+    {
+      "name": "gtest-tsan",
+      "displayName": "GoogleTest TSan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-gtest-tsan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON",
+        "DOJO_SANITIZE_THREAD": "ON"
+      }
+    },
+    {
+      "name": "projects",
+      "displayName": "Ported projects Debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-projects",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON",
+        "DOJO_BUILD_PROJECTS": "ON"
+      }
+    },
+    {
+      "name": "projects-asan",
+      "displayName": "Ported projects ASan/UBSan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-projects-asan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON",
+        "DOJO_BUILD_PROJECTS": "ON",
+        "DOJO_SANITIZE_ADDRESS": "ON"
+      }
+    },
+    {
+      "name": "projects-tsan",
+      "displayName": "Ported projects TSan",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-projects-tsan",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "DOJO_USE_GTEST": "ON",
+        "DOJO_BUILD_PROJECTS": "ON",
+        "DOJO_SANITIZE_THREAD": "ON"
+      }
     }
   ],
   "buildPresets": [
     {"name": "debug", "configurePreset": "debug"},
     {"name": "asan", "configurePreset": "asan"},
     {"name": "tsan", "configurePreset": "tsan"},
-    {"name": "release", "configurePreset": "release"}
+    {"name": "release", "configurePreset": "release"},
+    {"name": "gtest", "configurePreset": "gtest"},
+    {"name": "gtest-asan", "configurePreset": "gtest-asan"},
+    {"name": "gtest-tsan", "configurePreset": "gtest-tsan"},
+    {"name": "projects", "configurePreset": "projects"},
+    {"name": "projects-asan", "configurePreset": "projects-asan"},
+    {"name": "projects-tsan", "configurePreset": "projects-tsan"}
   ],
   "testPresets": [
     {
@@ -62,6 +141,36 @@
     {
       "name": "tsan",
       "configurePreset": "tsan",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "gtest",
+      "configurePreset": "gtest",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "gtest-asan",
+      "configurePreset": "gtest-asan",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "gtest-tsan",
+      "configurePreset": "gtest-tsan",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "projects",
+      "configurePreset": "projects",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "projects-asan",
+      "configurePreset": "projects-asan",
+      "output": {"outputOnFailure": true}
+    },
+    {
+      "name": "projects-tsan",
+      "configurePreset": "projects-tsan",
       "output": {"outputOnFailure": true}
     }
   ]

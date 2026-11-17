@@ -9,5 +9,34 @@ jobs:
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
       - name: Build scaffolds
         run: cmake --build build --parallel 2
-      - name: Smoke check (student tests intentionally FAIL until solved)
+      - name: Smoke check
         run: ctest --test-dir build -R '^dojo_smoke$' --output-on-failure
+
+  gtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: plain
+            build_dir: build-gtest
+            sanitizer: ""
+          - name: asan
+            build_dir: build-gtest-asan
+            sanitizer: "-DDOJO_SANITIZE_ADDRESS=ON"
+          - name: tsan
+            build_dir: build-gtest-tsan
+            sanitizer: "-DDOJO_SANITIZE_THREAD=ON"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: >
+          cmake -S . -B ${{ matrix.build_dir }}
+          -DCMAKE_BUILD_TYPE=Debug
+          -DDOJO_USE_GTEST=ON
+          ${{ matrix.sanitizer }}
+      - name: Build
+        run: cmake --build ${{ matrix.build_dir }} --parallel 2
+      - name: Run GoogleTest suite
+        run: ctest --test-dir ${{ matrix.build_dir }} -L gtest --output-on-failure

@@ -76,3 +76,9 @@
 | E05 | 扩展实验 | [测试、CI 与包管理](extensions/E05-testing-ci.md) | SF/T（编号以官方页面为准） |
 
 扩展任务与开放题一样，需要 `stage1/labs/<ID>/README.md` 和 `evidence.md`；用 `python3 tools/train.py show E01`、`lab E01`、`done E01 --manual`。扩展说明见 [extensions/README.md](extensions/README.md)，覆盖强度见 [Core Guidelines 覆盖矩阵](../docs/CORE_GUIDELINES_MAP.md)。
+
+## 项目线（可选 capstone）
+
+60 题是单项技术动作；p01–p13 是已同步到 Stage 1 的完整系统项目。映射、先修题、P0 子集和 8 周插入方式见 [PROJECT_TRACK.md](PROJECT_TRACK.md)。
+
+最小闭环：**p01 v1→v2/v3 → p02a → p05 → p08 → p09 → p10 → p11 → p12 → p13**。项目代码在 `stage1/projects/pXX` 写，参考实现在 `stage1/projects/reference/pXX`；证据写到 `notes/projects/pXX.md`。参考测试：`python3 tools/train.py project p01 --test`；全量 `ctest --test-dir build-projects -L projects`。

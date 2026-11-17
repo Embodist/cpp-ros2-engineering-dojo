@@ -19,11 +19,43 @@ private:
     int value_ = -1;
     Closer closer_;
 };
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-inline UniqueHandle::UniqueHandle(UniqueHandle&& other) noexcept : value_(-1) { (void)other; /* TODO */ }
-inline UniqueHandle& UniqueHandle::operator=(UniqueHandle&& other) noexcept { (void)other; return *this; /* TODO */ }
-inline UniqueHandle::~UniqueHandle() noexcept { /* TODO */ }
-inline int UniqueHandle::release() noexcept { return -1; /* TODO */ }
-inline void UniqueHandle::reset(int value) noexcept { (void)value; /* TODO */ }
+inline UniqueHandle::UniqueHandle(UniqueHandle&& other) noexcept
+    : value_(other.value_), closer_(std::move(other.closer_)) {
+    other.value_ = -1;
+}
+
+inline UniqueHandle& UniqueHandle::operator=(UniqueHandle&& other) noexcept {
+    if (this != &other) {
+        if (value_ >= 0 && closer_) {
+            closer_(value_);
+        }
+        value_ = other.value_;
+        closer_ = std::move(other.closer_);
+        other.value_ = -1;
+    }
+    return *this;
+}
+
+inline UniqueHandle::~UniqueHandle() noexcept {
+    if (value_ >= 0 && closer_) {
+        closer_(value_);
+    }
+}
+
+inline int UniqueHandle::release() noexcept {
+    const int old = value_;
+    value_ = -1;
+    return old;
+}
+
+inline void UniqueHandle::reset(int value) noexcept {
+    if (value == value_) {
+        return;
+    }
+    if (value_ >= 0 && closer_) {
+        closer_(value_);
+    }
+    value_ = value;
+}
 
 }

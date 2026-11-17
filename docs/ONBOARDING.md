@@ -11,6 +11,7 @@
 | 8 周主线 | 想系统恢复手感并做 ROS2 组件 | 按 [8 周路线](ROADMAP_8_WEEKS.md) 完成 01–12 + 选做 13–44 + Stage2 | 有 notes/evidence，能脱 AI 复写核心机制 |
 | 单题循环 | 时间碎片化 | 每题按第 5 节的 6 个动作执行 | 当题测试/证据通过 |
 | 扩展补强 | 核心题做完、发现覆盖缺口 | E01–E05（[扩展索引](../stage1/extensions/README.md)） | 按扩展卡验收 |
+| 项目线（可选） | 想把单项能力组装成系统 | 先做映射的 Stage 1 题，再做 p01–p13 capstone（[PROJECT_TRACK](../stage1/PROJECT_TRACK.md)） | 项目核查点 + `notes/projects/pXX.md` |
 
 **不要先看教程 3 小时。** 先跑一题，遇到问题再查文档。
 
@@ -37,7 +38,7 @@ docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
 
 ```bash
 python3 tools/train.py build
-python3 tools/train.py test 01          # 预期 FAIL，这是训练题
+python3 tools/train.py test 01          # 当前仓库含参考实现，应 PASS；练手时先合上实现
 python3 tools/train.py show 01
 ```
 
@@ -53,7 +54,7 @@ python3 tools/train.py test 01
 python3 tools/train.py done 01
 ```
 
-**初始 FAIL 不是仓库坏了**，是故意留空的 TODO。可见测试通过也不等于完全正确，必须写 `notes/01.md`。
+**如果你回退成空骨架，初始 FAIL 才是预期**；当前参考实现通过也不等于掌握，必须写 `notes/01.md`。
 
 ## 3. 第 2 天：02/03 + 工具链
 
@@ -150,6 +151,14 @@ python3 tools/train.py status
 python3 tools/train.py test 03 --sanitize asan
 python3 tools/train.py test 08 --sanitize tsan
 
+# 可选 GoogleTest 镜像套件
+python3 tools/train.py test 01 --gtest
+ctest --test-dir build-gtest -L gtest --output-on-failure
+
+# 项目线（移植后的参考实现）
+python3 tools/train.py project p01 --test
+ctest --test-dir build-projects -L projects --output-on-failure
+
 # 等价 CMake
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --parallel 2
@@ -162,7 +171,7 @@ gdb --args build/stage1/dojo_test_03_mini_vector
 perf stat ./your_benchmark
 ```
 
-工具细节见 [调试手册](DEBUGGING.md)。TSan 与 ASan 不能同时启用。
+工具细节见 [调试手册](DEBUGGING.md)；测试双轨（离线 harness + 可选 GoogleTest）见 [TESTING.md](TESTING.md)。TSan 与 ASan 不能同时启用。
 
 ## 8. 8 周路线速览
 
@@ -210,3 +219,4 @@ perf stat ./your_benchmark
 3. 走 Stage2 主线：**C01 → C03 → C06 → C07 → C09**。
 4. 按 [覆盖矩阵](CORE_GUIDELINES_MAP.md) 选 1–2 个扩展：E01（模板/concepts）、E02（STL 深水区）、E03（ranges/expected）、E04（内存模型）、E05（测试/CI）。
 5. 最后做一次“无 AI 从空文件复写”验收，并整理作品集 README、架构图和性能日志。
+6. 想做系统项目：按 [PROJECT_TRACK](../stage1/PROJECT_TRACK.md) 的先修题 → capstone 顺序；最小闭环 p01 v1→v2/v3 → p02a → p05 → p08 → p09 → p10 → p11 → p12 → p13，证据写到 `notes/projects/pXX.md`。

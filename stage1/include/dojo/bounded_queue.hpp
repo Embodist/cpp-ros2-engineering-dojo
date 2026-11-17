@@ -25,10 +25,37 @@ private:
     bool closed_ = false;
 };
 // TODO: 模板定义必须可见；禁止空转 busy waiting。
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-template<class T> bool BoundedQueue<T>::push(T value) { (void)value; return false; /* TODO */ }
-template<class T> std::optional<T> BoundedQueue<T>::pop() { return std::nullopt; /* TODO */ }
-template<class T> void BoundedQueue<T>::close() noexcept { /* TODO */ }
-template<class T> bool BoundedQueue<T>::is_closed() const { return false; /* TODO */ }
+template<class T> bool BoundedQueue<T>::push(T value) {
+    std::unique_lock<std::mutex> lock(mutex_);
+    not_full_.wait(lock, [this] { return closed_ || q_.size() < capacity_; });
+    if (closed_) return false;
+    q_.push_back(std::move(value));
+    not_empty_.notify_one();
+    return true;
+}
+
+template<class T> std::optional<T> BoundedQueue<T>::pop() {
+    std::unique_lock<std::mutex> lock(mutex_);
+    not_empty_.wait(lock, [this] { return closed_ || !q_.empty(); });
+    if (q_.empty()) return std::nullopt;
+    T value = std::move(q_.front());
+    q_.pop_front();
+    not_full_.notify_one();
+    return value;
+}
+
+template<class T> void BoundedQueue<T>::close() noexcept {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        closed_ = true;
+    }
+    not_full_.notify_all();
+    not_empty_.notify_all();
+}
+
+template<class T> bool BoundedQueue<T>::is_closed() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return closed_;
+}
 
 }

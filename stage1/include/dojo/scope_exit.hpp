@@ -18,10 +18,31 @@ private:
     bool active_ = true;
 };
 // TODO: 在此文件中定义上述方法（header-only 用 inline）。
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-inline ScopeExit::ScopeExit(ScopeExit&& other) noexcept : fn_(std::move(other.fn_)), active_(false) { (void)other; /* TODO */ }
-inline ScopeExit& ScopeExit::operator=(ScopeExit&& other) noexcept { (void)other; return *this; /* TODO */ }
-inline ScopeExit::~ScopeExit() noexcept { /* TODO */ }
-inline void ScopeExit::release() noexcept { /* TODO */ }
+inline ScopeExit::ScopeExit(ScopeExit&& other) noexcept
+    : fn_(std::move(other.fn_)), active_(other.active_) {
+    other.active_ = false;
+}
+
+inline ScopeExit& ScopeExit::operator=(ScopeExit&& other) noexcept {
+    if (this != &other) {
+        if (active_ && fn_) {
+            fn_();
+        }
+        fn_ = std::move(other.fn_);
+        active_ = other.active_;
+        other.active_ = false;
+    }
+    return *this;
+}
+
+inline ScopeExit::~ScopeExit() noexcept {
+    if (active_ && fn_) {
+        fn_();
+    }
+}
+
+inline void ScopeExit::release() noexcept {
+    active_ = false;
+}
 
 }

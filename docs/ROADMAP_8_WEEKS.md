@@ -25,6 +25,10 @@
 
 扩展说明见 [stage1/extensions/README.md](../stage1/extensions/README.md)，覆盖矩阵见 [CORE_GUIDELINES_MAP.md](CORE_GUIDELINES_MAP.md)。
 
+### 项目线（可选 capstone）
+
+60 题是单项动作；p01–p13 是已同步到 Stage 1 的系统项目。最小闭环：**p01 v1→v2/v3 → p02a → p05 → p08 → p09 → p10 → p11 → p12 → p13**。逐项目先修题、P0 子集和 8 周插入表见 [PROJECT_TRACK](../stage1/PROJECT_TRACK.md)。项目线是扩展，建议 10–15 小时/周或把周期延长到 10–12 周。参考实现/测试已同步到 `stage1/projects`；用 `project p01 --test` 或 `ctest -L projects`（147 项）。
+
 ### 时间安排（每天 4～6 小时）
 - 核心实现 90 分钟；测试+调试 60～90 分钟；源码阅读 45～60 分钟；工程整合 60～120 分钟。
 - 不会的内容 20～40 分钟先查标准库文档，再给 AI 描述问题和实验结果，只索取下一层提示。

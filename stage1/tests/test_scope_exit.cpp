@@ -17,4 +17,23 @@ DOJO_TEST("move-assignment disposes previously owned callback") {
     REQUIRE_EQ(a,1);
     REQUIRE_EQ(b,1);
 }
+DOJO_TEST("self move keeps a single cleanup") {
+    int n = 0;
+    {
+        dojo::ScopeExit g([&] { ++n; });
+        dojo::ScopeExit& alias = g;
+        g = std::move(alias);
+    }
+    REQUIRE_EQ(n, 1);
+}
+DOJO_TEST("move from released is inert") {
+    int n = 0;
+    {
+        dojo::ScopeExit a([&] { ++n; });
+        a.release();
+        dojo::ScopeExit b(std::move(a));
+        (void)b;
+    }
+    REQUIRE_EQ(n, 0);
+}
 DOJO_MAIN()

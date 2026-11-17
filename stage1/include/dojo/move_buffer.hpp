@@ -21,12 +21,41 @@ private:
     std::unique_ptr<std::uint8_t[]> data_;
     std::size_t size_ = 0;
 };
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-inline MoveOnlyBuffer::MoveOnlyBuffer(std::size_t n) { (void)n; /* TODO */ }
-inline MoveOnlyBuffer::MoveOnlyBuffer(MoveOnlyBuffer&& other) noexcept { (void)other; /* TODO */ }
-inline MoveOnlyBuffer& MoveOnlyBuffer::operator=(MoveOnlyBuffer&& other) noexcept { (void)other; return *this; /* TODO */ }
-inline void MoveOnlyBuffer::resize(std::size_t n) { (void)n; /* TODO */ }
-inline std::uint8_t MoveOnlyBuffer::read(std::size_t index) const { (void)index; throw std::out_of_range("TODO"); }
-inline void MoveOnlyBuffer::write(std::size_t index, std::uint8_t value) { (void)index; (void)value; /* TODO */ }
+inline MoveOnlyBuffer::MoveOnlyBuffer(std::size_t n)
+    : data_(std::make_unique<std::uint8_t[]>(n)), size_(n) {}
+
+inline MoveOnlyBuffer::MoveOnlyBuffer(MoveOnlyBuffer&& other) noexcept
+    : data_(std::move(other.data_)), size_(other.size_) {
+    other.size_ = 0;
+}
+
+inline MoveOnlyBuffer& MoveOnlyBuffer::operator=(MoveOnlyBuffer&& other) noexcept {
+    if (this != &other) {
+        data_ = std::move(other.data_);
+        size_ = other.size_;
+        other.size_ = 0;
+    }
+    return *this;
+}
+
+inline void MoveOnlyBuffer::resize(std::size_t n) {
+    auto new_data = std::make_unique<std::uint8_t[]>(n);
+    const std::size_t copy_n = n < size_ ? n : size_;
+    for (std::size_t i = 0; i < copy_n; ++i) {
+        new_data[i] = data_[i];
+    }
+    data_ = std::move(new_data);
+    size_ = n;
+}
+
+inline std::uint8_t MoveOnlyBuffer::read(std::size_t index) const {
+    if (index >= size_) throw std::out_of_range("index");
+    return data_[index];
+}
+
+inline void MoveOnlyBuffer::write(std::size_t index, std::uint8_t value) {
+    if (index >= size_) throw std::out_of_range("index");
+    data_[index] = value;
+}
 
 }

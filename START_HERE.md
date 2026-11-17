@@ -18,7 +18,7 @@
 ```bash
 python3 tools/train.py list
 python3 tools/train.py build
-python3 tools/train.py test 01        # 预期失败，记录第一条提示
+python3 tools/train.py test 01        # 当前含参考实现，应 PASS；练手时先合上实现
 sed -n '1,200p' stage1/cards/01-scope-exit.md
 sed -n '1,200p' stage1/include/dojo/scope_exit.hpp
 # 自己实现后：
@@ -49,12 +49,13 @@ python3 tools/train.py show 03
 python3 tools/train.py test 03
 python3 tools/train.py test 03 --sanitize asan
 python3 tools/train.py test 08 --sanitize tsan
+python3 tools/train.py test 01 --gtest   # 可选 GoogleTest 镜像
 python3 tools/train.py report
 python3 tools/train.py show E01
 python3 tools/train.py lab E01
 ```
 
-详情：`python3 tools/train.py --help`。TSan 在部分虚拟化/容器环境可能无法启动；失败要分清工具环境和代码问题。
+详情：`python3 tools/train.py --help`。测试双轨（离线 harness + 可选 GoogleTest）见 [docs/TESTING.md](docs/TESTING.md)。TSan 在部分虚拟化/容器环境可能无法启动；失败要分清工具环境和代码问题。
 
 ## 6. 可选扩展（E01–E05）
 
@@ -69,3 +70,9 @@ python3 tools/train.py lab E01
 | E05 | 测试、CI 与包管理 | 03 或 08 |
 
 扩展说明和验收方式见 [stage1/extensions/README.md](stage1/extensions/README.md)，覆盖强度见 [docs/CORE_GUIDELINES_MAP.md](docs/CORE_GUIDELINES_MAP.md)。
+
+## 7. 项目线（可选）
+
+60 题是单项动作；`stage1/projects` 的 p01–p13 是系统项目。先修题 → capstone 的映射、P0 子集和 8 周插入表见 [stage1/PROJECT_TRACK.md](stage1/PROJECT_TRACK.md)。最小闭环：p01 v1→v2/v3 → p02a → p05 → p08 → p09 → p10 → p11 → p12 → p13。
+
+参考实现/测试已同步：`python3 tools/train.py project p01 --test`；全量 `ctest --test-dir build-projects -L projects`（147 项）。

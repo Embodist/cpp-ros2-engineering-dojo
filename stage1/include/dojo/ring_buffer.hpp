@@ -17,8 +17,21 @@ private:
     std::size_t tail_=0; // 下一入队位置
     std::size_t size_=0;
 };
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-template<class T,std::size_t N> bool RingBuffer<T,N>::try_push(T value) { (void)value; return false; /* TODO */ }
-template<class T,std::size_t N> std::optional<T> RingBuffer<T,N>::try_pop() { return std::nullopt; /* TODO */ }
+template<class T,std::size_t N> bool RingBuffer<T,N>::try_push(T value) {
+    if (size_ == N) return false;
+    items_[tail_].emplace(std::move(value));
+    tail_ = (tail_ + 1) % N;
+    ++size_;
+    return true;
+}
+
+template<class T,std::size_t N> std::optional<T> RingBuffer<T,N>::try_pop() {
+    if (size_ == 0) return std::nullopt;
+    std::optional<T> out = std::move(items_[head_]);
+    items_[head_].reset();
+    head_ = (head_ + 1) % N;
+    --size_;
+    return out;
+}
 
 }

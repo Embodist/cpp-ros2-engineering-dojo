@@ -7,6 +7,7 @@
 #include <queue>
 #include <stdexcept>
 #include <thread>
+#include <utility>
 #include <vector>
 namespace dojo {
 class ThreadPool {
@@ -25,11 +26,61 @@ private:
     std::vector<std::thread> workers_;
     bool stopping_=false;
 };
-// ===== STUDENT WORK AREA: remove and replace these intentionally incomplete stubs =====
-inline ThreadPool::ThreadPool(std::size_t workers) { (void)workers; /* TODO */ }
-inline ThreadPool::~ThreadPool() { /* TODO */ }
-inline std::future<int> ThreadPool::submit(std::function<int()> job) { (void)job; throw std::runtime_error("TODO"); }
-inline void ThreadPool::shutdown() noexcept { /* TODO */ }
-inline void ThreadPool::run_worker() { /* TODO */ }
+inline ThreadPool::ThreadPool(std::size_t workers) {
+    if (workers == 0) throw std::invalid_argument("workers");
+    workers_.reserve(workers);
+    try {
+        for (std::size_t i = 0; i < workers; ++i) {
+            workers_.emplace_back(&ThreadPool::run_worker, this);
+        }
+    } catch (...) {
+        shutdown();
+        throw;
+    }
+}
+
+inline ThreadPool::~ThreadPool() {
+    shutdown();
+}
+
+inline std::future<int> ThreadPool::submit(std::function<int()> job) {
+    std::packaged_task<int()> task(std::move(job));
+    std::future<int> result = task.get_future();
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (stopping_) throw std::runtime_error("submit after shutdown");
+        jobs_.push(std::move(task));
+    }
+    cv_.notify_one();
+    return result;
+}
+
+inline void ThreadPool::shutdown() noexcept {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        stopping_ = true;
+    }
+    cv_.notify_all();
+    for (auto& worker : workers_) {
+        if (worker.joinable()) worker.join();
+    }
+}
+
+inline void ThreadPool::run_worker() {
+    for (;;) {
+        std::packaged_task<int()> task;
+        {
+            std::unique_lock<std::mutex> lock(mutex_);
+            cv_.wait(lock, [this] { return stopping_ || !jobs_.empty(); });
+            if (jobs_.empty()) {
+                if (stopping_) return;
+                continue;
+            }
+            task = std::move(jobs_.front());
+            jobs_.pop();
+        }
+        task();
+    }
+}
 
 }

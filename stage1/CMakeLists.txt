@@ -77,3 +77,39 @@ target_include_directories(dojo_test_12_callback_registry PRIVATE include suppor
 target_link_libraries(dojo_test_12_callback_registry PRIVATE dojo_warnings Threads::Threads)
 add_test(NAME dojo_12_callback_registry COMMAND dojo_test_12_callback_registry)
 set_tests_properties(dojo_12_callback_registry PROPERTIES LABELS "pending;stage1" TIMEOUT 15)
+
+# ---------- 可选 GoogleTest 镜像套件 ----------
+# 默认关闭，保持仓库离线可构建；-DDOJO_USE_GTEST=ON 时启用。
+if(DOJO_USE_GTEST)
+  add_library(dojo_common STATIC support/common/new_counter.cpp)
+  target_include_directories(dojo_common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/support)
+  target_link_libraries(dojo_common PUBLIC dojo_warnings Threads::Threads)
+
+  function(add_dojo_gtest name)
+    add_executable(${name} ${ARGN})
+    target_include_directories(${name} PRIVATE include support)
+    target_link_libraries(${name} PRIVATE dojo_warnings dojo_common GTest::gtest_main)
+    if(DOJO_SANITIZE_THREAD AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+      # WSL2/新内核的高熵 ASLR 会让 TSan 报 unexpected memory mapping。
+      set_target_properties(${name} PROPERTIES
+        TEST_LAUNCHER "setarch;${CMAKE_SYSTEM_PROCESSOR};-R")
+    endif()
+    gtest_discover_tests(${name}
+      TEST_PREFIX "gtest.${name}."
+      PROPERTIES LABELS "gtest" TIMEOUT 30)
+  endfunction()
+
+  add_dojo_gtest(dojo_gtest_fixtures tests_gtest/fixtures_test.cpp)
+  add_dojo_gtest(dojo_gtest_01_scope_exit tests_gtest/test_scope_exit_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_02_unique_handle tests_gtest/test_unique_handle_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_03_mini_vector tests_gtest/test_mini_vector_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_04_move_buffer tests_gtest/test_move_buffer_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_05_polymorphic_pipeline tests_gtest/test_polymorphic_pipeline_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_06_binary_packet tests_gtest/test_binary_packet_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_07_parse_result tests_gtest/test_parse_result_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_08_bounded_queue tests_gtest/test_bounded_queue_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_09_thread_pool tests_gtest/test_thread_pool_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_10_ring_buffer tests_gtest/test_ring_buffer_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_11_moving_average tests_gtest/test_moving_average_gtest.cpp)
+  add_dojo_gtest(dojo_gtest_12_callback_registry tests_gtest/test_callback_registry_gtest.cpp)
+endif()

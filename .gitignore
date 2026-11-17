@@ -1,6 +1,7 @@
 build/
 build-*/
 .dojo_progress.json
+.dojo_projects.json
 __pycache__/
 *.pyc
 *.o
@@ -12,6 +13,7 @@ notes/*.log
 
 # compile database / colcon artifacts
 compile_commands.json
+.cache/
 install/
 log/
 

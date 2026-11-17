@@ -1,0 +1,470 @@
+{
+  "minimal": [
+    "p01",
+    "p02",
+    "p05",
+    "p08",
+    "p09",
+    "p10",
+    "p11",
+    "p12",
+    "p13"
+  ],
+  "projects": [
+    {
+      "id": "p01",
+      "title": "学生管理系统 v1–v3",
+      "phase": "P1 语义与所有权",
+      "repo": "stage1/projects/p01",
+      "reference": "stage1/projects/reference/p01_student",
+      "prereq": [
+        "01",
+        "02",
+        "05",
+        "07",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36"
+      ],
+      "stage2": [
+        "C01",
+        "C02"
+      ],
+      "priority": "P0-1",
+      "minimal": true,
+      "milestones": [
+        "v1 值语义",
+        "v2 所有权与多态",
+        "v3 异常安全"
+      ],
+      "carry_in": "值语义、RAII、const 正确性、异常安全",
+      "carry_out": "所有权图、Repository 接口、异常保证与测试证据",
+      "test_target": "p01_student_tests"
+    },
+    {
+      "id": "p02",
+      "title": "UniquePtr / SharedPtr / WeakPtr",
+      "phase": "P2 资源管理",
+      "repo": "stage1/projects/p02",
+      "reference": "stage1/projects/reference/p02_smart_ptr",
+      "prereq": [
+        "01",
+        "02",
+        "13",
+        "17",
+        "21",
+        "23",
+        "24",
+        "26",
+        "34",
+        "37"
+      ],
+      "stage2": [
+        "C03",
+        "C04"
+      ],
+      "priority": "P0-1",
+      "minimal": true,
+      "milestones": [
+        "2a UniquePtr",
+        "2b SharedPtr/WeakPtr（可选）"
+      ],
+      "carry_in": "RAII、五法则、移动语义",
+      "carry_out": "控制块、引用计数、自定义 deleter、循环引用修复",
+      "test_target": "p02_smart_ptr_tests"
+    },
+    {
+      "id": "p03",
+      "title": "String（含 SSO）",
+      "phase": "P2 资源管理",
+      "repo": "stage1/projects/p03",
+      "reference": "stage1/projects/reference/p03_string",
+      "prereq": [
+        "03",
+        "04",
+        "13",
+        "14",
+        "15",
+        "16",
+        "21",
+        "22",
+        "26",
+        "27",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "38"
+      ],
+      "stage2": [
+        "C05",
+        "C10"
+      ],
+      "priority": "P2",
+      "minimal": false,
+      "milestones": [
+        "核心接口",
+        "SSO",
+        "差分测试"
+      ],
+      "carry_in": "原始内存、五法则、异常安全",
+      "carry_out": "SSO 布局、别名安全、与 string_view 互操作",
+      "test_target": "p03_string_tests"
+    },
+    {
+      "id": "p04",
+      "title": "List<T>（双向链表）",
+      "phase": "P3 容器与泛型",
+      "repo": "stage1/projects/p04",
+      "reference": "stage1/projects/reference/p04_list",
+      "prereq": [
+        "03",
+        "20",
+        "21",
+        "22",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38"
+      ],
+      "stage2": [
+        "C10"
+      ],
+      "priority": "P2",
+      "minimal": false,
+      "milestones": [
+        "节点/迭代器",
+        "splice/sort",
+        "差分测试"
+      ],
+      "carry_in": "allocator、迭代器、失效规则",
+      "carry_out": "节点所有权、自定义迭代器、稳定排序",
+      "test_target": "p04_list_tests"
+    },
+    {
+      "id": "p05",
+      "title": "Vector<T, Alloc>（旗舰）",
+      "phase": "P3 容器与泛型",
+      "repo": "stage1/projects/p05",
+      "reference": "stage1/projects/reference/p05_vector",
+      "prereq": [
+        "03",
+        "10",
+        "19",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "38"
+      ],
+      "stage2": [
+        "C01",
+        "C10"
+      ],
+      "priority": "P0-3",
+      "minimal": true,
+      "milestones": [
+        "v0 天真版",
+        "v1 原始内存",
+        "v2 强异常",
+        "v3 insert/erase",
+        "v4 现代接口"
+      ],
+      "carry_in": "原始内存、allocator、迭代器",
+      "carry_out": "强异常保证、move_if_noexcept、差分测试",
+      "test_target": "p05_vector_tests"
+    },
+    {
+      "id": "p06",
+      "title": "Arena / 对象池分配器",
+      "phase": "P3 容器与泛型",
+      "repo": "stage1/projects/p06",
+      "reference": "stage1/projects/reference/p06_arena",
+      "prereq": [
+        "03",
+        "10",
+        "49",
+        "53",
+        "54",
+        "56"
+      ],
+      "stage2": [
+        "C01",
+        "C04",
+        "C10"
+      ],
+      "priority": "P2",
+      "minimal": false,
+      "milestones": [
+        "ArenaResource",
+        "PoolAllocator",
+        "Vector/List 接入"
+      ],
+      "carry_in": "allocator、对齐、性能测量",
+      "carry_out": "池分配、零 malloc、运行期分配审计",
+      "test_target": "p06_arena_tests"
+    },
+    {
+      "id": "p07",
+      "title": "Function / MoveOnlyFunction",
+      "phase": "P4 抽象与并发",
+      "repo": "stage1/projects/p07",
+      "reference": "stage1/projects/reference/p07_function",
+      "prereq": [
+        "05",
+        "12",
+        "17",
+        "37",
+        "38",
+        "43"
+      ],
+      "stage2": [
+        "C03",
+        "C04"
+      ],
+      "priority": "P1-1",
+      "minimal": false,
+      "milestones": [
+        "Function",
+        "MoveOnlyFunction",
+        "SBO/分配验证"
+      ],
+      "carry_in": "接口、lambda、类型擦除",
+      "carry_out": "类型擦除、SBO、callable 生命周期",
+      "test_target": "p07_function_tests"
+    },
+    {
+      "id": "p08",
+      "title": "BlockingQueue / ThreadPool",
+      "phase": "P4 抽象与并发",
+      "repo": "stage1/projects/p08",
+      "reference": "stage1/projects/reference/p08_thread_queue",
+      "prereq": [
+        "08",
+        "09",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52"
+      ],
+      "stage2": [
+        "C03",
+        "C04",
+        "C07"
+      ],
+      "priority": "P1-2",
+      "minimal": true,
+      "recommends": [
+        "p07"
+      ],
+      "milestones": [
+        "BlockingQueue",
+        "ThreadPool",
+        "TSan 压力"
+      ],
+      "carry_in": "有界队列、线程池、关闭语义",
+      "carry_out": "并发状态机、异常传播、压力/TSan 证据",
+      "test_target": "p08_thread_queue_tests"
+    },
+    {
+      "id": "p09",
+      "title": "SPSC 无锁环形队列",
+      "phase": "P4 抽象与并发",
+      "repo": "stage1/projects/p09",
+      "reference": "stage1/projects/reference/p09_spsc_queue",
+      "prereq": [
+        "08",
+        "10",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52"
+      ],
+      "stage2": [
+        "C04",
+        "C07"
+      ],
+      "priority": "P0-2",
+      "minimal": true,
+      "milestones": [
+        "SPSC 基础",
+        "memory order",
+        "false sharing"
+      ],
+      "carry_in": "atomic、环形缓冲、背压",
+      "carry_out": "无锁通道、happens-before、缓存行实验",
+      "test_target": "p09_spsc_queue_tests"
+    },
+    {
+      "id": "p10",
+      "title": "迷你 pub/sub + Executor",
+      "phase": "P5 机器人综合",
+      "repo": "stage1/projects/p10",
+      "reference": "stage1/projects/reference/p10_pubsub",
+      "prereq": [
+        "05",
+        "12",
+        "39",
+        "43",
+        "52",
+        "58",
+        "59"
+      ],
+      "stage2": [
+        "C03",
+        "C06",
+        "C07"
+      ],
+      "priority": "P0-4",
+      "minimal": true,
+      "milestones": [
+        "Topic/Pub/Sub",
+        "Executor",
+        "Timer/丢弃策略"
+      ],
+      "carry_in": "回调生命周期、shared_ptr、线程模型",
+      "carry_out": "executor 架构、消息生命周期、QoS 概念映射",
+      "test_target": "p10_pubsub_tests"
+    },
+    {
+      "id": "p11",
+      "title": "零分配实时控制环",
+      "phase": "P5 机器人综合",
+      "repo": "stage1/projects/p11",
+      "reference": "stage1/projects/reference/p11_realtime",
+      "prereq": [
+        "08",
+        "09",
+        "10",
+        "11",
+        "49",
+        "50",
+        "56",
+        "57"
+      ],
+      "stage2": [
+        "C04",
+        "C07"
+      ],
+      "priority": "P0-4",
+      "minimal": true,
+      "depends": [
+        "p09"
+      ],
+      "recommends": [
+        "p06"
+      ],
+      "milestones": [
+        "1 kHz 环",
+        "零分配证据",
+        "抖动 p50/p99"
+      ],
+      "carry_in": "SPSC、Arena/池、性能测量",
+      "carry_out": "实时约束、抖动分析、零分配审计",
+      "test_target": "p11_realtime_tests"
+    },
+    {
+      "id": "p12",
+      "title": "小型数学库（Vec/Mat/Quat/Transform）",
+      "phase": "P5 机器人综合",
+      "repo": "stage1/projects/p12",
+      "reference": "",
+      "prereq": [
+        "11",
+        "19",
+        "30",
+        "35",
+        "36",
+        "38",
+        "56"
+      ],
+      "stage2": [
+        "C08"
+      ],
+      "priority": "P2",
+      "minimal": true,
+      "milestones": [
+        "Vec/Mat",
+        "Quat/Transform",
+        "constexpr/误差"
+      ],
+      "carry_in": "数值稳定、constexpr、布局",
+      "carry_out": "位姿数学、constexpr 测试、TF2 对照",
+      "test_target": null
+    },
+    {
+      "id": "p13",
+      "title": "ROS2 综合落地",
+      "phase": "P5 机器人综合",
+      "repo": "stage1/projects/p13",
+      "reference": "",
+      "prereq": [
+        "58",
+        "59",
+        "60"
+      ],
+      "stage2": [
+        "C06",
+        "C07",
+        "C08",
+        "C09"
+      ],
+      "priority": "P0-4",
+      "minimal": true,
+      "depends": [
+        "p10",
+        "p11",
+        "p12"
+      ],
+      "milestones": [
+        "组合节点",
+        "intra-process",
+        "无分配/延迟证据"
+      ],
+      "carry_in": "pub/sub、实时环、数学库",
+      "carry_out": "ROS2 组件、intra-process、作品集证据",
+      "test_target": null
+    }
+  ]
+}
