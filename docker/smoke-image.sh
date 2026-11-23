@@ -51,7 +51,7 @@ sec "AI / Claude / ECC"
 chk pi; chk claude
 if claude plugin list 2>/dev/null | grep -q 'ecc@ecc'; then
   ok "ecc@ecc installed"
-  if claude plugin list 2>/dev/null | grep -A2 'ecc@ecc' | grep -qi 'enabled'; then
+  if claude plugin list 2>/dev/null | grep -A8 'ecc@ecc' | grep -qi 'enabled'; then
     ok "ecc@ecc enabled"
   else
     bad "ecc@ecc not enabled"

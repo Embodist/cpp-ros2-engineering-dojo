@@ -487,6 +487,8 @@ RUN if [ "${INSTALL_ECC}" = "1" ]; then \
         claude plugin marketplace add "${ECC_MARKETPLACE}"; \
       runuser -u dev -- env HOME=/home/dev \
         claude plugin install "${ECC_PLUGIN}" --scope user; \
+      runuser -u dev -- env HOME=/home/dev \
+        claude plugin enable "${ECC_PLUGIN}" || true; \
       if [ "${ECC_PRUNE_DEPS}" = "1" ]; then \
         find /home/dev/.claude/plugins/cache -maxdepth 6 -type d -name node_modules -print0 \
           | while IFS= read -r -d '' nm; do \
