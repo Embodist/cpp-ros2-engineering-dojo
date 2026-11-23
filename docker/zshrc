@@ -34,6 +34,16 @@ command -v yazi >/dev/null 2>&1 && alias y='yazi'
 alias gs='git status'
 alias dojo='python3 tools/train.py'
 
+# ── uv 快捷（Python venv/依赖）──────────────────────────────────────────────
+# uvvenv [目录=.venv] [python版本]  → 建 venv 并激活
+uvvenv() { local dir="${1:-.venv}" py="${2:-}"; uv venv ${py:+--python "$py"} "$dir" && source "$dir/bin/activate"; }
+alias uva='source .venv/bin/activate'
+alias uvi='uv pip install'
+alias uvl='uv pip list'
+alias uvs='uv sync'
+alias uvrun='uv run'
+alias uvpy='uv python install'
+
 command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
 
