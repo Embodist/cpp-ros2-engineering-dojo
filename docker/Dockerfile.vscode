@@ -46,6 +46,12 @@ ARG INSTALL_PREVIEW_DEPS=1
 # 兼容 CI 统一传参（本镜像不安装 ROS 机器人库）
 ARG INSTALL_ROBOTICS_LIBS=0
 
+# 1 = 构建期预装 ECC 插件（Claude Code，开箱即用；需 GitHub + npm 网络）
+ARG INSTALL_ECC=1
+ARG ECC_MARKETPLACE=https://github.com/affaan-m/ECC
+ARG ECC_PLUGIN=ecc@ecc
+ARG ECC_PRUNE_DEPS=1
+
 ARG DEV_UID=1000
 ARG DEV_GID=1000
 
@@ -422,6 +428,32 @@ RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
       timeout 2400 runuser -u user -- env HOME=/home/user \
         nvim --headless -u NONE "+luafile /opt/dojo/mason-codelldb.lua" || true; \
       rm -rf /home/user/.cache /home/user/.local/state/nvim/log /tmp/*; \
+    fi
+
+# ── ECC 插件（Claude Code，构建期预装并默认启用）────────────────────────────
+# 以 user 用户安装到 /home/user/.claude；claude plugin install 会自动 enable。
+RUN if [ "${INSTALL_ECC}" = "1" ]; then \
+      set -eux; \
+      runuser -u user -- env HOME=/home/user GIT_TERMINAL_PROMPT=0 \
+        git config --global http.lowSpeedLimit 1000; \
+      runuser -u user -- env HOME=/home/user GIT_TERMINAL_PROMPT=0 \
+        git config --global http.lowSpeedTime 60; \
+      runuser -u user -- env HOME=/home/user \
+        claude plugin marketplace add "${ECC_MARKETPLACE}"; \
+      runuser -u user -- env HOME=/home/user \
+        claude plugin install "${ECC_PLUGIN}" --scope user; \
+      if [ "${ECC_PRUNE_DEPS}" = "1" ]; then \
+        find /home/user/.claude/plugins/cache -maxdepth 6 -type d -name node_modules -print0 \
+          | while IFS= read -r -d '' nm; do \
+              parent="$(dirname "$nm")"; \
+              if [ -f "$parent/package.json" ]; then \
+                ( cd "$parent" && runuser -u user -- env HOME=/home/user \
+                    npm prune --omit=dev --no-audit --no-fund ) || true; \
+              fi; \
+            done; \
+      fi; \
+      runuser -u user -- env HOME=/home/user claude plugin list; \
+      rm -rf /home/user/.npm /root/.npm /home/user/.cache /tmp/*; \
     fi
 
 # ── 运行时 ──────────────────────────────────────────────────────────────────

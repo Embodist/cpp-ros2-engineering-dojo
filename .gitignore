@@ -20,5 +20,6 @@ log/
 # container secrets
 docker/.env
 
-# Claude Code local settings (may contain real API tokens)
-.claude/
+# Claude Code：只提交团队共享的 settings.json；本地配置可能含真实 token，一律忽略
+.claude/*
+!.claude/settings.json

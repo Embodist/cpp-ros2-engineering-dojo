@@ -74,6 +74,25 @@ else
   bad "searxng MCP server"
 fi
 
+section "Claude Code / ECC"
+[ -d /home/dev/.claude/plugins/marketplaces/ecc ] && ok "ecc marketplace cloned" || bad "ecc marketplace missing"
+if find /home/dev/.claude/plugins/cache -maxdepth 5 -type d -path '*ecc*' 2>/dev/null | grep -q .; then
+  ok "ecc plugin cache present"
+else
+  bad "ecc plugin cache missing"
+fi
+if claude plugin list 2>/dev/null | grep -q 'ecc@ecc'; then
+  ok "ecc@ecc installed"
+  if claude plugin list 2>/dev/null | grep -A2 'ecc@ecc' | grep -qi 'enabled'; then
+    ok "ecc@ecc enabled"
+  else
+    bad "ecc@ecc not enabled"
+  fi
+else
+  bad "ecc@ecc not installed"
+fi
+# 若构建时设了 INSTALL_ECC=0，以上三项会 FAIL —— 属预期，可忽略该 section
+
 section "Modern CLI / TUI"
 for c in rg fd bat fzf jq yq eza zoxide delta dust duf procs btm btop hyperfine sd xh just starship glow ncdu htop sqlite3 tldr shellcheck shfmt yazi ya jnv lazygit gitui; do
   check_cmd "$c"

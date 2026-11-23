@@ -53,6 +53,14 @@ ARG INSTALL_ROBOTICS_LIBS=0
 # 1 = 安装 yazi 预览依赖（ffmpeg / imagemagick / poppler / chafa / 7zip）
 ARG INSTALL_PREVIEW_DEPS=1
 
+# 1 = 构建期预装 ECC 插件（Claude Code，开箱即用；构建时需能访问 GitHub + npm）
+# 来源：https://github.com/affaan-m/ECC ；安装后自动 enable，进入容器即可用
+ARG INSTALL_ECC=1
+ARG ECC_MARKETPLACE=https://github.com/affaan-m/ECC
+ARG ECC_PLUGIN=ecc@ecc
+# 1 = 安装后裁掉 ECC 的 devDependencies（约省 150MB；若依赖 web3/payment 类 skill 设为 0）
+ARG ECC_PRUNE_DEPS=1
+
 ARG DEV_UID=1000
 ARG DEV_GID=1000
 
@@ -462,6 +470,34 @@ RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
       timeout 1200 runuser -u dev -- env HOME=/home/dev \
         nvim --headless "+luafile /opt/dojo/mason-install.lua" || true; \
       rm -rf /home/dev/.cache /home/dev/.local/state/nvim/log /tmp/*; \
+    fi
+
+# ── ECC 插件（Claude Code，构建期预装并默认启用）────────────────────────────
+# 以 dev 用户安装到 /home/dev/.claude；claude plugin install 会自动 enable，
+# 因此进入容器 `claude` 即带 ECC（skills / agents / hooks），无需手动安装。
+# npm 走 /etc/npmrc 里的镜像源；安装后可选用 npm prune 裁掉 devDependencies。
+RUN if [ "${INSTALL_ECC}" = "1" ]; then \
+      set -eux; \
+      runuser -u dev -- env HOME=/home/dev GIT_TERMINAL_PROMPT=0 \
+        git config --global http.lowSpeedLimit 1000; \
+      runuser -u dev -- env HOME=/home/dev GIT_TERMINAL_PROMPT=0 \
+        git config --global http.lowSpeedTime 60; \
+      runuser -u dev -- env HOME=/home/dev \
+        claude plugin marketplace add "${ECC_MARKETPLACE}"; \
+      runuser -u dev -- env HOME=/home/dev \
+        claude plugin install "${ECC_PLUGIN}" --scope user; \
+      if [ "${ECC_PRUNE_DEPS}" = "1" ]; then \
+        find /home/dev/.claude/plugins/cache -maxdepth 6 -type d -name node_modules -print0 \
+          | while IFS= read -r -d '' nm; do \
+              parent="$(dirname "$nm")"; \
+              if [ -f "$parent/package.json" ]; then \
+                ( cd "$parent" && runuser -u dev -- env HOME=/home/dev \
+                    npm prune --omit=dev --no-audit --no-fund ) || true; \
+              fi; \
+            done; \
+      fi; \
+      runuser -u dev -- env HOME=/home/dev claude plugin list; \
+      rm -rf /home/dev/.npm /root/.npm /home/dev/.cache /tmp/*; \
     fi
 
 # ── 运行时 ──────────────────────────────────────────────────────────────────

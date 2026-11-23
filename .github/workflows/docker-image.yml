@@ -94,6 +94,7 @@ jobs:
             INSTALL_MASON=1
             INSTALL_PREVIEW_DEPS=1
             INSTALL_ROBOTICS_LIBS=0
+            INSTALL_ECC=1
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
