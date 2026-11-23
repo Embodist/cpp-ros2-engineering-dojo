@@ -69,6 +69,18 @@ else
   warn "ecc details unavailable (non-fatal)"
 fi
 
+sec "Python / uv"
+chk python3
+python3 --version 2>&1 | head -1
+chk uv; uv --version 2>/dev/null | head -1; chk uvx
+vdir="$(mktemp -d)"
+if uv venv "$vdir/.venv" >/dev/null 2>&1 && [ -x "$vdir/.venv/bin/python" ]; then
+  ok "uv venv create"
+else
+  bad "uv venv create"
+fi
+rm -rf "$vdir"
+
 sec "Modern CLI / TUI"
 for c in rg fd bat fzf jq yq eza zoxide delta dust duf procs btm btop hyperfine sd xh just starship glow ncdu htop sqlite3 tldr yazi ya jnv lazygit gitui; do chk "$c"; done
 

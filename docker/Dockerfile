@@ -185,6 +185,11 @@ RUN set -eux; \
     yq --version; \
     rm -rf /tmp/*
 
+# ── uv（Python 包/venv 管理器；uv python install 3.13 可按需装 Python）──────
+RUN set -eux; \
+    curl $CURL_OPTS -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh; \
+    uv --version; uvx --version
+
 # ── 现代 CLI / TUI（GitHub 预编译；Ubuntu 24.04 没有包的）─────────────────
 RUN set -eux; \
     case "${TARGETARCH:-amd64}" in \
