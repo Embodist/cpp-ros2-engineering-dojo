@@ -13,6 +13,10 @@ main:
   push:
     - services:
         - docker
+      # 仅在镜像相关变更时构建，避免文档/配置改动触发整条流水线
+      ifModify:
+        - "docker/**"
+        - ".cnb.yml"
       env:
         DOCKER_BUILDKIT: "1"
       stages:
