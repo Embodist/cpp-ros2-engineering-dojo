@@ -1,0 +1,38 @@
+# CNB 流水线：构建 Docker 镜像并推送到 CNB 制品库 docker.cnb.cool
+# 文档：https://docs.cnb.cool/zh/artifact/docker.md
+#
+# 镜像：${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest
+#       例如 docker.cnb.cool/xx-zhang/dotfiles.cpp:latest
+#
+# 说明：
+#   - services: [docker] 开启 dind；平台在构建环境里已登录 CNB 制品库。
+#   - 命名构建上下文 nvim-config / pi-config 对应 docker/vendor 下的快照，
+#     与 docker/build.sh 保持一致（--build-context）。
+main:
+  push:
+    - services:
+        - docker
+      env:
+        DOCKER_BUILDKIT: "1"
+      stages:
+        - name: build image
+          script: |
+            set -eu
+            IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
+            SHA="$(git rev-parse --short HEAD 2>/dev/null || true)"
+            echo "building ${IMG} (sha=${SHA:-none})"
+            set -- -t "${IMG}:latest"
+            if [ -n "${SHA}" ]; then set -- "$@" -t "${IMG}:${SHA}"; fi
+            docker build \
+              -f docker/Dockerfile \
+              --build-context nvim-config=docker/vendor/nvim \
+              --build-context pi-config=docker/vendor/pi \
+              --build-arg APT_MIRROR=mirrors.tuna.tsinghua.edu.cn \
+              "$@" docker
+        - name: push image
+          script: |
+            set -eu
+            IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
+            docker push "${IMG}:latest"
+            SHA="$(git rev-parse --short HEAD 2>/dev/null || true)"
+            if [ -n "${SHA}" ]; then docker push "${IMG}:${SHA}"; fi
