@@ -47,23 +47,26 @@ else
   bad "mason packages missing"
 fi
 
-sec "AI / Claude / ECC"
+sec "AI / Claude / core plugins"
 chk pi; chk claude
-if claude plugin list 2>/dev/null | grep -q 'ecc@ecc'; then
-  ok "ecc@ecc installed"
-  if claude plugin list 2>/dev/null | grep -A8 'ecc@ecc' | grep -qi 'enabled'; then
-    ok "ecc@ecc enabled"
+EXPECT_PLUGINS="${DOJO_EXPECT_PLUGINS:-ecc@ecc superpowers@claude-plugins-official clangd-lsp@claude-plugins-official}"
+for p in $EXPECT_PLUGINS; do
+  if claude plugin list 2>/dev/null | grep -q "$p"; then
+    ok "$p installed"
+    if claude plugin list 2>/dev/null | grep -A8 "$p" | grep -qi 'enabled'; then
+      ok "$p enabled"
+    else
+      bad "$p not enabled"
+    fi
   else
-    bad "ecc@ecc not enabled"
+    bad "$p not installed"
   fi
-  [ -d "$HOME/.claude/plugins/cache" ] && ok "ecc cache present" || bad "ecc cache missing"
-  if claude plugin details ecc@ecc 2>/dev/null | grep -qi 'Skills'; then
-    ok "ecc details readable"
-  else
-    warn "ecc details unavailable (non-fatal)"
-  fi
+done
+[ -d "$HOME/.claude/plugins/cache" ] && ok "claude plugin cache present" || bad "claude plugin cache missing"
+if claude plugin details ecc@ecc 2>/dev/null | grep -qi 'Skills'; then
+  ok "ecc details readable"
 else
-  bad "ecc@ecc not installed"
+  warn "ecc details unavailable (non-fatal)"
 fi
 
 sec "Modern CLI / TUI"

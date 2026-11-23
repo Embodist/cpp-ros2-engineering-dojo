@@ -61,6 +61,12 @@ ARG ECC_PLUGIN=ecc@ecc
 # 1 = 安装后裁掉 ECC 的 devDependencies（约省 150MB；若依赖 web3/payment 类 skill 设为 0）
 ARG ECC_PRUNE_DEPS=1
 
+# ECC 之外的核心 Claude 工具（官方 marketplace）。默认装 superpowers + clangd-lsp。
+# 可覆盖，例如再加 pr-review-toolkit / ralph-loop。
+ARG INSTALL_CLAUDE_OFFICIAL=1
+ARG CLAUDE_OFFICIAL_MARKETPLACE=anthropics/claude-plugins-official
+ARG CLAUDE_EXTRA_PLUGINS="superpowers@claude-plugins-official clangd-lsp@claude-plugins-official"
+
 ARG DEV_UID=1000
 ARG DEV_GID=1000
 
@@ -473,10 +479,10 @@ RUN if [ "${INSTALL_PLUGINS}" = "1" ] && [ "${INSTALL_MASON}" = "1" ]; then \
       rm -rf /home/dev/.cache /home/dev/.local/state/nvim/log /tmp/*; \
     fi
 
-# ── ECC 插件（Claude Code，构建期预装并默认启用）────────────────────────────
-# 以 dev 用户安装到 /home/dev/.claude；claude plugin install 会自动 enable，
-# 因此进入容器 `claude` 即带 ECC（skills / agents / hooks），无需手动安装。
-# npm 走 /etc/npmrc 里的镜像源；安装后可选用 npm prune 裁掉 devDependencies。
+# ── Claude 插件（构建期预装并默认启用）──────────────────────────────────────
+# ECC（ecc@ecc）+ 官方 marketplace 的核心工具（默认 superpowers、clangd-lsp）。
+# 以 dev 用户装到 /home/dev/.claude；claude plugin install 自动 enable。
+# npm 走 /etc/npmrc 镜像源；安装后可选 npm prune 裁掉 devDependencies。
 RUN if [ "${INSTALL_ECC}" = "1" ]; then \
       set -eux; \
       runuser -u dev -- env HOME=/home/dev GIT_TERMINAL_PROMPT=0 \
@@ -489,6 +495,16 @@ RUN if [ "${INSTALL_ECC}" = "1" ]; then \
         claude plugin install "${ECC_PLUGIN}" --scope user; \
       runuser -u dev -- env HOME=/home/dev \
         claude plugin enable "${ECC_PLUGIN}" || true; \
+      if [ "${INSTALL_CLAUDE_OFFICIAL}" = "1" ]; then \
+        runuser -u dev -- env HOME=/home/dev GIT_TERMINAL_PROMPT=0 \
+          claude plugin marketplace add "${CLAUDE_OFFICIAL_MARKETPLACE}" || true; \
+        for p in ${CLAUDE_EXTRA_PLUGINS}; do \
+          runuser -u dev -- env HOME=/home/dev \
+            claude plugin install "$p" --scope user || true; \
+          runuser -u dev -- env HOME=/home/dev \
+            claude plugin enable "$p" || true; \
+        done; \
+      fi; \
       if [ "${ECC_PRUNE_DEPS}" = "1" ]; then \
         find /home/dev/.claude/plugins/cache -maxdepth 6 -type d -name node_modules -print0 \
           | while IFS= read -r -d '' nm; do \
