@@ -62,5 +62,17 @@
     "claude-md-management@claude-plugins-official": false,
     "skill-creator@claude-plugins-official": false,
     "explanatory-output-style@claude-plugins-official": false
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/stop-verify.sh\""
+          }
+        ]
+      }
+    ]
   }
 }
