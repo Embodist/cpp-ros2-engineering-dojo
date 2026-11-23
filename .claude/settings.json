@@ -7,6 +7,7 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Bash(git branch:*)",
+      "Bash(git remote -v:*)",
       "Bash(rg:*)",
       "Bash(fd:*)",
       "Bash(cmake:*)",
@@ -19,34 +20,47 @@
       "Bash(clang:*)",
       "Bash(clang-tidy:*)",
       "Bash(clang-format:*)",
+      "Bash(ccache:*)",
       "Bash(python3 tools/train.py:*)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [
       "Read(./.env)",
+      "Read(**/.env)",
       "Read(./docker/.env)",
       "Read(**/auth.json)",
       "Read(**/*.pem)",
       "Read(**/*.key)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
       "Bash(rm -rf:*)",
       "Bash(sudo:*)",
-      "Bash(git push --force:*)"
+      "Bash(git push --force:*)",
+      "Bash(mkfs:*)",
+      "Bash(dd:*)",
+      "Bash(chmod -R 777:*)"
     ]
   },
   "enabledPlugins": {
-    "ecc@ecc": true,
-    "superpowers@claude-plugins-official": true,
     "clangd-lsp@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "pr-review-toolkit@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
-    "feature-dev@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
-    "explanatory-output-style@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true
+    "security-guidance@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "ecc@ecc": false,
+    "code-review@claude-plugins-official": false,
+    "code-simplifier@claude-plugins-official": false,
+    "feature-dev@claude-plugins-official": false,
+    "claude-code-setup@claude-plugins-official": false,
+    "claude-md-management@claude-plugins-official": false,
+    "skill-creator@claude-plugins-official": false,
+    "explanatory-output-style@claude-plugins-official": false
   }
 }

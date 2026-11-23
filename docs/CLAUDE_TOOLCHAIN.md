@@ -3,6 +3,7 @@
 > 目标：让每个学生和维护者都能**理解并掌控**容器里的 Claude Code，而不是黑盒。
 > Claude Code 迭代很快（本文对照 2026 年的 2.1.x 实践），以 `claude --version`、`/help` 和官方文档为准。
 > ECC 插件专门说明见 [../docker/ECC.md](../docker/ECC.md)。
+> 面向工业级代码开发的落地实践见 [INDUSTRIAL_BEST_PRACTICES.md](INDUSTRIAL_BEST_PRACTICES.md)。
 
 ## 1. 镜像里的 Claude Code 组成
 
