@@ -40,7 +40,17 @@ RUN set -eux; \
     echo 'user ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/user; chmod 0440 /etc/sudoers.d/user; \
     echo 'user:user' | chpasswd; \
     usermod -aG sudo user 2>/dev/null || true; \
-    chown -R "${DEV_UID}:${DEV_GID}" /home/user /workspace
+    if [ -d /home/user/.claude ]; then \
+      grep -rIl '/home/dev' /home/user/.claude /home/user/.claude.json 2>/dev/null \
+        | xargs -r sed -i 's#/home/dev#/home/user#g' || true; \
+    fi; \
+    chown -R "${DEV_UID}:${DEV_GID}" /home/user /workspace; \
+    if [ -d /home/user/.claude ]; then \
+      for p in $(runuser -u user -- env HOME=/home/user claude plugin list 2>/dev/null \
+                   | grep -oE '[A-Za-z0-9._-]+@[A-Za-z0-9._-]+' | sort -u); do \
+        runuser -u user -- env HOME=/home/user claude plugin enable "$p" >/dev/null 2>&1 || true; \
+      done; \
+    fi
 
 # ── code-server ─────────────────────────────────────────────────────────────
 RUN set -eux; \

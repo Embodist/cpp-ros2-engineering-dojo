@@ -93,7 +93,8 @@ if [ "$MODE" = "vscode" ]; then
   [ -d /workspace ] && ok "/workspace exists" || bad "/workspace missing"
   [ -e /work ] && ok "/work -> $(readlink -f /work 2>/dev/null)" || bad "/work missing"
   exts="$(code-server --list-extensions 2>/dev/null || true)"
-  for e in llvm-vs-code-extensions.vscode-clangd ms-vscode.cpptools anthropic.claude-code; do
+  # 只强制 Open VSX 可装的扩展；微软专属扩展（cpptools/python 等）不在 Open VSX，best-effort
+  for e in llvm-vs-code-extensions.vscode-clangd anthropic.claude-code; do
     if printf '%s\n' "$exts" | grep -qi "^${e}$"; then ok "ext $e"; else bad "ext $e missing"; fi
   done
   sec "inherited base capabilities in vscode"
