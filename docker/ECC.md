@@ -129,8 +129,8 @@ claude "用 build-fix 处理 stage2/ros2_ws 的 colcon 编译错误"
 
 - **不是装得越多越好**：每个插件/skill 都占上下文与 token。
 - **Superpowers 与 ECC 功能高度重叠**（都覆盖 TDD、brainstorm→plan→implement、code review、systematic-debugging）。
-  - 本镜像默认**同时预装了 ECC 与官方 `superpowers`、`clangd-lsp`**（按需求，可验证可用），常驻上下文/token 成本更高。
-  - 想精简：用构建参数 `CLAUDE_EXTRA_PLUGINS` 只保留其一，或 `INSTALL_CLAUDE_OFFICIAL=0` 只留 ECC。
+  - 本镜像默认**同时预装了 ECC 与官方经典插件集**（superpowers、clangd-lsp、lua-lsp、pyright-lsp、pr-review-toolkit、code-review、code-simplifier、feature-dev、commit-commands、claude-code-setup、claude-md-management、skill-creator、explanatory-output-style、security-guidance），常驻上下文/token 成本较高。
+  - 想精简：用构建参数 `CLAUDE_EXTRA_PLUGINS` 只保留需要的，或 `INSTALL_CLAUDE_OFFICIAL=0` 只留 ECC。
 - **LSP 优先、MCP 克制**：LSP 的补全/诊断 token 成本远低于常驻 MCP。C++/ROS2 真正需要的是 `clangd-lsp`；`typescript-lsp`、`rust-analyzer-lsp` 对本训练营基本无用，可从个人配置移除。
 - **团队权限模板**：仓库已提交 `.claude/settings.json`（allow 构建/测试/只读 git，deny 密钥与危险命令）；个人覆盖写 `.claude/settings.local.json`（已 gitignore）。
 - **全新会话验证**：`/context`、`/permissions`、`/hooks`、`/doctor` 反映会话启动时加载的配置，改完请开新会话确认。

@@ -65,7 +65,7 @@ ARG ECC_PRUNE_DEPS=1
 # 可覆盖，例如再加 pr-review-toolkit / ralph-loop。
 ARG INSTALL_CLAUDE_OFFICIAL=1
 ARG CLAUDE_OFFICIAL_MARKETPLACE=anthropics/claude-plugins-official
-ARG CLAUDE_EXTRA_PLUGINS="superpowers@claude-plugins-official clangd-lsp@claude-plugins-official"
+ARG CLAUDE_EXTRA_PLUGINS="superpowers@claude-plugins-official clangd-lsp@claude-plugins-official lua-lsp@claude-plugins-official pyright-lsp@claude-plugins-official pr-review-toolkit@claude-plugins-official code-review@claude-plugins-official code-simplifier@claude-plugins-official feature-dev@claude-plugins-official commit-commands@claude-plugins-official claude-code-setup@claude-plugins-official claude-md-management@claude-plugins-official skill-creator@claude-plugins-official explanatory-output-style@claude-plugins-official security-guidance@claude-plugins-official"
 
 ARG DEV_UID=1000
 ARG DEV_GID=1000
