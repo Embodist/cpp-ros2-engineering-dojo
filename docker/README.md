@@ -267,6 +267,7 @@ claude -p "Reply with exactly: ok"
 > **ECC 插件**：镜像默认预装并启用 `ecc@ecc`（skills / agents / hooks），进入容器 `claude` 即可用。
 > 代价（约 +35k 常驻 tokens、hooks 默认开启、约 +390MB 磁盘）、安装位置、验证与关闭方式见 **[ECC.md](ECC.md)**。
 > 关闭预装：`INSTALL_ECC=0 ./docker/build.sh`；保留全部依赖：`ECC_PRUNE_DEPS=0 ./docker/build.sh`。
+> 工具链与最佳实践（配置分层、权限、hooks、插件选型、C++/ROS2 工作流、排障）见 **[../docs/CLAUDE_TOOLCHAIN.md](../docs/CLAUDE_TOOLCHAIN.md)**。
 
 nvim 内的 AI 默认关闭，需要时：
 

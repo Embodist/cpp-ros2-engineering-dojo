@@ -16,6 +16,8 @@
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest` |
 | GHCR digest | `sha256:d29dae1b7ab4de30ae43e773610b4de62f29f5437a2982ce7eba5e71bfd294bf`（commit `5be8430`，含 tmux 鼠标/200k 历史） |
 | 内容 | oh-my-zsh + autosuggestions/syntax-highlighting、oh-my-tmux、TPM、tmux-resurrect/continuum、direnv/entr/strace/tig/asciinema 等 |
+| AI / Claude | Claude Code + **ECC `ecc@ecc`**（构建期预装、默认启用；见 [ECC.md](ECC.md) 与 [../docs/CLAUDE_TOOLCHAIN.md](../docs/CLAUDE_TOOLCHAIN.md)） |
+| GHCR 命名空间 | 迁往 `ghcr.io/embodist/cpp-ros2-engineering-dojo`（CI 从本仓库构建；digest 见最新 Actions 运行） |
 
 ## VS Code / code-server 变体
 

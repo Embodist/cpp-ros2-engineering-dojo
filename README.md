@@ -81,7 +81,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 
 **plus 版本**（更多终端/C++/DevOps 工具）只由 CI 从 base 镜像在线构建，不在本地 build：`ghcr.io/music-research-content/cpp-ros2-engineering-dojo:plus`，详见 [docker/README.md](docker/README.md)。
 
-密钥、ROS 2、X11、SearXNG 与故障排查见 [docker/README.md](docker/README.md)，最新镜像记录见 [docker/IMAGE.md](docker/IMAGE.md)，终端工具清单见 [docs/TERMINAL_TOOLS.md](docs/TERMINAL_TOOLS.md)。容器只固化配置，不固化密钥。
+密钥、ROS 2、X11、SearXNG 与故障排查见 [docker/README.md](docker/README.md)，最新镜像记录见 [docker/IMAGE.md](docker/IMAGE.md)，终端工具清单见 [docs/TERMINAL_TOOLS.md](docs/TERMINAL_TOOLS.md)，**Claude Code 工具链与最佳实践见 [docs/CLAUDE_TOOLCHAIN.md](docs/CLAUDE_TOOLCHAIN.md)**。容器只固化配置，不固化密钥。
 
 ## 两阶段结构
 

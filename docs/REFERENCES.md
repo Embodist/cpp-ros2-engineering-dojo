@@ -19,4 +19,12 @@
 15. [Conan](https://docs.conan.io/) / [vcpkg](https://vcpkg.io/) — E05 可选依赖管理；也可用 FetchContent 固定 tag/commit。
 16. [GitHub Actions](https://docs.github.com/en/actions) — E05 可选 CI；ROS2 包还需结合 colcon/ament_cmake。
 
+**Claude Code 工具链**（详见 [CLAUDE_TOOLCHAIN.md](CLAUDE_TOOLCHAIN.md)）：
+
+17. [Claude Code 文档](https://docs.claude.com/en/docs/claude-code) — settings、permissions、hooks、skills、subagents、plugins 的权威说明。
+18. [ECC 插件](https://github.com/affaan-m/ECC) — skills/agents/hooks 的 harness 优化层（本镜像默认集成）。
+19. [Anthropic 官方插件市场](https://github.com/anthropics/claude-plugins-official) — LSP 与官方集成，优先来源。
+20. [Superpowers](https://github.com/obra/superpowers) — 方法论类插件；与 ECC 功能重叠，二选一。
+21. [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — 生态索引，用于发现，不建议整包安装。
+
 **注意**：cppreference 是社区维护的事实参考，不是规范原文；语言争议以 ISO C++ 草案和正式标准为准。这些外部网站/源码版本随时间变化，不保证文件路径永久不变。LevelDB 跟踪具体 `Put/Get` 链路时应记录自己检出的 commit SHA；ROS 2 文档应记录发行版。E05 引入的第三方测试/依赖工具默认不影响核心 60 题的离线构建。
