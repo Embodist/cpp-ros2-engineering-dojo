@@ -69,7 +69,7 @@ docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:latest
 ./docker/dev.sh bash -lc 'cd stage2/ros2_ws && colcon build --symlink-install'
 ```
 
-VS Code / code-server 变体（Debian 13.4，不含 ROS 2）：
+VS Code / code-server 变体（基于 dojo:latest，叠加 code-server + 扩展）：
 
 ```bash
 docker pull ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode

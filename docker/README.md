@@ -98,7 +98,7 @@ docker compose -f docker/compose.yaml --profile vscode up -d vscode
 # 改密码：VSCODE_PASSWORD=... docker compose ... up -d vscode
 ```
 
-- 基于 `debian:13.4`；**不含 ROS 2 Jazzy**，需要 ROS 2 时用主镜像。
+- **基于 `dojo:latest`（主镜像）**，叠加 code-server + 扩展；继承 C++/ROS2/Neovim/AI/ECC 等完整能力（先构建 base）。
 - 包含 code-server、C++ 工具链、Neovim（默认预装插件/Mason）、Pi/Claude Code、现代 CLI/TUI、zsh/oh-my-zsh/tmux/helix。
 - code-server 扩展走 Open VSX；示例里的 Microsoft 专属扩展可能安装失败，构建会继续并打印 `WARN extension ...`。
 - 想更快/更小：`INSTALL_PLUGINS=0 ./docker/build-vscode.sh`（不预装 Neovim 插件）。

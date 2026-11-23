@@ -280,6 +280,7 @@ COPY --from=pi-config tools/package.json tools/package-lock.json \
      tools/pi-autorun.js tools/claude-autorun.mjs /opt/dotfiles.pi/tools/
 COPY --from=pi-config README.md PI_*.md /opt/dotfiles.pi/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY smoke-image.sh /usr/local/bin/dojo-smoke
 COPY mcp.json /home/dev/.pi/agent/mcp.json
 COPY zshrc /home/dev/.zshrc
 COPY bashrc /home/dev/.bashrc
@@ -288,7 +289,7 @@ COPY gitconfig /home/dev/.gitconfig
 COPY claude.json /home/dev/.claude.json
 
 RUN set -eux; \
-    chmod 0755 /usr/local/bin/entrypoint.sh; \
+    chmod 0755 /usr/local/bin/entrypoint.sh /usr/local/bin/dojo-smoke; \
     chown -R "${DEV_UID}:${DEV_GID}" /home/dev /opt/dotfiles.pi; \
     mkdir -p /work; \
     chown "${DEV_UID}:${DEV_GID}" /work

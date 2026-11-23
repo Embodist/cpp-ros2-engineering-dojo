@@ -94,7 +94,7 @@ services:
         nvim-config: ${NVIM_CONFIG_DIR:-./vendor/nvim}
         pi-config: ${PI_CONFIG_DIR:-./vendor/pi}
       args:
-        BASE_IMAGE: ${VSCODE_BASE_IMAGE:-debian:13.4}
+        BASE_IMAGE: ${VSCODE_BASE_IMAGE:-cpp-ros2-dojo:jazzy}
         APT_MIRROR: ${APT_MIRROR:-mirrors.tuna.tsinghua.edu.cn}
         DEV_UID: ${DEV_UID:-1000}
         DEV_GID: ${DEV_GID:-1000}

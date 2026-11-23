@@ -24,12 +24,12 @@
 | 项 | 值 |
 | :--- | :--- |
 | 本地 tag | `cpp-ros2-dojo:vscode`（当前 ACR 版 7.64 GB） |
-| 基础镜像 | `debian:13.4` |
+| 基础镜像 | `dojo:latest`（FROM 主镜像，不再独立 Debian 构建） |
 | ACR | `registry.cn-chengdu.aliyuncs.com/rapid7/cpp-ros2-engineering-dojo:vscode`（匿名 manifest 已验证） |
 | ACR digest | `sha256:3bfd1761b4871f33316d1a7c323ce18ec34ce444d3f0d0b7a07c771e102dfa4c`（不含 codelldb） |
 | GHCR | `ghcr.io/music-research-content/cpp-ros2-engineering-dojo:vscode` |
 | GHCR digest | `sha256:ff7de98691cecc5102795d554184366bf7ce4ebc395fdc771bcce58ba0dc0824`（commit `5be8430`，含 codelldb + tmux 鼠标/历史） |
-| 说明 | code-server 4.143.1 + 18 个扩展 + C++ 工具链 + Neovim + AI + CLI；不含 ROS 2 Jazzy |
+| 说明 | 基于 `dojo:latest`，叠加 code-server 4.143.1 + 扩展；继承 C++/ROS2/Neovim/AI/ECC 完整能力 |
 
 ## Plus 版本（CI-only，依赖 base）
 

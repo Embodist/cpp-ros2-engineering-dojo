@@ -1,13 +1,14 @@
-# CNB 流水线：构建 Docker 镜像并推送到 CNB 制品库 docker.cnb.cool
+# CNB 流水线：构建 base(dojo:latest) 与 vscode(基于 base) 镜像并推送到 CNB 制品库
 # 文档：https://docs.cnb.cool/zh/artifact/docker.md
 #
-# 镜像：${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest
-#       例如 docker.cnb.cool/xx-zhang/dotfiles.cpp:latest
+# 镜像：${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}
+#   - :latest      主镜像（C++/ROS2/nvim/AI/ECC，不含 vscode-server/插件）
+#   - :vscode      基于 base + code-server + 扩展
+#   - :sha-<commit> / :vscode-sha-<commit>  可复现标签
 #
 # 说明：
-#   - services: [docker] 开启 dind；平台在构建环境里已登录 CNB 制品库。
-#   - 命名构建上下文 nvim-config / pi-config 对应 docker/vendor 下的快照，
-#     与 docker/build.sh 保持一致（--build-context）。
+#   - services: [docker] 开启 dind；平台自动登录 CNB 制品库。
+#   - 构建后先跑镜像内 `dojo-smoke` 自检（base / vscode），不通过即失败。
 main:
   push:
     - services:
@@ -15,24 +16,48 @@ main:
       env:
         DOCKER_BUILDKIT: "1"
       stages:
-        - name: build image
+        - name: build base
           script: |
             set -eu
             IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
-            SHA="$(git rev-parse --short HEAD 2>/dev/null || true)"
-            echo "building ${IMG} (sha=${SHA:-none})"
-            set -- -t "${IMG}:latest"
-            if [ -n "${SHA}" ]; then set -- "$@" -t "${IMG}:${SHA}"; fi
+            SHA="$(git rev-parse --short HEAD 2>/dev/null || echo latest)"
+            echo "build base => ${IMG}:sha-${SHA}"
             docker build \
               -f docker/Dockerfile \
               --build-context nvim-config=docker/vendor/nvim \
               --build-context pi-config=docker/vendor/pi \
               --build-arg APT_MIRROR=mirrors.tuna.tsinghua.edu.cn \
-              "$@" docker
-        - name: push image
+              -t "${IMG}:latest" -t "${IMG}:sha-${SHA}" docker
+
+        - name: verify base
           script: |
             set -eu
             IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
-            docker push "${IMG}:latest"
-            SHA="$(git rev-parse --short HEAD 2>/dev/null || true)"
-            if [ -n "${SHA}" ]; then docker push "${IMG}:${SHA}"; fi
+            docker run --rm "${IMG}:latest" dojo-smoke base
+
+        - name: build vscode (FROM base)
+          script: |
+            set -eu
+            IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
+            SHA="$(git rev-parse --short HEAD 2>/dev/null || echo latest)"
+            echo "build vscode FROM ${IMG}:sha-${SHA}"
+            docker build \
+              -f docker/Dockerfile.vscode \
+              --build-arg BASE_IMAGE="${IMG}:sha-${SHA}" \
+              -t "${IMG}:vscode" -t "${IMG}:vscode-sha-${SHA}" docker
+
+        - name: verify vscode
+          script: |
+            set -eu
+            IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
+            docker run --rm "${IMG}:vscode" dojo-smoke vscode
+
+        - name: push
+          script: |
+            set -eu
+            IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
+            SHA="$(git rev-parse --short HEAD 2>/dev/null || echo latest)"
+            for t in latest "sha-${SHA}" vscode "vscode-sha-${SHA}"; do
+              echo "push ${IMG}:${t}"
+              docker push "${IMG}:${t}"
+            done
