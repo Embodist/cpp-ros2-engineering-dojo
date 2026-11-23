@@ -2,6 +2,17 @@
 
 > 本地镜像信息 + 已发布 registry。每次 Dockerfile/vendor 变更后由 CI 重建并更新本文件。
 
+## 标签约定（GHCR 与 CNB 一致）
+
+| 角色 | 浮动标签 | 可复现标签 | 说明 |
+| :--- | :--- | :--- | :--- |
+| base（`dojo:latest`，不含 vscode-server/插件） | `latest`、`base` | `sha-<commit>` | `latest` 与 `base` 同指主镜像 |
+| vscode（`FROM base` + code-server/扩展） | `vscode` | `vscode-sha-<commit>` | `FROM` 对应 commit 的 base |
+| plus（`FROM base` + 额外工具，仅 GitHub CI） | `plus` | `plus-sha-<commit>` | 暂未在 CNB 构建 |
+
+- GHCR：`ghcr.io/embodist/cpp-ros2-engineering-dojo:<tag>`
+- CNB（public，匿名可拉）：`docker.cnb.cool/xx-zhang/dotfiles.cpp:<tag>`
+
 ## 主镜像：C++ / ROS 2 Jazzy / Neovim / AI
 
 | 项 | 值 |

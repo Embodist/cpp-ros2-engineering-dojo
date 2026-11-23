@@ -80,6 +80,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.image.outputs.name }}:${{ matrix.tag }}
+            ${{ steps.image.outputs.name }}:base
             ${{ steps.image.outputs.name }}:${{ matrix.sha_tag }}-${{ github.sha }}
           build-contexts: |
             nvim-config=${{ github.workspace }}/docker/vendor/nvim

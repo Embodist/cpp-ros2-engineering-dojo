@@ -27,7 +27,7 @@ main:
               --build-context nvim-config=docker/vendor/nvim \
               --build-context pi-config=docker/vendor/pi \
               --build-arg APT_MIRROR=mirrors.tuna.tsinghua.edu.cn \
-              -t "${IMG}:latest" -t "${IMG}:sha-${SHA}" docker
+              -t "${IMG}:latest" -t "${IMG}:base" -t "${IMG}:sha-${SHA}" docker
 
         - name: verify base
           script: |
@@ -57,7 +57,7 @@ main:
             set -eu
             IMG="${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}"
             SHA="$(git rev-parse --short HEAD 2>/dev/null || echo latest)"
-            for t in latest "sha-${SHA}" vscode "vscode-sha-${SHA}"; do
+            for t in latest base "sha-${SHA}" vscode "vscode-sha-${SHA}"; do
               echo "push ${IMG}:${t}"
               docker push "${IMG}:${t}"
             done
